@@ -1,0 +1,9 @@
+$ grep -o "fuxi.nosync" /proc/cmdline || echo NOSYNC_OFF; dmesg | grep -ciE "context fault"; ls /sys/bus/platform/devices/ae00000.display-subsystem/iommu_group 2>&1 | head -1; for f in $(find /sys/devices -name state_synced); do d=$(dirname $f); case $(basename $d) in 1780000*|17a00000*|24100000*|interconnect-1) echo "$(cat $f) $(basename $d)";; esac; done; systemctl is-system-running
+NOSYNC_OFF
+0
+ls: cannot access '/sys/bus/platform/devices/ae00000.display-subsystem/iommu_group': No such file or directory
+0 24100000.interconnect
+0 17a00000.rsc:power-controller
+0 1780000.interconnect
+0 interconnect-1
+running

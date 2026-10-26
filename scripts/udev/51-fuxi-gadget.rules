@@ -1,0 +1,3 @@
+# Xiaomi 13 (fuxi) 主线内核 g_serial（CDC ACM）：普通用户可读写，ModemManager 不要探测
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0525", ATTRS{idProduct}=="a4a7", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0525", ATTRS{idProduct}=="a4a7", MODE="0666", ENV{ID_MM_DEVICE_IGNORE}="1", SYMLINK+="fuxi-acm"

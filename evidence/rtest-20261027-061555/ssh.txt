@@ -1,0 +1,18 @@
+$ grep -o "fuxi.nosync" /proc/cmdline || echo NOSYNC_OFF; dmesg | grep -iE "sync_state" | head -12; for f in $(find /sys/devices -name state_synced); do d=$(dirname $f); case $(basename $d) in 1780000*|17a00000*|24100000*|interconnect-1) echo "$(cat $f) $(basename $d)";; esac; done
+NOSYNC_OFF
+[    0.713198] qnoc-sm8550 interconnect-1: sync_state() pending due to 1dfa000.crypto
+[    0.714654] qnoc-sm8550 1700000.interconnect: sync_state() pending due to 1dfa000.crypto
+[    0.718576] gcc-sm8550 100000.clock-controller: sync_state() pending due to 1d88000.crypto
+[    0.719967] gcc-sm8550 100000.clock-controller: sync_state() pending due to 3d6a000.gmu
+[    0.722092] gpu_cc-sm8550 3d90000.clock-controller: sync_state() pending due to 3d6a000.gmu
+[    0.723461] qnoc-sm8550 1600000.interconnect: sync_state() pending due to ae00000.display-subsystem
+[    0.725550] qnoc-sm8550 interconnect-1: sync_state() pending due to ae00000.display-subsystem
+[    0.726915] qnoc-sm8550 1780000.interconnect: sync_state() pending due to ae00000.display-subsystem
+[    0.728291] gcc-sm8550 100000.clock-controller: sync_state() pending due to ae00000.display-subsystem
+[    0.730379] gcc-sm8550 100000.clock-controller: sync_state() pending due to 17d90000.interconnect
+[    0.731749] gcc-sm8550 100000.clock-controller: sync_state() pending due to 17d91000.cpufreq
+[    0.733792] qnoc-sm8550 24100000.interconnect: sync_state() pending due to ae00000.display-subsystem
+0 24100000.interconnect
+0 17a00000.rsc:power-controller
+0 1780000.interconnect
+0 interconnect-1
