@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：USB-C 变体 = 主 DTS + 完整 USB-C（OTG、USB3、FSA4480），见 sm8550-xiaomi-fuxi-usbc.dtsi。
+ * 构建：FUXI_DTB=sm8550-xiaomi-fuxi-usbc scripts/fuxi-build-abl.sh <名字>
+ */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include "sm8550-xiaomi-fuxi-usbc.dtsi"

@@ -1,0 +1,5 @@
+07:13:32 +0s image abl-fuxi-adsp2.img sha256=cb6468a884002101
+07:13:39 +7s recovery_b 已写入并校验
+07:13:45 +13s adb reboot recovery
+07:14:01 +29s Ubuntu ssh 可用
+07:14:16 +44s FUXI_KEEP=1：留在 Ubuntu

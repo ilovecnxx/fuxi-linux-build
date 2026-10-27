@@ -1,0 +1,5 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/* Xiaomi 13 (fuxi)：modem 变体（内容见 sm8550-xiaomi-fuxi-modem.dtsi） */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include "sm8550-xiaomi-fuxi-modem.dtsi"

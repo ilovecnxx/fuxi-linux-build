@@ -13,24 +13,60 @@ B="$(cd "$(dirname "$0")/.." && pwd)"
 NAME="${1:?用法: fuxi-build-abl.sh <名字> [--no-kernel]}"
 L="$B/work/claude-logs"; mkdir -p "$L"
 K="$B/build/linux"
-DTB="$K/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-min.dtb"
+FUXI_DTB="${FUXI_DTB:-sm8550-xiaomi-fuxi-min}"   # 例：FUXI_DTB=sm8550-xiaomi-fuxi-disp（原生显示驱动变体）
+DTB="$K/arch/arm64/boot/dts/qcom/$FUXI_DTB.dtb"
 BAIT_DTB="$B/build/edk2-msm/Platform/Xiaomi/sm8550/FdtBlob_compat/fuxi.dtb"
 MAKE=(make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j"$(nproc)")
 
 if [ "${2:-}" != "--no-kernel" ]; then
   cd "$K"
+  # 原生显示驱动变体（-disp）要 DRM_MSM + 面板驱动；主配置不能开（MSM 会抢走 -min 里的 MDSS 占位节点）。
+  # 构建期间临时打开，结束后恢复主配置。
+  # 音频变体（-audio）要 ALSA/ASoC + AudioReach + CS35L41（主 DTS 里 LPASS 宏默认是开的，先不进主配置）。
+  # USB-C 变体（-usbc / -desk）要 UCSI + FSA4480 + dwc3 双角色 + xHCI。
+  VARIANT_CFG=()
+  DISP_CFG=(-e DRM_MSM -e DRM_MSM_DPU -e DRM_MSM_DSI -e DRM_MSM_DSI_7NM_PHY -e DRM_PANEL_XIAOMI_FUXI
+            -e DRM_MSM_MDSS -e DRM_MSM_GPU -e QCOM_LLCC -d DRM_MSM_HDMI)
+  USBC_CFG=(-e UCSI_PMIC_GLINK -e TYPEC_MUX_FSA4480 -e USB_DWC3_DUAL_ROLE -e USB_XHCI_HCD -e USB_XHCI_PLATFORM
+            -e USB_STORAGE -e USB_UAS)
+  AUDIO_CFG=(-e SOUND -e SND -e SND_SOC -e SND_SOC_QCOM -e SND_SOC_SC8280XP -e SND_SOC_QDSP6
+              -e SND_SOC_CS35L41_I2C -e SND_SOC_TOPOLOGY -e QCOM_APR -e SOUNDWIRE -e SOUNDWIRE_QCOM
+              -e SND_SOC_WCD938X_SDW -e SND_SOC_LPASS_RX_MACRO -e SND_SOC_LPASS_TX_MACRO -e SND_SOC_LPASS_VA_MACRO
+              -e PINCTRL_SM8550_LPASS_LPI -e SND_SOC_SIMPLE_MUX)
+  case "$FUXI_DTB" in
+    *-disp) VARIANT_CFG=("${DISP_CFG[@]}" -d DRM_MSM_DP) ;;
+    *-usbc) VARIANT_CFG=("${USBC_CFG[@]}") ;;
+    *-desk) VARIANT_CFG=("${DISP_CFG[@]}" "${USBC_CFG[@]}" -e DRM_MSM_DP) ;;
+    *-audio*) VARIANT_CFG=("${AUDIO_CFG[@]}") ;;
+    *-camera) VARIANT_CFG=(-e I2C_QCOM_CCI -e I2C_CHARDEV -e FUXI_CAMERA_POWER -e MEDIA_SUPPORT -e MEDIA_CAMERA_SUPPORT
+              -e MEDIA_PLATFORM_SUPPORT -e V4L_PLATFORM_DRIVERS -e VIDEO_DEV -e VIDEO_QCOM_CAMSS) ;;
+    *-sleep) VARIANT_CFG=(-e SUSPEND -e PM_SLEEP) ; FUXI_PM=1 ;;
+    *-full) VARIANT_CFG=("${DISP_CFG[@]}" "${USBC_CFG[@]}" "${AUDIO_CFG[@]}" -e DRM_MSM_DP) ;;
+  esac
+  # FUXI_PM=1：调频 + 温控（qcom-cpufreq-hw/EPSS、schedutil、TSENS、PMIC 过温、LMh、CPU 降频冷却），任何变体都可叠加
+  PM_CFG=(-e CPU_FREQ -e CPU_FREQ_STAT -e CPU_FREQ_DEFAULT_GOV_SCHEDUTIL -e CPU_FREQ_GOV_SCHEDUTIL -e CPU_FREQ_GOV_PERFORMANCE
+          -e CPU_FREQ_GOV_POWERSAVE -e ARM_QCOM_CPUFREQ_HW -e ENERGY_MODEL -e THERMAL -e THERMAL_OF -e THERMAL_GOV_STEP_WISE
+          -e CPU_THERMAL -e NVMEM_QCOM_QFPROM -e QCOM_TSENS -e IIO -e QCOM_SPMI_TEMP_ALARM -e QCOM_LMH -e INTERCONNECT_QCOM_OSM_L3)
+  [ "${FUXI_PM:-0}" = 1 ] && VARIANT_CFG+=("${PM_CFG[@]}")
+  if [ "${#VARIANT_CFG[@]}" -gt 0 ]; then
+    cp .config .config.fuxi-main
+    trap 'cp "$K/.config.fuxi-main" "$K/.config"' EXIT
+    ./scripts/config "${VARIANT_CFG[@]}"
+    "${MAKE[@]}" olddefconfig >/dev/null
+  fi
   # initramfs 改动不会触发重新打包，每次都强制重建
   rm -f usr/initramfs_data.cpio usr/initramfs_data.cpio.gz
   echo "[kernel] make dtb → Image.gz（日志 $L/kbuild.log）"
   # 先单独编 DTB：内核用 .incbin 把它嵌进去
-  { "${MAKE[@]}" qcom/sm8550-xiaomi-fuxi-min.dtb && "${MAKE[@]}" Image.gz; } > "$L/kbuild.log" 2>&1 ||
+  { "${MAKE[@]}" "qcom/$FUXI_DTB.dtb" && "${MAKE[@]}" FUXI_DTB="$FUXI_DTB" Image.gz; } > "$L/kbuild.log" 2>&1 ||
     { grep -m5 -B2 -A3 'error' "$L/kbuild.log"; exit 1; }
   grep -q '^CONFIG_FUXI_FORCE_BUILTIN_DTB=y' .config || { echo "需要 CONFIG_FUXI_FORCE_BUILTIN_DTB=y"; exit 1; }
 fi
 
 # 镜像头里的 cmdline 只是记录（不生效），和内建 DTB 保持一致
 CMDLINE=$(fdtget "$DTB" /chosen bootargs | sed 's/ *$//')
-W=$(mktemp -d); trap 'rm -rf "$W"' EXIT
+W=$(mktemp -d)
+trap 'rm -rf "$W"; [ -f "$K/.config.fuxi-main" ] && mv "$K/.config.fuxi-main" "$K/.config"' EXIT
 cat "$K/arch/arm64/boot/Image.gz" "$BAIT_DTB" > "$W/kernel-dtb"
 : > "$W/ramdisk"
 OUT="$B/work/kbuild/abl-fuxi-$NAME.img"

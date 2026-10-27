@@ -1,0 +1,12 @@
+todo  wifi-bt  — WiFi/蓝牙部署与验证（wifi6）
+todo  wifi-connect  — 连 WiFi（FUXI_WIFI_SSID/PSK）
+todo  pm  — 调频/温控（pm1）
+todo  sensors  — hexagonrpcd + ssccli（wifi6）
+todo  sensors-proxy  — 重编带 SSC 的 iio-sensor-proxy
+todo  phosh  — Phosh 手机界面（软件渲染）
+todo  display  — 原生显示 + GPU（需要看屏幕）
+todo  modem  — 基带首次启动（modem2）
+todo  audio1  — 扬声器（需要听）
+todo  audio2  — 麦克风（需要说话）
+todo  usbc  — USB-C OTG/USB3（需要插拔）
+todo  camera  — 相机 CCI/传感器 ID 探测（camera1）

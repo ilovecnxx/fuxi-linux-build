@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：完整镜像 = 主 DTS + 原生显示/GPU + 完整 USB-C/DP + 基带 + 音频（扬声器、听筒、WCD 麦克风/耳机）。
+ * 各部分逐个上机验证通过后用它做日常镜像。构建：FUXI_DTB=sm8550-xiaomi-fuxi-full scripts/fuxi-build-abl.sh <名字>
+ */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+#include "sm8550-xiaomi-fuxi-disp.dtsi"
+#include "sm8550-xiaomi-fuxi-usbc.dtsi"
+#include "sm8550-xiaomi-fuxi-modem.dtsi"
+#include "sm8550-xiaomi-fuxi-audio.dtsi"
+#include "sm8550-xiaomi-fuxi-audio2.dtsi"
+
+&mdss_dp0 {
+	status = "okay";
+};

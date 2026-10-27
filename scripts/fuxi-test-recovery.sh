@@ -21,6 +21,13 @@ adb_up() { timeout 3 "$ADB" devices 2>/dev/null | grep -qw device; }
 ssh_up() { timeout 5 bash -c 'exec 3<>/dev/tcp/10.42.0.2/22; timeout 3 head -c 4 <&3 | grep -q SSH' 2>/dev/null; }
 
 log "image $(basename "$IMG") sha256=$(sha256sum "$IMG" | cut -c1-16)"
+# 手机正在 Ubuntu（上一个测试留在 Linux）：重启即回 Android（正常开机不走 recovery_b），方便多个测试脚本串起来跑
+if ! adb_up && ssh_up; then
+  log "手机在 Ubuntu，先重启回 Android"
+  timeout 15 "$B/scripts/fuxi-ssh.sh" 'systemctl reboot' >/dev/null 2>&1
+  wait_for 150 adb_up || { notify "150s 内没回到 Android"; exit 1; }
+  wait_for 120 sh -c "[ \"\$(timeout 5 '$ADB' shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')\" = 1 ]"
+fi
 wait_for 60 adb_up || { notify "手机不在 Android（adb 不可用）"; exit 1; }
 timeout 20 "$ADB" root >/dev/null 2>&1; sleep 2; wait_for 30 adb_up || exit 1
 timeout 60 "$ADB" push "$IMG" /data/local/tmp/fuxi-test.img >/dev/null || { log "FAIL push"; exit 1; }

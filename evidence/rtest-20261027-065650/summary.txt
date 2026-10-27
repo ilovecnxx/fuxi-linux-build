@@ -1,0 +1,6 @@
+06:56:50 +0s image abl-fuxi-touch5.img sha256=728f841ff2a8156a
+06:56:56 +6s recovery_b 已写入并校验
+06:57:01 +11s adb reboot recovery
+06:57:18 +28s Ubuntu ssh 可用
+06:57:35 +45s 回到 Android
+06:57:35 +45s dir=/home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/rtest-20261027-065650

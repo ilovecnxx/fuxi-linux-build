@@ -1,0 +1,5 @@
+07:25:18 +0s image abl-fuxi-wifi1.img sha256=05f088e0210a7f8f
+07:25:23 +5s recovery_b 已写入并校验
+07:25:29 +11s adb reboot recovery
+07:25:45 +27s Ubuntu ssh 可用
+07:25:46 +28s FUXI_KEEP=1：留在 Ubuntu

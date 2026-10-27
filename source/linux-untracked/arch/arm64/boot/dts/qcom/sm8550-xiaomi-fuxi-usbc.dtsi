@@ -1,0 +1,96 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：完整 USB-C（叠加在 -min 或 -disp 之上，本文件不 include 别的）。
+ * 厂商 DTB 与 SM8550 MTP 相同：无 redriver，USB3/DP combo PHY 直连接口；FSA4480 @0x42 在 i2c 2 号 hub
+ * （0x988000，同总线还有 NFC nq@64）做 SBU（DP AUX / 模拟耳机）切换；CC 方向脚 GPIO11（厂商 usb_phy_ps）。
+ * pmic_glink（ADSP）上报插入、角色与 DP alt mode（厂商 qcom,ucsi-glink + qcom,altmode-glink）。
+ *
+ * 和 -min 的区别：USB 从固定 peripheral + 仅 USB2 改成 OTG（接电脑仍是 gadget，接 Hub/键盘/U 盘变主机）+ USB3。
+ * 注意：角色由 ADSP 决定，ADSP 在根文件系统挂好后才启动（fuxi-firmware-devices），之前 dwc3 默认 peripheral。
+ */
+
+/ {
+	pmic-glink {
+		orientation-gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+
+		connector@0 {
+			compatible = "usb-c-connector";
+			reg = <0>;
+			power-role = "dual";
+			data-role = "dual";
+
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				port@0 {
+					reg = <0>;
+
+					pmic_glink_hs_in: endpoint {
+						remote-endpoint = <&usb_1_dwc3_hs>;
+					};
+				};
+
+				port@1 {
+					reg = <1>;
+
+					pmic_glink_ss_in: endpoint {
+						remote-endpoint = <&usb_dp_qmpphy_out>;
+					};
+				};
+
+				port@2 {
+					reg = <2>;
+
+					pmic_glink_sbu: endpoint {
+						remote-endpoint = <&fsa4480_sbu_mux>;
+					};
+				};
+			};
+		};
+	};
+};
+
+&i2c_hub_2 {
+	status = "okay";
+
+	typec-mux@42 {
+		compatible = "fcs,fsa4480";
+		reg = <0x42>;
+
+		vcc-supply = <&vreg_bob1>;
+
+		mode-switch;
+		orientation-switch;
+
+		port {
+			fsa4480_sbu_mux: endpoint {
+				remote-endpoint = <&pmic_glink_sbu>;
+			};
+		};
+	};
+};
+
+&usb_1 {
+	dr_mode = "otg";
+	usb-role-switch;
+	phys = <&usb_1_hsphy>, <&usb_dp_qmpphy QMP_USB43DP_USB3_PHY>;
+	phy-names = "usb2-phy", "usb3-phy";
+	/delete-property/ maximum-speed;
+	/delete-property/ qcom,select-utmi-as-pipe-clk;
+};
+
+&usb_1_dwc3_hs {
+	remote-endpoint = <&pmic_glink_hs_in>;
+};
+
+&usb_dp_qmpphy {
+	vdda-phy-supply = <&vreg_l3f_0p91>;
+	vdda-pll-supply = <&vreg_l3e_1p2>;
+
+	status = "okay";
+};
+
+&usb_dp_qmpphy_out {
+	remote-endpoint = <&pmic_glink_ss_in>;
+};

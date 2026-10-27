@@ -1,0 +1,5 @@
+$ dmesg | grep -iE "ftm5" | head -14
+[    0.561106] st-ftm5 spi0.0: vdd 1800000 uV en=1, avdd 3200000 uV en=1
+[    0.609236] st-ftm5 spi0.0: reset 0 poll 0: 87 03 00 00 00 00 00 00 00
+[    0.611385] st-ftm5 spi0.0: chip 3640 fw 0053 cfg 0042 panel 2399x1079
+[    0.614348] input: ST FTM5 Touchscreen as /devices/platform/soc@0/ac0000.geniqup/a90000.spi/spi_master/spi0/spi0.0/input/input2

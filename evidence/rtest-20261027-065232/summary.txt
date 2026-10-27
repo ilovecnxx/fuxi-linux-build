@@ -1,0 +1,5 @@
+06:52:32 +0s image abl-fuxi-touch3.img sha256=41f106f8eefa0cfa
+06:52:39 +7s recovery_b 已写入并校验
+06:52:44 +12s adb reboot recovery
+06:53:00 +28s Ubuntu ssh 可用
+06:53:02 +30s FUXI_KEEP=1：留在 Ubuntu

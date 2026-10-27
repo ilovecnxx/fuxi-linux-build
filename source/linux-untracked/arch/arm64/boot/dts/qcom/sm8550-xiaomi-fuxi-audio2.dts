@@ -1,0 +1,7 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/* Xiaomi 13 (fuxi)：audio2 变体（内容见 sm8550-xiaomi-fuxi-audio2.dtsi） */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+#include "sm8550-xiaomi-fuxi-audio.dtsi"
+#include "sm8550-xiaomi-fuxi-audio2.dtsi"

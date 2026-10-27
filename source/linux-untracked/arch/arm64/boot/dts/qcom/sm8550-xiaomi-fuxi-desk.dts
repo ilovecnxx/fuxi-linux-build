@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：桌面变体 = 原生显示（-disp：面板 + GPU）+ 完整 USB-C + DisplayPort alt mode（USB-C 接显示器/扩展坞）。
+ * 构建：FUXI_DTB=sm8550-xiaomi-fuxi-desk scripts/fuxi-build-abl.sh <名字>
+ */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include "sm8550-xiaomi-fuxi-disp.dtsi"
+#include "sm8550-xiaomi-fuxi-usbc.dtsi"
+
+&mdss_dp0 {
+	status = "okay";
+};

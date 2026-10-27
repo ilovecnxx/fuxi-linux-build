@@ -1,0 +1,5 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/* Xiaomi 13 (fuxi)：省电测试变体 = 主 DTS + CPU 深度空闲（见 sm8550-xiaomi-fuxi-sleep.dtsi） */
+
+#include "sm8550-xiaomi-fuxi-min.dts"
+#include "sm8550-xiaomi-fuxi-sleep.dtsi"

@@ -1,0 +1,11 @@
+$ ls /sys/class/remoteproc/; for r in /sys/class/remoteproc/*; do echo "$r $(cat $r/name) $(cat $r/state) $(cat $r/firmware)"; done; dmesg | grep -iE "remoteproc|adsp|6800000|pmic_glink|battmgr|firmware" | head -8
+remoteproc0
+/sys/class/remoteproc/remoteproc0 adsp offline qcom/sm8550/xiaomi/fuxi/adsp.mdt
+[    0.000000] [Firmware Bug]: Kernel image misaligned at boot, please fix your bootloader!
+[    0.000000] OF: reserved mem: 0x0000000081f00000..0x0000000081f1ffff (128 KiB) nomap non-reusable adsp-mhi-region@81f00000
+[    0.000000] OF: reserved mem: 0x000000009e980000..0x000000009e9fffff (512 KiB) nomap non-reusable q6-adsp-dtb-region@9e980000
+[    0.000000] OF: reserved mem: 0x000000009ea00000..0x00000000a307ffff (72192 KiB) nomap non-reusable adspslpi-region@9ea00000
+[    0.000000] psci: PSCIv1.1 detected in firmware.
+[    0.270337] remoteproc remoteproc0: adsp is available
+[    0.273646] remoteproc remoteproc0: Direct firmware load for qcom/sm8550/xiaomi/fuxi/adsp.mdt failed with error -2
+[    0.273649] remoteproc remoteproc0: powering up adsp

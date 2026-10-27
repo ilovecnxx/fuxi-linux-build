@@ -1,0 +1,255 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：相机第一步——给四个模组上电并用 CCI（i2c-dev）读传感器 ID。
+ * 全部取自厂商 DTB（work/device-info/fuxi-live.dts 的 qcom,cci0/1 与 qcom,cam-sensor0..3）：
+ *
+ *   模组        CCI          MCLK            复位      CSIPHY  供电（厂商名 → 主线）
+ *   cam0 主摄   cci0 主机1   MCLK2 GPIO102   GPIO118   2       vio L2C 1.8、vana GPIO69 开关 2.8、vdig L2M 1.104、
+ *               （带 OIS/马达/EEPROM）                            custom1 GPIO66 开关 1.8、custom2 L7M 3.1、vaf L4M 3.1、BOB2
+ *   cam2 超广角 cci0 主机0   MCLK1 GPIO101   GPIO117   0       vio L2C、vana GPIO91 开关 2.8、vdig L1C 1.2、BOB2
+ *   cam1 前摄   cci1 主机1   MCLK4 GPIO104   GPIO120   4       vio L5M 1.8、vana L3M 2.8、vdig L1M 1.104
+ *               （主机1 走 AON CCI 引脚 GPIO208/209）
+ *   cam3 长焦   cci1 主机0   MCLK3 GPIO103   GPIO119   ?       vio L2C、vana GPIO57 开关 2.8、vdig L11B 1.056、
+ *               （带 OIS）                                        custom1 L16B 3.1、vaf L14B 3.1、BOB2、BOB1
+ *
+ * 电压按厂商 rgltr-min/max-voltage 改写主线 DTS 里（从 MTP 抄来的）几路 LDO 的范围；这些 LDO 在别的 DTS 里都没有用户。
+ * 上电/读 ID 用测试驱动 drivers/misc/fuxi-camera-power.c（sysfs power），脚本 scripts/fuxi-camera-probe.sh。
+ * 传感器型号确定后再写/移植传感器驱动，接 CAMSS（主线已支持 sm8550-camss）。
+ */
+
+/ {
+	cam_wide_avdd1: regulator-cam-wide-avdd1 {
+		compatible = "regulator-fixed";
+		regulator-name = "cam_wide_avdd1";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		gpio = <&tlmm 69 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		vin-supply = <&vreg_bob2>;
+	};
+
+	cam_wide_avdd2: regulator-cam-wide-avdd2 {
+		compatible = "regulator-fixed";
+		regulator-name = "cam_wide_avdd2";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		gpio = <&tlmm 66 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+	};
+
+	cam_ultra_avdd: regulator-cam-ultra-avdd {
+		compatible = "regulator-fixed";
+		regulator-name = "cam_ultra_avdd";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		gpio = <&tlmm 91 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		vin-supply = <&vreg_bob2>;
+	};
+
+	cam_tele_avdd: regulator-cam-tele-avdd {
+		compatible = "regulator-fixed";
+		regulator-name = "cam_tele_avdd";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		gpio = <&tlmm 57 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		vin-supply = <&vreg_bob2>;
+	};
+
+	cam0_power: camera-power-cam0 {
+		compatible = "xiaomi,fuxi-camera-power";
+		supply-names = "vio", "vana", "vdig", "custom1", "custom2", "vaf", "bob2";
+		vio-supply = <&vreg_l2c_1p8>;
+		vana-supply = <&cam_wide_avdd1>;
+		vdig-supply = <&vreg_l2m_1p056>;
+		custom1-supply = <&cam_wide_avdd2>;
+		custom2-supply = <&vreg_l7m_2p9>;
+		vaf-supply = <&vreg_l4m_2p8>;
+		bob2-supply = <&vreg_bob2>;
+		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+		reset-gpios = <&tlmm 118 GPIO_ACTIVE_LOW>;
+		pinctrl-0 = <&cam_mclk2_default>;
+		pinctrl-names = "default";
+	};
+
+	cam2_power: camera-power-cam2 {
+		compatible = "xiaomi,fuxi-camera-power";
+		supply-names = "vio", "vana", "vdig", "bob2";
+		vio-supply = <&vreg_l2c_1p8>;
+		vana-supply = <&cam_ultra_avdd>;
+		vdig-supply = <&vreg_l1c_1p2>;
+		bob2-supply = <&vreg_bob2>;
+		clocks = <&camcc CAM_CC_MCLK1_CLK>;
+		reset-gpios = <&tlmm 117 GPIO_ACTIVE_LOW>;
+		pinctrl-0 = <&cam_mclk1_default>;
+		pinctrl-names = "default";
+	};
+
+	cam1_power: camera-power-cam1 {
+		compatible = "xiaomi,fuxi-camera-power";
+		supply-names = "vio", "vana", "vdig";
+		vio-supply = <&vreg_l5m_1p8>;
+		vana-supply = <&vreg_l3m_2p8>;
+		vdig-supply = <&vreg_l1m_1p056>;
+		clocks = <&camcc CAM_CC_MCLK4_CLK>;
+		reset-gpios = <&tlmm 120 GPIO_ACTIVE_LOW>;
+		pinctrl-0 = <&cam_mclk4_default>;
+		pinctrl-names = "default";
+	};
+
+	cam3_power: camera-power-cam3 {
+		compatible = "xiaomi,fuxi-camera-power";
+		supply-names = "vio", "vana", "vdig", "custom1", "vaf", "bob2", "bob1";
+		vio-supply = <&vreg_l2c_1p8>;
+		vana-supply = <&cam_tele_avdd>;
+		vdig-supply = <&vreg_l11b_1p2>;
+		custom1-supply = <&vreg_l16b_2p8>;
+		vaf-supply = <&vreg_l14b_3p2>;
+		bob2-supply = <&vreg_bob2>;
+		bob1-supply = <&vreg_bob1>;
+		clocks = <&camcc CAM_CC_MCLK3_CLK>;
+		reset-gpios = <&tlmm 119 GPIO_ACTIVE_LOW>;
+		pinctrl-0 = <&cam_mclk3_default>;
+		pinctrl-names = "default";
+	};
+};
+
+&apps_rsc {
+	/* PM8550VS "c"：厂商 pm_v6c_l1（1.2 V）、pm_v6c_l2（1.8 V），主 DTS 只写了 L3C（cmd-db 里有 ldoc1/ldoc2） */
+	regulators-1 {
+		vreg_l1c_1p2: ldo1 {
+			regulator-name = "vreg_l1c_1p2";
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		vreg_l2c_1p8: ldo2 {
+			regulator-name = "vreg_l2c_1p8";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+	};
+};
+
+/* 按厂商相机供电的电压改写（标签名沿用主 DTS，电压以这里为准） */
+&vreg_l1m_1p056 {
+	regulator-min-microvolt = <1104000>;
+	regulator-max-microvolt = <1104000>;
+};
+
+&vreg_l2m_1p056 {
+	regulator-min-microvolt = <1104000>;
+	regulator-max-microvolt = <1104000>;
+};
+
+&vreg_l4m_2p8 {
+	regulator-min-microvolt = <3104000>;
+	regulator-max-microvolt = <3104000>;
+};
+
+&vreg_l7m_2p9 {
+	regulator-min-microvolt = <3104000>;
+	regulator-max-microvolt = <3104000>;
+};
+
+&vreg_l11b_1p2 {
+	regulator-min-microvolt = <1056000>;
+	regulator-max-microvolt = <1056000>;
+};
+
+&vreg_l14b_3p2 {
+	regulator-min-microvolt = <3104000>;
+	regulator-max-microvolt = <3104000>;
+};
+
+&vreg_l16b_2p8 {
+	regulator-min-microvolt = <3104000>;
+	regulator-max-microvolt = <3104000>;
+};
+
+&cci0 {
+	status = "okay";
+};
+
+&cci0_i2c0 {
+	clock-frequency = <400000>;
+};
+
+&cci0_i2c1 {
+	clock-frequency = <400000>;
+};
+
+&cci1 {
+	pinctrl-0 = <&cci1_0_default>, <&cci1_1_aon_default>;
+	pinctrl-1 = <&cci1_0_sleep>, <&cci1_1_aon_sleep>;
+	status = "okay";
+
+	/* 前摄在 CCI1 主机 1（厂商 cci1 m1_active：AON CCI，GPIO208/209） */
+	cci1_i2c1: i2c-bus@1 {
+		reg = <1>;
+		clock-frequency = <400000>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+};
+
+&cci1_i2c0 {
+	clock-frequency = <400000>;
+};
+
+&tlmm {
+	cci1_1_aon_default: cci1-1-aon-default-state {
+		pins = "gpio208", "gpio209";
+		function = "aon_cci";
+		drive-strength = <2>;
+		bias-pull-up;
+	};
+
+	cci1_1_aon_sleep: cci1-1-aon-sleep-state {
+		pins = "gpio208", "gpio209";
+		function = "aon_cci";
+		drive-strength = <2>;
+		bias-pull-down;
+	};
+
+	cam_mclk1_default: cam-mclk1-default-state {
+		pins = "gpio101";
+		function = "cam_mclk";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	cam_mclk2_default: cam-mclk2-default-state {
+		pins = "gpio102";
+		function = "cam_mclk";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	cam_mclk3_default: cam-mclk3-default-state {
+		pins = "gpio103";
+		function = "cam_mclk";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	cam_mclk4_default: cam-mclk4-default-state {
+		pins = "gpio104";
+		function = "cam_aon_mclk4";
+		drive-strength = <2>;
+		bias-disable;
+	};
+};
+
+/*
+ * CAMSS（CSIPHY/CSID/VFE）：先只打开、不接传感器端点，验证 camcc/GDSC/互连/供电能起来。
+ * CSIPHY 供电对应厂商 csi-vdd-0p9 = pm_v6e_l1、csi-vdd-1p2 = pm_v6e_l3。
+ */
+&camss {
+	vdda-phy-supply = <&vreg_l1e_0p88>;
+	vdda-pll-supply = <&vreg_l3e_1p2>;
+	status = "okay";
+};

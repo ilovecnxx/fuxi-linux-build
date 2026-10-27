@@ -1,0 +1,9 @@
+$ dmesg | grep -iE "ftm5|WARNING|Call trace" | head -5; grep -E "^N:" /proc/bus/input/devices; systemd-analyze | head -1; systemctl is-system-running
+[    0.541865] st-ftm5 spi0.0: chip 3640 fw 0053 cfg 0042 panel 2399x1079
+[    0.543467] input: ST FTM5 Touchscreen as /devices/platform/soc@0/ac0000.geniqup/a90000.spi/spi_master/spi0/spi0.0/input/input2
+N: Name="pmic_pwrkey"
+N: Name="pmic_resin"
+N: Name="ST FTM5 Touchscreen"
+N: Name="gpio-keys"
+Startup finished in 8.759s (kernel) + 1.810s (userspace) = 10.569s 
+running

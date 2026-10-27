@@ -1,0 +1,12 @@
+$ dmesg | grep -E "Memory:|overlaps|reserved mem: .*(adspslpi|hwfence|llcc)" | head -8; free -g | head -2
+[    0.000000] OF: reserved mem: 0x000000009ea00000..0x00000000a307ffff (72192 KiB) nomap non-reusable adspslpi-region@9ea00000
+[    0.000000] OF: reserved mem: 0x00000000e6440000..0x00000000e671cfff (2932 KiB) nomap non-reusable hwfence-shbuf-region@e6440000
+[    0.000000] OF: reserved mem: 0x00000000ff800000..0x00000000ffdfffff (6144 KiB) nomap non-reusable llcc-lpi-region@ff800000
+[    0.094937] Memory: 11156704K/12249724K available (6784K kernel code, 3850K rwdata, 4928K rodata, 2048K init, 429K bss, 1087296K reserved, 0K cma-reserved)
+               total        used        free      shared  buff/cache   available
+Mem:              10           0          10           0           0          10
+$ mkdir -p /mnt/memtest && mount -t tmpfs -o size=10G tmpfs /mnt/memtest && dd if=/dev/urandom of=/mnt/memtest/a bs=1M count=9000 status=none; free -g | sed -n 2p; md5sum /mnt/memtest/a | cut -c1-12; md5sum /mnt/memtest/a | cut -c1-12; rm -f /mnt/memtest/a; umount /mnt/memtest; dmesg | grep -ciE "Unable to handle|Internal error|Oops|SError|Synchronous External Abort"
+Mem:              10           8           1           8           8           1
+3ced23ea87d1
+3ced23ea87d1
+0

@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Xiaomi 13 (fuxi)：省电测试片段——去掉 cpuidle.off=1（让 CPU 进 PSCI 深度空闲/集群断电），
+ * 配合 FUXI_PM=1 + 变体配置里的 SUSPEND（s2idle）。其余启动参数与主 DTS 相同（长度保持一致）。
+ * 风险：M2 阶段为排除问题才关掉 cpuidle；如果空闲时卡死/重启，长按电源回 Android，日志看 pstore。
+ */
+
+/ {
+	chosen {
+		bootargs = "loglevel=7 log_buf_len=2M panic=0 clk_ignore_unused pd_ignore_unused regulator_ignore_unused arm-smmu.disable_bypass=0 fbcon=font:TER16x32 console=tty0 fuxi.fb=0xB8000000,1080,2400,1080,32 rdinit=/init g_cdc.idVendor=0x0525 g_cdc.idProduct=0xa4a7 g_cdc.dev_addr=02:f0:c5:13:00:02 g_cdc.host_addr=02:f0:c5:13:00:01                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ";
+	};
+};

@@ -1,106 +1,100 @@
-# 构建信息 — 2026-10-27 双系统版本
+# 构建信息 — 2026-10-27 v0.2.0（M5/M6 更新）
 
-本目录记录发布镜像 `images/recovery-linux.img` 的完整来源与验证证据，便于复现。
+本文件记录 v0.2.0 发布镜像与源码的来源、构建方法、验证状态。哈希清单见根目录 `SHA256SUMS`。
 
-## 产物
+## 镜像一览
 
-| 文件 | 大小 | SHA-256 |
-|---|---|---|
-| `images/recovery-linux.img` | 7,389,184 B | `b48614f4a71a8364888e4e51d47824e13c775c2369deab40f988a3ffa56ebb6e` |
+| 镜像 | 大小 | SHA-256 | 内核版本 | 变体 / 状态 |
+|---|---|---|---|---|
+| `images/recovery-linux.img` | 8,691,712 B | `05f088e0210a7f8f451a3c43b760893bdd2b12624303eff46da8bc3cd395d80a` | `#113 SMP PREEMPT Tue Oct 27 07:23:58 CST 2026` | 基础配置（`-min` DTB）。**最后在真机完整验证**（2026-10-27 07:25：SSH 可用） |
+| `images/candidates/abl-fuxi-full3.img` | 10,485,760 B | `7a130e771448adaff9a32e13f933336dc2de94a2df4ca64c2b564723f7e5ac4e` | `#146 SMP PREEMPT Tue Oct 27 11:44:38 CST 2026` | `-full`（原生显示 + GPU + USB-C/DP + 音频）。**已构建、待上机验证** |
+| `images/candidates/abl-fuxi-wifi7.img` | 9,748,480 B | `9fff5cfca6039f7171fd6a3bf7b69729197079314c0296f1ed8eaf29dbadf61b` | `#148 SMP PREEMPT Tue Oct 27 11:59:12 CST 2026` | 基础配置，**与 `source/` 当前树对应的最新构建**。待上机验证 |
+| `images/candidates/abl-fuxi-sleep1.img` | 9,748,480 B | `abbaec17bffa881ff70b1c06a0da95a7b5c052d78ae28d12911d9915d6abd9a5` | `#147 SMP PREEMPT Tue Oct 27 11:54:19 CST 2026` | `-sleep`（SUSPEND + 调频温控，去掉 `cpuidle.off=1`）。待上机验证 |
 
-镜像内包含：
-
-- 内核 `Image.gz`：6,579,778 B（`Linux 7.3.0+`）
-- 厂商诱饵 DTB `fuxi.dtb`：801,847 B
-- 内建 initramfs（BusyBox，压缩进内核）
-
-> 镜像与 `source/` 产物（共 12 项）的 SHA-256 见仓库根目录 `SHA256SUMS`。
+> 设备在 2026-10-27 13:16 后离线；`full3` / `wifi7` / `sleep1` 与下午的显示/音频/基带/相机/传感器/省电功能只做到「构建成功」，**没有实机验收**。
+> `recovery-linux.img`（wifi1）是最后一个完成完整回归的镜像。
 
 ## 源码基线
 
 | 项 | 值 |
 |---|---|
 | 上游 | `https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git` |
-| commit | `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`（Merge tag `drm-next-2026-10-21`） |
-| 内核版本字符串 | `Linux version 7.3.0+ #101 SMP PREEMPT Tue Oct 27 06:19:12 CST 2026` |
-| 受跟踪文件改动 | `source/kernel.diff`：5 个文件，+42/−1 |
-| 新增文件 | `source/linux-untracked/`：`sm8550-xiaomi-fuxi-min.dts`、`fuxi_dtb.S`、`fuxi_early.c`、`fuxi_font.h` |
-| initramfs | `source/initramfs/init`（可执行）+ `source/initramfs/initramfs.list` |
-| 待上游补丁 | `source/patches/ufs-qcom-sm8550-g5.patch`（UFS HS-G5，暂缓） |
+| commit | `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f` |
+| 受跟踪文件改动 | `source/kernel.diff`：13 个文件，+165/−7 |
+| 新增文件 | `source/linux-untracked/`：23 个（按上游相对路径存放） |
+| 当前树对应的构建 | `#148`（`abl-fuxi-wifi7`，2026-10-27 11:59） |
 
-`source/kernel.diff` 中值得注意的改动：
+`source/kernel.diff` 要点：
 
-- `arch/arm64/Kconfig`：新增 `CONFIG_FUXI_FORCE_BUILTIN_DTB`；
-- `arch/arm64/kernel/setup.c`：`setup_arch()` 里把 `__fdt_pointer` 指向内建 DTB（绕过 ABL 的 dtbo overlay）；
-- `drivers/base/core.c`：诊断用 `fuxi.nosync=1`，可暂停自动 `sync_state()`；
-- `arch/arm64/kernel/Makefile`：编入 `fuxi_dtb.o` 与 `fuxi_early.o`（simpledrm 之前的早期屏幕 console）。
+- `arch/arm64/Kconfig` + `setup.c` + `kernel/Makefile`：`CONFIG_FUXI_FORCE_BUILTIN_DTB`（用内建 DTB 绕过 ABL 的 dtbo overlay）、`fuxi_dtb.o` / `fuxi_early.o`；
+- `drivers/base/core.c`：`fuxi.nosync=1` 诊断参数；
+- `drivers/gpu/drm/panel/*`：面板驱动 `panel-xiaomi-fuxi`（DSC、60/90/120 Hz）；
+- `drivers/input/touchscreen/*`：触摸驱动 `st-ftm5`；
+- `drivers/misc/*`：相机电源 `fuxi-camera-power`；
+- `drivers/ufs/host/ufs-qcom.c`：关机时释放 UFS 复位线（修复重启进 EDL）；
+- `drivers/power/supply/qcom_battmgr.c`：电量/充电属性号；
+- `sound/soc/qcom/sc8280xp.c`：音频（WCD938x + CS35L41）；
+- 其余：各变体 DTS（`-disp/-usbc/-audio/-audio2/-camera/-modem/-sleep/-desk/-full`）。
 
-## 构建环境
+新增文件（`source/linux-untracked/`）包括：主/变体 DTS 与 dtsi（12 个）、`fuxi_dtb.S`、`fuxi_early.c`、`fuxi_font.h`、`panel-xiaomi-fuxi.c`、`st-ftm5.c`、`fuxi-camera-power.c`。
 
-- Ubuntu 26.10；`aarch64-linux-gnu-gcc` 15.3.0；GNU ld 2.47；GNU Make 4.4.1；dtc 1.7.2；Python 3
-- 内核配置：`source/kernel.config`，关键项：
-  - `CONFIG_FUXI_FORCE_BUILTIN_DTB=y`（忽略 ABL 传入的 DTB，改用内建主线 DTB）
-  - `CONFIG_INITRAMFS_SOURCE="<build>/build/initramfs <build>/build/initramfs.list"`（构建机绝对路径，复现时改成自己的路径）
-  - `CONFIG_INITRAMFS_COMPRESSION_GZIP=y`、`CONFIG_CMDLINE_FROM_BOOTLOADER=y`
-  - `CONFIG_USB_DWC3_QCOM=y`、`CONFIG_USB_CONFIGFS_ACM=y`（USB 串口 / USB 网络）
-  - `CONFIG_DRM_SIMPLEDRM=y` + FB 子系统（fbcon 显示）
+## 内核配置
+
+`source/kernel.config` 是主配置（`-min` 基础镜像），已包含：`QCOM_FASTRPC`、`QCOM_IPA`、`ATH12K`、`TOUCHSCREEN_ST_FTM5`、桌面选项（squashfs/loop/FUSE/overlayfs/zram/exFAT/NTFS3/uinput/dm-crypt/TUN/veth/nftables 等）。
+
+变体配置由构建脚本临时打开、构建完自动恢复主配置（`scripts/fuxi-build-abl.sh`）：
+
+| 构建变量 | 说明 |
+|---|---|
+| `FUXI_DTB=sm8550-xiaomi-fuxi-disp` | 原生显示（DRM_MSM/DSI/面板/GPU） |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-usbc` | USB-C（UCSI/FSA4480/dual-role/xHCI） |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-audio` / `-audio2` | 音频（ALSA/ASoC/AudioReach/CS35L41/WCD938x） |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-camera` | 相机（CCI/CAMSS/fuxi-camera-power） |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-modem` | 基带（IPA + MPSS） |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-sleep` | `SUSPEND` + `PM_SLEEP`，并自动 `FUXI_PM=1` |
+| `FUXI_DTB=sm8550-xiaomi-fuxi-full` | 显示 + USB-C + 音频 + DP 全开 |
+| `FUXI_PM=1` | 叠加调频/温控（EPSS/schedutil/TSENS/PMIC 过温/LMh/L3） |
+
+`source/variants/kernel-config-desktop` 是 09:15 加入桌面内核选项后的完整配置，供对照。
 
 ## 复现步骤
 
 1. 克隆上游 linux，checkout `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`；
-2. `cp source/kernel.config .config`；
-3. `git apply source/kernel.diff`；
-4. 拷贝 `source/linux-untracked/`：`sm8550-xiaomi-fuxi-min.dts` → `arch/arm64/boot/dts/qcom/`，
-   其余 3 个 → `arch/arm64/kernel/`；
-5. initramfs：把 `source/initramfs/init` 放到 `<build>/build/initramfs/init`（可执行），
-   `initramfs.list` 放到 `<build>/build/initramfs.list`；按需修改 `CONFIG_INITRAMFS_SOURCE`；
-6. `make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig`；
-7. `make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- qcom/sm8550-xiaomi-fuxi-min.dtb Image.gz`；
-8. 准备厂商诱饵 DTB：从本机原厂 `boot`/`dtbo` 镜像中提取 `fuxi.dtb`（801,847 B），
-   放到 `scripts/fuxi-build-abl.sh` 里 `BAIT_DTB` 指向的位置；
-9. `scripts/fuxi-build-abl.sh clean5` → 生成 `work/kbuild/abl-fuxi-clean5.img`
-   （脚本调用 Android `mkbootimg` 打包 boot header v1）。
+2. `cp source/kernel.config .config`，`git apply source/kernel.diff`；
+3. 把 `source/linux-untracked/` 按同名路径拷回内核树；
+4. initramfs：`source/initramfs/init` → `<build>/build/initramfs/init`（可执行），`initramfs.list` → `<build>/build/initramfs.list`，按需改 `CONFIG_INITRAMFS_SOURCE`；
+5. `make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig`；
+6. 准备厂商诱饵 DTB `fuxi.dtb`（从自有设备原厂 ROM 提取，801,847 B），放到 `scripts/fuxi-build-abl.sh` 的 `BAIT_DTB` 路径；
+7. 构建：`scripts/fuxi-build-abl.sh <名字>`（可加 `FUXI_DTB=...` / `FUXI_PM=1`），产物在 `work/kbuild/abl-fuxi-<名字>.img`。
 
-> **厂商固件说明**：发布镜像内嵌的 801,847 B `fuxi.dtb` 是厂商 DTB（作为 ABL 引导诱饵，不含可执行代码）；仓库不以源码形式分发厂商固件，完全自建请从自己设备的原厂 ROM 提取。
-> `build/edk2-msm/tools/mkbootimg.py` 未包含在本仓库，可用 AOSP `mkbootimg` 按脚本参数替代。
+> 厂商固件与 DTB 不随仓库分发。发布镜像内嵌的 801,847 B 厂商 DTB 只作为 ABL 引导诱饵（不含可执行代码）。
 
-## 镜像结构
+## 用户空间覆盖层
 
-| 字段 | 值 |
-|---|---|
-| 格式 | Android boot image，header v1（header_size 1648） |
-| page_size | 4096 |
-| kernel | `Image.gz`（6,579,778 B）+ `fuxi.dtb`（801,847 B）= 7,381,625 B |
-| ramdisk | 空（initramfs 已编进内核） |
-| 总大小 | 7,389,184 B |
+`rootfs-overlay/`（对应 Ubuntu 根文件系统 `sda33`）：
 
-header 中记录的 cmdline（实际生效的 cmdline 来自内建 DTB 的 `/chosen/bootargs`）：
+- `usr/local/sbin/fuxi-firmware-devices`：根文件系统就绪后启动 ADSP、bind ath12k、必要时 bind 蓝牙 serdev；
+- `etc/systemd/system/fuxi-firmware-devices.service`、`etc/systemd/system/rmtfs.service.d/10-fuxi.conf`；
+- `usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/`：ALSA UCM2 配置。
 
-```text
-loglevel=7 log_buf_len=2M panic=0 clk_ignore_unused pd_ignore_unused regulator_ignore_unused
-arm-smmu.disable_bypass=0 cpuidle.off=1 initramfs_async=0 fbcon=font:TER16x32 console=tty0
-fuxi.fb=0xB8000000,1080,2400,1080,32 rdinit=/init
-g_cdc.idVendor=0x0525 g_cdc.idProduct=0xa4a7
-g_cdc.dev_addr=02:f0:c5:13:00:02 g_cdc.host_addr=02:f0:c5:13:00:01
-```
+## 验证状态（2026-10-27）
 
-## 实机验证记录（2026-10-27）
+| 时间 | 镜像 | 结果 |
+|---|---|---|
+| 06:52 | touch3 | 触摸驱动 `st-ftm5` probe：chip 3640 / fw 0053，注册 input 设备 |
+| 06:56 | — | 完整回归：SSH 可用，返回 Android |
+| 07:05 | — | 完整回归：SSH 可用，返回 Android |
+| 07:08 / 07:13 | adsp1 / adsp2 | ADSP remoteproc 启动、battmgr 电量属性可读 |
+| 07:25 | **wifi1** | PCIe0 枚举出 01:00.0、蓝牙 HCI 注册（WCN7850 固件/ath12k 启动记录见 docs/目标-M5.md）；SSH 可用 |
+| 13:16 | — | 设备离线（等待 Android 回归），之后只构建未验证 |
 
-| 时间 | 镜像 | 结果 | systemd-analyze（kernel + userspace） |
-|---|---|---|---|
-| 06:07 | clean1 | Ubuntu SSH 可用，返回 Android | 8.887 + 2.159 = 11.047 s |
-| 06:09 | clean2 | Ubuntu SSH 可用，返回 Android | 8.752 + 1.963 = 10.715 s |
-| 06:11 | clean3 | Ubuntu SSH 可用（FUXI_KEEP 留在 Ubuntu） | 8.730 + 2.463 = 11.194 s |
-| 06:15 | clean4 | Ubuntu SSH 可用（FUXI_KEEP） | — |
-| 06:20 | **clean5（本发布镜像）** | Ubuntu SSH 可用（FUXI_KEEP） | — |
-
-- 启动链：ABL → `recovery_b` 中的 boot.img v1 → 内建内核 + 内建 DTB → initramfs → switch_root 到 `sda33` 的 Ubuntu。
-- 原始记录：`evidence/rtest-20261027-*/`、`evidence/kbuild-*.log`。
-- 说明：clean4/clean5 是发布前最后一次诊断构建（检查 `sync_state`），内核基线同为 7.3.0、启动链与 clean3 相同；
-  发布镜像取最后一次实测通过的 clean5。
+原始记录：`evidence/rtest-20261027-*/`、`evidence/build-logs-20261027pm/`。
 
 ## 已知限制
 
-- 触摸 / 按键输入、WiFi / 蓝牙、GPU、音频、相机尚未支持；UFS HS-G5 补丁暂缓（`source/patches/`）。
-- initramfs 启动后有 8 秒 USB 串口窗口；主机不执行 `touch /tmp/stay` 时会自动 `switch_root` 进 Ubuntu。
+- 触摸/按键/电量已可用，但**没有图形界面**（Phosh 尚未安装验证）；显示仍是 simpledrm + fbcon。
+- WiFi/蓝牙硬件已就绪，**尚未连网/配对**（需要用户提供 WiFi 账号；蓝牙固件与配对未验证）。
+- 原生显示/GPU、USB-C/DP、音频、基带/通话、相机、传感器、省电：已构建，等设备回归后逐个验收。
+- 屏下指纹走 TrustZone，主线短期不可行（见 `docs/指纹调研.md`）。
+- UFS HS-G5 补丁暂缓（`source/patches/ufs-qcom-sm8550-g5.patch`），默认 G4。
 - `CONFIG_INITRAMFS_SOURCE` 记录的是构建机绝对路径，复现时必须修改。
