@@ -1,4 +1,4 @@
-# 小米 13（fuxi / SM8550）Android + 主线 Linux 双系统
+# 小米 13（fuxi / SM8550）Android + 主线 Linux 双系统 QQ群交流：132413667
 
 QQ群交流：132413667
 
