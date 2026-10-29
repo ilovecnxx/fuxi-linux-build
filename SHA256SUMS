@@ -2,7 +2,7 @@ e5270ba5bcf7eb4240af3ca269e7d2238495784d0e7c25fada71fc4e22a48489  device-info/cm
 6a1058b9320af9bd9035020a25d6e262ec29c9206508150106677a3e3093102e  device-info/panel-m3-38-0c-0a.dtsi
 d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16  images/candidates/abl-fuxi-audio-probe4.img
 3b02fd600d16c41af37503495962046f8733eb014f297a3ac7e0de88c0bbced8  images/candidates/abl-fuxi-daily-pm1.img
-a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f  images/recovery-linux.img
+8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224  images/recovery-linux.img
 25413da586a37f6e09c7f4776cf77c0834a0159dd14fc72636b93ededf61489e  images/sde-gpt-slot-a.bin
 956704da408251179cda86d8f123880f5d2e07c35dacf9c2a5e76b6a98b04cbb  images/sde-gpt-slot-b-android.bin
 08f7de1f75f38745e7fb623929cac5aac615930889d40fe91efca540890dbf4a  rootfs-overlay/etc/systemd/system/fuxi-bt-address.service
@@ -28,12 +28,13 @@ c79e3bafeec8f9086bbe0bb99ef6990064192bee89855c177c1ab438ba04dd71  rootfs-overlay
 398515d192df188710a1b68287a387a33da724edd6d5881295ab1ac0e8e9b641  source/BUILD-INFO.md
 3cd1ccff79bbe841dbea8be1dfde220878a24d813616895cf21c5ae6a604f565  source/build-records/abl-fuxi-audio-probe4.build.json
 2d71b3d32816b14fb388610e859391442819a56dd89f7964075b57dbe3c750f3  source/build-records/abl-fuxi-daily-pm1.build.json
+4acb2d09a26e71e71d93c52602a10800fd52785ea75fdde8d87019394ad73292  source/build-records/abl-fuxi-screen120-blfix.build.json
 e85f7bc89598bae86ec5b2e3c3d1f0084d66507fd338ba8d27c4fdebef61182f  source/build-records/abl-fuxi-screen120-regcn.build.json
-14c2563e2e8f719ccced10ea75da5f99928f621a81c8117f54cd83e4797b3a71  source/dtb/abl-fuxi-screen120-regcn.dtb
+14c2563e2e8f719ccced10ea75da5f99928f621a81c8117f54cd83e4797b3a71  source/dtb/abl-fuxi-screen120-blfix.dtb
 5fe0b3c885687a3f5414f1ed91e4a99fe9f7387d5c8914ae210554bfe682f99d  source/initramfs/init
 bdc1301eb4125d916eea0459e5ccc61cbb702a22acc9c83b17c78f8ac9de198f  source/initramfs/initramfs.list
 a1d644668255b9faeb1cc2fd18e76cc6bf8e2aef0b770d800e7d9726f19af70a  source/kernel.config
-9f915b666784c6a29d8c8e6828f1a24c776ee76bcbc8eba14a17444d9e5ffa31  source/kernel.diff
+96c8b28093157bbb9242b6e8fa1a21eb97f91d6e6cc3824be9a2f38305a8ec6c  source/kernel.diff
 3d8318e791949b302ba067646426b818a03bb6ca6ccccbbd7c8a403f61c1bd4c  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-audio2.dts
 d62c5013f17acaa2365d32be39a5484a4a7f97edab7a680868d29aeb1b842207  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-audio2.dtsi
 ff422651225acb7be4fd04b1afd88d2e8a3571d3fea9db4c237dfdd1d79d4ed5  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-audio-disp.dts
@@ -49,6 +50,7 @@ a2bc6cc99a7021fcbad5827a058847a9080d9e0d6a7d55329e4de799c89bd47a  source/linux-u
 a41f39d060d246d04f656b57cf8f61b4f827f7910defed6cd6761e7bae736167  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-modem.dts
 b7ee27f1c5557854fe4fa56f9d9272f950b3a4f1d98764c56c8b8e0da0a3b6b9  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-modem.dtsi
 fbba3efb61fcf5d9640e10eddfedaa1f3a295462ad065c0791399b04d0628bdd  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-r120-audio-disp.dts
+ebaed4f93d898d1140031c16d5136bf4050c824ae6f775de445d509d0f429232  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-r120idle-audio-disp.dts
 c2bf3342ad5130ac1193b03329f0b07f68446ca1a8449223e2ec64ad1cdfe1e4  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-sleep.dts
 034b1f8ce0476e296a575f66ba0c2fee331f6dc7e44edc6fcf91adec69effc26  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-sleep.dtsi
 60d8cafb5a7b726b5093221cfe512e9e97ffb405b3f1a252fa0f716e33478339  source/linux-untracked/arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-usbc.dts
@@ -58,7 +60,7 @@ fc97f2bb5fb21951ba66d40be48748da6faa7ee53b1599208f594280d724cb4e  source/linux-u
 db2da6d0a4c4f89776ca45d5befabe459598e1756a6660dad6ab707e527a10af  source/linux-untracked/arch/arm64/kernel/fuxi_font.h
 e2b0a98736a4df74eb9d39ff9cd5724a8031cb6035ec62b772da1dddf954a253  source/linux-untracked/Documentation/devicetree/bindings/display/panel/xiaomi,fuxi-m3-38-0c-0a.yaml
 e317e9ef79a54832519c28daff74e73f082c90b5088af866b7e4455ffc26be05  source/linux-untracked/Documentation/devicetree/bindings/input/touchscreen/st,ftm5.yaml
-0465721523b75cd64ca07e558f9aeccd934dfc2841ce2640fbc88cb9230c82c7  source/linux-untracked/drivers/gpu/drm/panel/panel-xiaomi-fuxi.c
+ddd6ac22e887324064b1b52b393626818a212c85f549a49bea926bc0caee66f9  source/linux-untracked/drivers/gpu/drm/panel/panel-xiaomi-fuxi.c
 12a933587ea81ee18dd8982e0566e10ab2b72fc3e790cb8ca185995fabb1b193  source/linux-untracked/drivers/input/touchscreen/st-ftm5.c
 8dd493a128d28b633b1a8586ae5323ef50a6206bade7e7e351921fd8ea998787  source/linux-untracked/drivers/misc/fuxi-camera-power.c
 c324673e6106bc0ec7b9dac54ccb900e57772cddfe1869dd6f94aa156d7ddfdb  source/patches/history/audio-modem-20261027-0829.diff

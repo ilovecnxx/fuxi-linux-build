@@ -1,0 +1,15 @@
+start: crtc_active=1 psm=i 0 brightness=82 dsi_poweron_count=1
+on: logind set 300 ok
+cycle1 off: crtc_active=0 psm=i 3
+cycle1 off: logind set 500 ok (stored=500)
+cycle1 on: crtc_active=1 psm=i 0 brightness=338 dsi_poweron_count=2
+cycle2 off: crtc_active=0 psm=i 3
+cycle2 off: logind set 600 ok (stored=600)
+cycle2 on: crtc_active=1 psm=i 0 brightness=537 dsi_poweron_count=4
+cycle3 off: crtc_active=0 psm=i 3
+cycle3 off: logind set 700 ok (stored=700)
+cycle3 on: crtc_active=1 psm=i 0 brightness=328 dsi_poweron_count=5
+restored 82
+underrun:       0    
+0
+dmesg-checked

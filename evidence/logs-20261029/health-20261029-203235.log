@@ -1,0 +1,40 @@
+kernel: Linux 7.3.0+ #191 SMP PREEMPT Thu Oct 29 20:29:51 CST 2026
+uptime: up 1 minute
+PASS systemd running
+PASS phosh active
+PASS fuxi-firmware-devices active
+PASS bluetooth active
+PASS phoc 进程存在
+PASS phosh 进程存在
+PASS 屏幕键盘服务已运行（Stevia 或 Squeekboard）
+PASS 3 个 CPU 调频策略
+PASS policy0 cpus=0 1 2 governor=schedutil frequency=1555200kHz
+PASS policy3 cpus=3 4 5 6 governor=schedutil frequency=499200kHz
+PASS policy7 cpus=7 governor=schedutil frequency=595200kHz
+PASS 有效热区=43 最高温度=44800m°C
+PASS 3 个 CPU cooling 设备
+PASS FTM5 触摸设备已注册
+PASS DRM 已连接输出=1
+PASS 电量=95% 状态=Charging（仅验证读数）
+PASS WiFi 已连接
+PASS 外网路由走 WiFi: 223.5.5.5 via 10.10.10.1 dev wlp1s0 src 10.10.10.43 uid 0 
+PASS HTTPS 经 wlp1s0 连通且证书校验通过
+PASS 无线网卡管制域=CN
+PASS 蓝牙已上电
+PASS rmtfs 无失败状态
+PASS hexagonrpcd active
+PASS iio-sensor-proxy active
+PASS 传感器使用非调试 daemon
+PASS SSC QRTR 400 已发布
+PASS SensorProxy HasAccelerometer
+PASS SensorProxy HasAmbientLight
+PASS SensorProxy HasProximity
+PASS SensorProxy HasCompass
+PASS accelerometer: Accelerometer sensor measurement: X=0.511768 Y=-0.061612 Z=9.808911 m/s²
+PASS light: Light sensor measurement: 3.457741 Lux
+PASS proximity: Proximity sensor measurement: FAR
+PASS magnetometer: Magnetometer sensor measurement: X=-16.821873 Y=-62.413311 Z=187.044434 μT
+PASS compass: Compass sensor measurement: 45.767300 °
+PASS 本次启动未发现 ADSP/remoteproc 崩溃记录
+PASS Phosh 本次启动无需重试
+验收结束：失败项=0；触摸交互、实际充电仍需各自验证；无线 SSH 用 FUXI_HOST=<无线 IP> scripts/fuxi-ssh.sh 复验。

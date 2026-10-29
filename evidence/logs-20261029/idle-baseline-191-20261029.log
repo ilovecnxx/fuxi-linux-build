@@ -1,0 +1,19 @@
+#191 SMP PREEMPT Thu Oct 29 20:29:51 CST 2026
+cpuidle.off=1
+ usage=
+t+5s bat_current=113000 usb_in=353000 v=4196000 load=0.27
+t+10s bat_current=128000 usb_in=353000 v=4196000 load=0.25
+t+15s bat_current=118000 usb_in=350000 v=4196000 load=0.23
+t+20s bat_current=113000 usb_in=353000 v=4196000 load=0.21
+t+25s bat_current=118000 usb_in=353000 v=4195000 load=0.19
+t+30s bat_current=123000 usb_in=353000 v=4191000 load=0.17
+t+35s bat_current=118000 usb_in=353000 v=4196000 load=0.16
+t+40s bat_current=123000 usb_in=353000 v=4197000 load=0.15
+t+45s bat_current=108000 usb_in=353000 v=4197000 load=0.14
+t+50s bat_current=118000 usb_in=353000 v=4196000 load=0.20
+t+55s bat_current=113000 usb_in=350000 v=4197000 load=0.19
+t+60s bat_current=113000 usb_in=350000 v=4197000 load=0.17
+AVG bat_current=117166 usb_in=352250
+cpu0  usage= time_us=
+cpu3  usage= time_us=
+cpu7  usage= time_us=

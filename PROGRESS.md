@@ -172,7 +172,7 @@ screen-audio8 的 portal 配置默认将 FileChooser 路由到 Phrosh；该会�
 
 ## v0.3.0 发布记录（2026-10-29 全天）
 
-当日工作从「日常镜像的调频/温控与可重复验收」开始，随后完成原生显示、GPU、120 Hz、音频、WiFi/蓝牙与基本功能修复，`recovery_b` 最后停在 `screen120-regcn`（`7.3.0+ #190`，镜像 10,379,264 B，SHA256 `a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f`）。
+当日工作从「日常镜像的调频/温控与可重复验收」开始，随后完成原生显示、GPU、120 Hz、音频、WiFi/蓝牙与基本功能修复，`recovery_b` 最后停在 `screen120-blfix`（`7.3.0+ #191`，镜像 10,379,264 B，SHA256 `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224`）。
 
 ### 用户现场确认的能力
 
@@ -187,16 +187,17 @@ screen-audio8 的 portal 配置默认将 FileChooser 路由到 Phrosh；该会�
 | 基本功能 | HTTPS 根证书、浏览器启动/退出、竖屏键盘、中文输入与文本保存 | [docs/基本功能修复-20261029.md](docs/基本功能修复-20261029.md) |
 | 电量 / 充电 | 插充电器 `status=Charging`，容量 99%，电流随负载 0.1–0.7 A 变化 | `evidence/logs-20261029/m51-charging-20261029.log` |
 | 调频 / 温控 | 3 个 schedutil 策略、43 个热区、3 个 CPU cooling 设备；120 Hz 镜像已接入 GPU 温控 | [docs/进展-20261029.md](docs/进展-20261029.md) |
+| 显示收尾（#191） | 熄屏时写亮度报错已修（面板未 prepared 只记值、点亮时应用）；3 轮熄屏/唤醒自动测试通过；光线传感器自动亮度生效；GPU 满载 3 分钟约 65.9 °C、cooling 档位 0、无 hang/underrun；`fuxi-health.sh --require-wifi --require-sensors` 失败 0 | [docs/显示驱动故障定位-20261029.md](docs/显示驱动故障定位-20261029.md) 末节、`evidence/logs-20261029/blank-wake-brightness-20261029.log` |
 
 ### 仍未验收（不记为通过）
 
-亮度范围、长时间熄屏/唤醒、物理旋转与桌面联动、文件选择器（GTK portal 未部署验收）、蓝牙耳机 / A2DP、音频保护标定与完整声道定位/麦克风、充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）、相机、蜂窝、UFS 关机路径的多轮回归。
+物理亮度观感、90 Hz/动态刷新率、物理旋转与桌面联动、文件选择器（GTK portal 未部署验收）、蓝牙耳机 / A2DP、音频保护标定与完整声道定位/麦克风、充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）、相机、蜂窝、UFS 关机路径的多轮回归。
 
 ### 本版镜像与源码
 
-- `images/recovery-linux.img` = `abl-fuxi-screen120-regcn`（`#190`，2026-10-29 20:12）；
+- `images/recovery-linux.img` = `abl-fuxi-screen120-blfix`（`#191`，2026-10-29 20:29）；
 - `images/candidates/abl-fuxi-daily-pm1.img`（`#168`，日常基线：CPU 调频/温控，无原生显示/GPU）、`images/candidates/abl-fuxi-audio-probe4.img`（`#172`，音频回退）；
-- `source/` 已更新为当前树：`kernel.diff` 18 个文件 +217/−8、`linux-untracked/` 27 个文件、`kernel.config` 即 `#190` 实际配置，另有 `build-records/` 与 `dtb/`；
+- `source/` 已更新为当前树：`kernel.diff` 18 个文件 +218/−8、`linux-untracked/` 28 个文件、`kernel.config` 即 `#191` 实际配置，另有 `build-records/` 与 `dtb/`；
 - v0.2.0 发布过的候选镜像（`full3`/`wifi7`/`sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取。
 
 逐轮细节见 `evidence/rtest-20261029-*`、`evidence/logs-20261029/` 与 docs/ 下 2026-10-29 的各篇记录。

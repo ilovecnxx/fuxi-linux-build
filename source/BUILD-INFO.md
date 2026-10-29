@@ -6,12 +6,12 @@
 
 | 镜像 | 大小 | SHA-256 | 内核版本 | 变体 / 状态 |
 |---|---|---|---|---|
-| `images/recovery-linux.img` | 10,379,264 B | `a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f` | `7.3.0+ #190`（2026-10-29 20:12 CST） | `-r120-audio-disp` + `FUXI_PM=1`。**当前手机 `recovery_b` 上的镜像**：原生显示 + GPU（FD740）+ 120 Hz + 音频变体 + WiFi 管制域 CN；画面、触控与流畅度经用户现场确认 |
+| `images/recovery-linux.img` | 10,379,264 B | `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224` | `7.3.0+ #191`（2026-10-29 20:29 CST） | `-r120-audio-disp` + `FUXI_PM=1`。**当前手机 `recovery_b` 上的镜像**（`screen120-blfix`）：原生显示 + GPU（FD740）+ 120 Hz + 音频变体 + WiFi 管制域 CN + 熄屏亮度写入修复；画面、触控、流畅度、熄屏唤醒经确认 |
 | `images/candidates/abl-fuxi-daily-pm1.img` | 9,732,096 B | `3b02fd600d16c41af37503495962046f8733eb014f297a3ac7e0de88c0bbced8` | `7.3.0+ #168`（2026-10-29 00:37 CST） | `-min` + `FUXI_PM=1`，日常基线：CPU 调频/温控、传感器与蓝牙部署；**不含原生显示/GPU**。10-29 白天多轮实机运行 |
 | `images/candidates/abl-fuxi-audio-probe4.img` | 10,047,488 B | `d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16` | `7.3.0+ #172`（2026-10-29 01:23 CST） | `-audio`，音频诊断镜像：两颗 CS35L41 功放独立出声已实测，保留作回退 |
 
 > 逐镜像的构建记录在 `source/build-records/abl-fuxi-*.build.json`（构建时间、变体 DTB、是否叠加调频温控，以及 boot_image / config / kernel / dtb 四组 sha256）。
-> 发布镜像实际内建的主线 DTB 存档在 `source/dtb/abl-fuxi-screen120-regcn.dtb`。
+> 发布镜像实际内建的主线 DTB 存档在 `source/dtb/abl-fuxi-screen120-blfix.dtb`。
 > v0.2.0 发布过的候选镜像（`full3` / `wifi7` / `sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取。
 
 ## 源码基线
@@ -20,9 +20,9 @@
 |---|---|
 | 上游 | `https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git` |
 | commit | `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f` |
-| 受跟踪文件改动 | `source/kernel.diff`：18 个文件，+217/−8 |
-| 新增文件 | `source/linux-untracked/`：27 个（按上游相对路径存放） |
-| 当前树对应的构建 | `#190`（`abl-fuxi-screen120-regcn`，2026-10-29 20:12） |
+| 受跟踪文件改动 | `source/kernel.diff`：18 个文件，+218/−8 |
+| 新增文件 | `source/linux-untracked/`：28 个（按上游相对路径存放） |
+| 当前树对应的构建 | `#191`（`abl-fuxi-screen120-blfix`，2026-10-29 20:29） |
 
 `source/kernel.diff` 要点：
 
@@ -40,7 +40,7 @@
 
 ## 内核配置
 
-`source/kernel.config` 就是 `#190` 发布镜像实际使用的配置（`-r120-audio-disp` + `FUXI_PM=1`），已包含：`DRM_MSM`/DSI/面板、`ATH12K`、`TOUCHSCREEN_ST_FTM5`、`QCOM_FASTRPC`、`QCOM_IPA`、CPU 调频与温控（EPSS/schedutil、TSENS、PMIC 过温、LMh、CPU cooling）、桌面选项（squashfs/loop/FUSE/overlayfs/zram/exFAT/NTFS3/uinput/dm-crypt/TUN/veth/nftables 等）。
+`source/kernel.config` 就是 `#191` 发布镜像实际使用的配置（`-r120-audio-disp` + `FUXI_PM=1`），已包含：`DRM_MSM`/DSI/面板、`ATH12K`、`TOUCHSCREEN_ST_FTM5`、`QCOM_FASTRPC`、`QCOM_IPA`、CPU 调频与温控（EPSS/schedutil、TSENS、PMIC 过温、LMh、CPU cooling）、桌面选项（squashfs/loop/FUSE/overlayfs/zram/exFAT/NTFS3/uinput/dm-crypt/TUN/veth/nftables 等）。
 
 变体配置由构建脚本临时打开、构建完自动恢复主配置（`scripts/fuxi-build-abl.sh`）：
 
@@ -100,7 +100,8 @@
 | 10-29 14:09 | screen-audio8（`#184`） | 原生 DSI 首次出数字画面（1080×2400），但 Adreno ZAP `-22`、桌面仍软件渲染 |
 | 10-29 17:49 | screen-audio9-host-bindingfix（`#187`） | 换 `/odm/firmware` 签名 ZAP 后 GPU 初始化成功，Phosh 切 FD740；用户确认画面正常、触控准确、明显流畅 |
 | 10-29 20:04 | screen120-gputherm（`#189`） | 120 Hz + GPU 温控；用户确认更顺滑、画面正常 |
-| 10-29 20:12 | **screen120-regcn（`#190`）** | 补 WiFi 管制域 CN；整机重启后自动连网、外网/HTTPS 走 WiFi、WiFi SSH 通过；音频、蓝牙 L2CAP、充电读数、温控压测均有当日记录 |
+| 10-29 20:12 | screen120-regcn（`#190`） | 补 WiFi 管制域 CN；整机重启后自动连网、外网/HTTPS 走 WiFi、WiFi SSH 通过；音频、蓝牙 L2CAP、充电读数、温控压测均有当日记录 |
+| 10-29 20:29 | **screen120-blfix（`#191`）** | 面板背光修复（熄屏时写亮度不再报错）；3 轮熄屏/唤醒、自动亮度、GPU 满载 3 分钟约 65.9 °C 通过；`fuxi-health.sh --require-wifi --require-sensors` 失败 0 |
 
 原始记录：`evidence/rtest-20261027-*/`、`evidence/rtest-20261029-*/`、`evidence/logs-20261029/`、`evidence/build-logs-20261027pm/`、`evidence/build-logs-20261029/`。
 
@@ -108,7 +109,7 @@
 
 - 相机（CAMSS）、蜂窝（IPA + MPSS）、USB-C/DP 桌面、省电/挂起（`-sleep`）仍只做到构建，未上机验收。
 - 音频保护标定、完整声道定位/音质、麦克风录音未验证。
-- 亮度范围、长时间熄屏/唤醒、物理旋转与桌面联动未验证；文件选择器（portal）未部署验收；蓝牙耳机 / A2DP 未测。
+- 物理亮度观感、90 Hz/动态刷新率、物理旋转与桌面联动未验证；文件选择器（portal）未部署验收；蓝牙耳机 / A2DP 未测。
 - 日常镜像仍不启用深度空闲与系统挂起，续航不达目标。
 - WiFi 使用上游固件 + 参考板标定，小米标定的兼容性仍待解决。
 - 屏下指纹走 TrustZone，主线短期不可行（见 `docs/指纹调研.md`）。

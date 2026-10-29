@@ -53,10 +53,10 @@ index 292392ded..0f5cacb89 100644
  	bool "Cortex-A53: 826319: System might deadlock if a write cannot complete until read data is accepted"
  	default y
 diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 88230c4e0..67e03cebc 100644
+index 88230c4e0..06492ebcb 100644
 --- a/arch/arm64/boot/dts/qcom/Makefile
 +++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -437,6 +437,18 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-display-card.dtb
+@@ -437,6 +437,19 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-display-card.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-rear-camera-card.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-mtp.dtb
@@ -66,6 +66,7 @@ index 88230c4e0..67e03cebc 100644
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio-disp.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-r120-audio-disp.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-r120idle-audio-disp.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio2.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-usbc.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-desk.dtb

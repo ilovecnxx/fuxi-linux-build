@@ -1,0 +1,6 @@
+20:30:07 +1s image abl-fuxi-screen120-blfix.img sha256=8b59e3ed76c71719
+20:30:07 +1s 手机在 Ubuntu，先重启回 Android
+20:30:49 +43s recovery_b 已写入并校验
+20:30:55 +49s adb reboot recovery
+20:31:14 +68s Ubuntu ssh 可用
+20:31:15 +69s FUXI_KEEP=1：留在 Ubuntu

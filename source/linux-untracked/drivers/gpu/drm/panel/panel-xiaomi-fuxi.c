@@ -343,8 +343,17 @@ static const struct drm_panel_funcs xiaomi_fuxi_panel_funcs = {
 static int xiaomi_fuxi_bl_update_status(struct backlight_device *bl)
 {
 	struct mipi_dsi_device *dsi = bl_get_data(bl);
+	struct xiaomi_fuxi_panel *ctx = mipi_dsi_get_drvdata(dsi);
 	u16 brightness = backlight_get_brightness(bl);
 	int ret;
+
+	/*
+	 * While the panel is off the DSI link is down and the transfer would
+	 * fail with -EINVAL.  The new level is kept in bl->props and applied by
+	 * backlight_enable() once the panel is powered again.
+	 */
+	if (!ctx->panel.prepared)
+		return 0;
 
 	/* Match qcom,mdss-dsi-bl-min-level; keep zero available for blanking. */
 	if (brightness && brightness < XIAOMI_FUXI_BL_MIN)

@@ -3,15 +3,11 @@
   GZIP    usr/initramfs_inc_data
   AS      usr/initramfs_data.o
   AR      usr/built-in.a
-  CC      net/wireless/reg.o
-  CC      drivers/net/wireless/ath/ath12k/reg.o
-  AR      drivers/net/wireless/ath/ath12k/built-in.a
-  AR      drivers/net/wireless/ath/built-in.a
-  AR      drivers/net/wireless/built-in.a
-  AR      drivers/net/built-in.a
+  CC      drivers/gpu/drm/panel/panel-xiaomi-fuxi.o
+  AR      drivers/gpu/drm/panel/built-in.a
+  AR      drivers/gpu/drm/built-in.a
+  AR      drivers/gpu/built-in.a
   AR      drivers/built-in.a
-  AR      net/wireless/built-in.a
-  AR      net/built-in.a
   AR      built-in.a
   AR      built-in-fixup.a
   COPY    vmlinux.a

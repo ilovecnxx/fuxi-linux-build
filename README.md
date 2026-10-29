@@ -13,17 +13,18 @@
 
 ## 当前状态（v0.3.0，2026-10-29）
 
-`recovery_b` 里现在是 `screen120-regcn`（`7.3.0+ #190`）。用户在真机上现场确认：
+`recovery_b` 里现在是 `screen120-blfix`（`7.3.0+ #191`）。用户在真机上现场确认：
 
 - **原生显示**：MSM DSI + `panel-xiaomi-fuxi` 出画面，触控位置准确（此前只有 `simpledrm` 文本控制台）；
 - **GPU**：Adreno 740 改用 `/odm/firmware` 里小米签名的 ZAP 后初始化成功，Phosh 已切到 GPU（FD740）渲染，明显更流畅；
 - **120 Hz**：面板 120 Hz + GPU 温控接入，更顺滑、画面正常；
+- **显示收尾**：熄屏时写亮度报错的背光修复（面板未 prepared 时只记值、点亮时再应用），3 轮熄屏/唤醒自动测试通过，光线传感器自动亮度生效，GPU 满载 3 分钟约 66 °C 稳定；
 - **WiFi**：重启后自动连网，外网/HTTPS 走 WiFi、WiFi SSH 可用、管制域 CN；
 - **蓝牙**：出厂地址与对端 L2CAP 链路通过；
 - **音频**：两颗 CS35L41 独立测试可听，桌面左右短音用户确认（四声都听见）；
 - **基本功能**：HTTPS 根证书、浏览器启动退出、竖屏键盘按键、中文输入与文本保存均已修复并确认。
 
-**仍待验收**（不要当成已通过）：亮度范围、长时间熄屏/唤醒、物理旋转与桌面联动；文件选择器（portal）；蓝牙耳机 / A2DP；音频保护标定、完整声道定位与音质、麦克风；实际充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）；相机、蜂窝。
+**仍待验收**（不要当成已通过）：物理亮度观感、物理旋转与桌面联动、90 Hz/动态刷新率；文件选择器（portal）；蓝牙耳机 / A2DP；音频保护标定、完整声道定位与音质、麦克风；实际充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）；相机、蜂窝。
 
 逐项细节见 [docs/目标-M5.md](docs/目标-M5.md) 与下面这批 10-29 记录：
 
@@ -60,7 +61,7 @@
 | 电量 / 充电状态 | ✅ | ADSP remoteproc + pmic_glink + `qcom_battmgr`，电量/电压/电流/温度/健康度可读；10-29 实测插充电器时 `status=Charging`、电流随负载变化（`evidence/logs-20261029/m51-charging-20261029.log`），完整充电曲线仍待观察 |
 | WiFi（ath12k / WCN7850） | ✅ | 10-29 整机重启验收：自动连网、外网与 HTTPS 走 WiFi、WiFi SSH 可用、管制域 CN；小米标定的兼容性仍未解决，目前用上游固件 + 参考板标定 |
 | 蓝牙 | ✅ | HCI UART/QCA 注册；出厂地址与对端 L2CAP 链路通过（`evidence/logs-20261029/bt-l2ping-20261029.log`）；耳机 / A2DP 未测 |
-| 显示（原生面板 + GPU） | ✅ | MSM DSI 原生驱动 + `panel-xiaomi-fuxi`（DSC，60/90/120 Hz），画面与触控经用户现场确认；Adreno 740（FD740）GPU 渲染已切换并明显更流畅；亮度范围、长时间熄屏/唤醒待验收 |
+| 显示（原生面板 + GPU） | ✅ | MSM DSI 原生驱动 + `panel-xiaomi-fuxi`（DSC，60/90/120 Hz），画面与触控经用户现场确认；Adreno 740（FD740）GPU 渲染已切换并明显更流畅；熄屏/唤醒 3 轮与自动亮度已通过，物理亮度观感、90 Hz/动态刷新率待验收 |
 | 音频（CS35L41 + WCD938x） | ✅ | 两颗 CS35L41 独立测试可听、桌面左右短音用户确认；保护标定、完整声道定位/音质、麦克风待验收 |
 | 基带 / 蜂窝（IPA + MPSS） | 🚧 | v0.2.0 构建（`-modem`），仍未上机，不能视为可用手机功能 |
 | 相机（CAMSS） | 🚧 | v0.2.0 构建（`-camera`）+ 调研材料，仍未上机 |
@@ -112,11 +113,11 @@
 
 | 镜像 | 大小 | 内核构建 | 状态 |
 |---|---|---|---|
-| `images/recovery-linux.img` | 10,379,264 B | `#190`，2026-10-29 20:12 | ✅ **当前手机 `recovery_b` 上的镜像**（`screen120-regcn`）：原生显示 + GPU + 120 Hz + WiFi 管制域；画面、触控、流畅度均经用户现场确认 |
+| `images/recovery-linux.img` | 10,379,264 B | `#191`，2026-10-29 20:29 | ✅ **当前手机 `recovery_b` 上的镜像**（`screen120-blfix`）：原生显示 + GPU + 120 Hz + WiFi 管制域 + 背光（熄屏写亮度）修复；画面、触控、流畅度、熄屏唤醒均经用户/自动测试确认 |
 | `images/candidates/abl-fuxi-daily-pm1.img` | 9,732,096 B | `#168`，2026-10-29 00:37 | ✅ 日常基线（CPU 调频/温控），10-29 多轮实机运行；不含原生显示/GPU |
 | `images/candidates/abl-fuxi-audio-probe4.img` | 10,047,488 B | `#172`，2026-10-29 01:23 | ⚠️ 音频诊断镜像（两颗功放独立出声已实测），保留作回退 |
 
-- `recovery-linux.img` = `abl-fuxi-screen120-regcn`，sha256 `a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f`（完整清单见 [`SHA256SUMS`](SHA256SUMS)）；
+- `recovery-linux.img` = `abl-fuxi-screen120-blfix`，sha256 `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224`（完整清单见 [`SHA256SUMS`](SHA256SUMS)）；
 - 各镜像的大小、内核版本、变体、构建记录与验证状态见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md) 与 `source/build-records/*.build.json`；
 - v0.2.0 发布过的候选镜像（`full3` / `wifi7` / `sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取；
 - 镜像起不来时**长按电源 20 秒即回 Android**（正常开机不碰 `recovery_b`，Android 不受影响）；刷写前先在电脑上留一份可用镜像的副本。
@@ -223,9 +224,9 @@ XBL → 高通 UEFI → ABL（槽位 b）
 
 完整构建信息（各镜像哈希与验证状态、内核配置、工具链、复现步骤）见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md)。要点：
 
-- 内核版本串 `Linux 7.3.0+`，基线 commit `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`；发布镜像 `#190`（2026-10-29 20:12 构建并上机），候选镜像 `#168`（daily-pm1）、`#172`（audio-probe4）；
+- 内核版本串 `Linux 7.3.0+`，基线 commit `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`；发布镜像 `#191`（2026-10-29 20:29 构建并上机），候选镜像 `#168`（daily-pm1）、`#172`（audio-probe4）；
 - `source/kernel.diff`：**18 个文件，+217/−8**；`source/linux-untracked/`：**27 个新文件**（按上游相对路径存放）；
-- `source/kernel.config` 就是发布镜像 `#190` 实际使用的配置，逐镜像的构建记录在 `source/build-records/*.build.json`（含 boot_image / config / kernel / dtb 四组 sha256）；
+- `source/kernel.config` 就是发布镜像 `#191` 实际使用的配置，逐镜像的构建记录在 `source/build-records/*.build.json`（含 boot_image / config / kernel / dtb 四组 sha256）；
 - 变体构建由 `scripts/fuxi-build-abl.sh` 按 `FUXI_DTB=sm8550-xiaomi-fuxi-<变体>` / `FUXI_PM=1` 临时打开配置，构建完自动恢复主配置；
 - 交付物（`images/`、`source/`、`rootfs-overlay/`、`device-info/`）的 sha256 见根目录 [`SHA256SUMS`](SHA256SUMS)。
 
@@ -270,7 +271,7 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 | `source/linux-untracked/` | 27 个新增文件：主 DTS + 各变体 `.dts`/`.dtsi`（含 120 Hz 音频显示变体 `sm8550-xiaomi-fuxi-r120-audio-disp.dts`）、`fuxi_dtb.S`、`fuxi_early.c`、`fuxi_font.h`、`panel-xiaomi-fuxi.c`、`st-ftm5.c`、`fuxi-camera-power.c`、面板与触摸的 dt-bindings |
 | `source/initramfs/` | `init`（等待 USB 串口 8 秒 → `switch_root` 到 `sda33`，失败时屏幕报告 + 180 秒安全重启）与 `initramfs.list` |
 | `source/build-records/` | 逐镜像的 `*.build.json`：构建时间、变体 DTB、是否叠加调频温控，以及 boot_image / config / kernel / dtb 的 sha256 |
-| `source/dtb/` | 发布镜像实际内建的主线 DTB（`abl-fuxi-screen120-regcn.dtb`，编译产物存档） |
+| `source/dtb/` | 发布镜像实际内建的主线 DTB（`abl-fuxi-screen120-blfix.dtb`，编译产物存档） |
 | `source/patches/` | `ufs-qcom-sm8550-g5.patch`（HS-G5，暂缓）与 `history/` 下 M5/M6 增量补丁（音频/相机/面板刷新率/DTS 拆分等） |
 | `source/variants/kernel-config-desktop` | 加入桌面内核选项后的完整配置（对照用） |
 | `rootfs-overlay/` | 根文件系统覆盖层：`fuxi-firmware-devices`（启动 ADSP、bind ath12k/蓝牙）、`rmtfs` drop-in、ALSA UCM2 |
@@ -325,8 +326,8 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 
 ## 下一步
 
-1. **把 `screen120-regcn` 提升为日常基线**：补冷启动/长时间运行/多次关机的回归（含 UFS 关机路径），通过后替换 daily 镜像；
-2. **显示与音频收尾**：亮度范围、长时间熄屏/唤醒、物理旋转联动；音频保护标定、完整声道定位、麦克风录音；
+1. **把 `screen120-blfix` 提升为日常基线**：补冷启动/长时间运行/多次关机的回归（含 UFS 关机路径），通过后替换 daily 镜像；
+2. **显示与音频收尾**：物理亮度观感、90 Hz/动态刷新率、物理旋转联动；音频保护标定、完整声道定位、麦克风录音；
 3. **基础桌面收尾**：文件选择器（portal）部署与验收，密码保存/辅助功能相关日志清理；
 4. **蓝牙耳机 / A2DP**，以及 WiFi 小米标定兼容性；
 5. **省电与续航**：`-sleep`（深度空闲 + 系统挂起）上机，再评估是否并入日常配置；
