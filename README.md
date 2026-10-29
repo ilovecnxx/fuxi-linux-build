@@ -1,5 +1,7 @@
 # 小米 13（fuxi / SM8550）Android + 主线 Linux 双系统
 
+QQ群交流：132413667
+
 在一台 bootloader 已解锁的小米 13 上，让 **Android（LineageOS 24.0）** 与 **自编主线 Linux（Ubuntu 26.10 根文件系统）** 共存，并能在两者之间来回切换。Linux 侧是纯主线内核，**不使用厂商内核、Halium 或 Droidian**。
 
 - 设备：小米 13（代号 `fuxi`，Qualcomm SM8550 / 骁龙 8 Gen 2）
