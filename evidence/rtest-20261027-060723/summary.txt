@@ -1,6 +1,0 @@
-06:07:23 +0s image abl-fuxi-clean1.img sha256=b724f94712dbd60c
-06:07:27 +4s recovery_b 已写入并校验
-06:07:31 +8s adb reboot recovery
-06:07:47 +24s Ubuntu ssh 可用
-06:08:04 +41s 回到 Android
-06:08:04 +41s dir=/home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/rtest-20261027-060723

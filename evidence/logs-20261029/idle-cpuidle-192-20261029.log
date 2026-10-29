@@ -1,0 +1,7 @@
+#192 SMP PREEMPT Thu Oct 29 20:35:41 CST 2026
+cpuidle param: none
+driver
+state0
+state1
+WFI usage=18507
+cpu-sleep-0-0 usage=25975

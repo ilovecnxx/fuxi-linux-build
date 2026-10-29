@@ -196,7 +196,7 @@ screen-audio8 的 portal 配置默认将 FileChooser 路由到 Phrosh；该会�
 ### 本版镜像与源码
 
 - `images/recovery-linux.img` = `abl-fuxi-screen120-blfix`（`#191`，2026-10-29 20:29）；
-- `images/candidates/abl-fuxi-daily-pm1.img`（`#168`，日常基线：CPU 调频/温控，无原生显示/GPU）、`images/candidates/abl-fuxi-audio-probe4.img`（`#172`，音频回退）；
+- `images/candidates/abl-fuxi-daily-pm1.img`（`#168`，日常基线：CPU 调频/温控，无原生显示/GPU）、`images/candidates/abl-fuxi-audio-probe4.img`（`#172`，音频回退）、`images/candidates/abl-fuxi-idle1.img`（`#192`，省电/`cpuidle` 对照实验，2026-10-29 20:35 构建，结果未定）；
 - `source/` 已更新为当前树：`kernel.diff` 18 个文件 +218/−8、`linux-untracked/` 28 个文件、`kernel.config` 即 `#191` 实际配置，另有 `build-records/` 与 `dtb/`；
 - v0.2.0 发布过的候选镜像（`full3`/`wifi7`/`sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取。
 

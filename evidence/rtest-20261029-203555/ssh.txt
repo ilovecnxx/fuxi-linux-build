@@ -1,0 +1,6 @@
+$ uname -v; grep -o "cpuidle[^ ]*" /proc/cmdline || echo no-cpuidle-param; cat /sys/devices/system/cpu/cpuidle/current_driver; for c in /sys/devices/system/cpu/cpu0/cpuidle/state*; do echo "$(cat $c/name) $(cat $c/desc)"; done
+#192 SMP PREEMPT Thu Oct 29 20:35:41 CST 2026
+no-cpuidle-param
+psci_idle
+WFI ARM WFI
+cpu-sleep-0-0 silver-rail-power-collapse

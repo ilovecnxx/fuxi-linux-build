@@ -1,13 +1,12 @@
   SYNC    include/config/auto.conf
+  DTC     arch/arm64/boot/dts/qcom/sm8550-xiaomi-fuxi-r120idle-audio-disp.dtb
   GEN     usr/initramfs_data.cpio
   GZIP    usr/initramfs_inc_data
+  AS      arch/arm64/kernel/fuxi_dtb.o
+  AR      arch/arm64/kernel/built-in.a
+  AR      arch/arm64/built-in.a
   AS      usr/initramfs_data.o
   AR      usr/built-in.a
-  CC      drivers/gpu/drm/panel/panel-xiaomi-fuxi.o
-  AR      drivers/gpu/drm/panel/built-in.a
-  AR      drivers/gpu/drm/built-in.a
-  AR      drivers/gpu/built-in.a
-  AR      drivers/built-in.a
   AR      built-in.a
   AR      built-in-fixup.a
   COPY    vmlinux.a

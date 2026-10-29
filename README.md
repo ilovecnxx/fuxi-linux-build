@@ -116,6 +116,7 @@
 | `images/recovery-linux.img` | 10,379,264 B | `#191`，2026-10-29 20:29 | ✅ **当前手机 `recovery_b` 上的镜像**（`screen120-blfix`）：原生显示 + GPU + 120 Hz + WiFi 管制域 + 背光（熄屏写亮度）修复；画面、触控、流畅度、熄屏唤醒均经用户/自动测试确认 |
 | `images/candidates/abl-fuxi-daily-pm1.img` | 9,732,096 B | `#168`，2026-10-29 00:37 | ✅ 日常基线（CPU 调频/温控），10-29 多轮实机运行；不含原生显示/GPU |
 | `images/candidates/abl-fuxi-audio-probe4.img` | 10,047,488 B | `#172`，2026-10-29 01:23 | ⚠️ 音频诊断镜像（两颗功放独立出声已实测），保留作回退 |
+| `images/candidates/abl-fuxi-idle1.img` | 10,379,264 B | `#192`，2026-10-29 20:35 | 🚧 省电实验镜像（`-r120idle-audio-disp`，测试 CPU 深度空闲）：写入 `recovery_b` 后正在做 `cpuidle.off=1` 对照，结果未定 |
 
 - `recovery-linux.img` = `abl-fuxi-screen120-blfix`，sha256 `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224`（完整清单见 [`SHA256SUMS`](SHA256SUMS)）；
 - 各镜像的大小、内核版本、变体、构建记录与验证状态见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md) 与 `source/build-records/*.build.json`；
@@ -330,6 +331,6 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 2. **显示与音频收尾**：物理亮度观感、90 Hz/动态刷新率、物理旋转联动；音频保护标定、完整声道定位、麦克风录音；
 3. **基础桌面收尾**：文件选择器（portal）部署与验收，密码保存/辅助功能相关日志清理；
 4. **蓝牙耳机 / A2DP**，以及 WiFi 小米标定兼容性；
-5. **省电与续航**：`-sleep`（深度空闲 + 系统挂起）上机，再评估是否并入日常配置；
+5. **省电与续航**：`-sleep`（深度空闲 + 系统挂起）上机；当前在 `#192`（`idle1`）上做 `cpuidle.off=1` 的待机电流对照，结果出来再决定是否并入日常配置；
 6. **相机 / 蜂窝**：从「已有实验实现」推进到可上机验证；
 7. **USB-C / DP 桌面**、屏下指纹（主线短期不可行，见调研）。

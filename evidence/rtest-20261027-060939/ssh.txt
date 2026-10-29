@@ -1,7 +1,0 @@
-$ systemd-analyze | head -1; systemctl is-system-running; dmesg | grep -iE "misaligned|WARNING|Call trace|pmic-spmi|spmi.*failed|thermal.*(fail|error)" | head -8; ls /sys/class/udc; grep -c sd /proc/partitions
-Startup finished in 8.752s (kernel) + 1.963s (userspace) = 10.715s 
-running
-[    0.000000] [Firmware Bug]: Kernel image misaligned at boot, please fix your bootloader!
-[    0.589293] Warning: unable to open an initial console.
-a600000.usb
-136

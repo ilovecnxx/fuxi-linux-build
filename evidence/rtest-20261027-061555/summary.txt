@@ -1,5 +1,0 @@
-06:15:55 +0s image abl-fuxi-clean4.img sha256=bdae068f2f26c169
-06:16:29 +34s recovery_b 已写入并校验
-06:16:38 +43s adb reboot recovery
-06:16:55 +60s Ubuntu ssh 可用
-06:16:57 +62s FUXI_KEEP=1：留在 Ubuntu

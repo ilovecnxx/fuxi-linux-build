@@ -9,6 +9,7 @@
 | `images/recovery-linux.img` | 10,379,264 B | `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224` | `7.3.0+ #191`（2026-10-29 20:29 CST） | `-r120-audio-disp` + `FUXI_PM=1`。**当前手机 `recovery_b` 上的镜像**（`screen120-blfix`）：原生显示 + GPU（FD740）+ 120 Hz + 音频变体 + WiFi 管制域 CN + 熄屏亮度写入修复；画面、触控、流畅度、熄屏唤醒经确认 |
 | `images/candidates/abl-fuxi-daily-pm1.img` | 9,732,096 B | `3b02fd600d16c41af37503495962046f8733eb014f297a3ac7e0de88c0bbced8` | `7.3.0+ #168`（2026-10-29 00:37 CST） | `-min` + `FUXI_PM=1`，日常基线：CPU 调频/温控、传感器与蓝牙部署；**不含原生显示/GPU**。10-29 白天多轮实机运行 |
 | `images/candidates/abl-fuxi-audio-probe4.img` | 10,047,488 B | `d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16` | `7.3.0+ #172`（2026-10-29 01:23 CST） | `-audio`，音频诊断镜像：两颗 CS35L41 功放独立出声已实测，保留作回退 |
+| `images/candidates/abl-fuxi-idle1.img` | 10,379,264 B | `4b614770e59455f7c0d2fbba471b1c55b092089495bd6ac5f92f86fc290a9c51` | `7.3.0+ #192`（2026-10-29 20:35 CST） | `-r120idle-audio-disp` + `FUXI_PM=1`，省电实验：测试 CPU 深度空闲（`cpuidle`），正在做 `cpuidle.off=1` 对照，结果未定 |
 
 > 逐镜像的构建记录在 `source/build-records/abl-fuxi-*.build.json`（构建时间、变体 DTB、是否叠加调频温控，以及 boot_image / config / kernel / dtb 四组 sha256）。
 > 发布镜像实际内建的主线 DTB 存档在 `source/dtb/abl-fuxi-screen120-blfix.dtb`。

@@ -1,0 +1,14 @@
+{
+  "built_at": "2026-10-28T17:20:10.207576+00:00",
+  "dtb": "sm8550-xiaomi-fuxi-audio",
+  "power_management_requested": true,
+  "kernel_commit": "5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f",
+  "kernel_tracked_changes": true,
+  "sha256": {
+    "boot_image": "6b592783e9a8ffcb10d1f9a2f1ed9a6aa8ffef19a894359393684bedb3d5e1c2",
+    "config": "117173db2e4be612c65bbcfe5f0d12342ed4057203b85958c261e93b9acf6595",
+    "builtin_dtb": "b47caa5d9918a3b8b63fe37cf58f12d01c91346411098e9c430670a295e9e3e2",
+    "kernel_image_gz": "b2a98c9922bbae239700e2a6f78248ffb15f29f268b2a3dde544bd55c058ddd2",
+    "abl_dtb": "8fae172ccc6280b679bb6ce966de38ebc7454c23967932d7a98e33c938842243"
+  }
+}
