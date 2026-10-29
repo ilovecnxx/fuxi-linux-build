@@ -1,0 +1,9 @@
+2026-10-29 Wi-Fi radio and association readiness
+Interface: wlp1s0 (ath12k Wi-Fi 7 / WCN7850)
+Radio: enabled; rfkill soft/hard blocked: no
+NetworkManager: active; wpa_supplicant: active
+Scan: networks observed on 2.4 GHz and 5 GHz; SSIDs intentionally omitted from saved log
+Saved Wi-Fi profiles: 0; current device state: disconnected
+Regulatory service: fuxi-wifi-regdom enabled and active; /etc/fuxi/wifi-country=CN
+Observed regulatory state: global 00; phy self-managed US. Rootfs regulatory.db files exist, but boot log reports an early request failed before rootfs was available.
+No network credentials read or used. User must select their own SSID and enter its password locally.

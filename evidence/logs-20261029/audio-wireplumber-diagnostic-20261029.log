@@ -1,0 +1,45 @@
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I wp-conf [conf.c:485:ensure_merged_section]: <WpConf:0xab81ef0f8470> section 'monitor.alsa.rules' is used as-is from '/usr/share/wireplumber/wireplumber.conf.d/alsa-vm.conf'
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:509:emit_added_object_info]: emitting ACP/PCM device interface for card hw:0; using local alsa-udev object ID 2
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:621:emit_added_object_info]:     api.alsa.path = "hw:0"
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:621:emit_added_object_info]:     device.plugged.usec = "16629547"
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I s-monitors [alsa.lua:585:chunk]: Enabling the use of ACP on alsa_card.platform-sound
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:639:emit_added_object_info]: emitting Compress-Offload device interface for card hw:0; using local alsa-udev object ID 3
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:680:emit_added_object_info]:     api.alsa.path = "hw:0"
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-udev.c:680:emit_added_object_info]:     device.plugged.usec = "16629547"
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I s-monitors [alsa.lua:585:chunk]: Enabling the use of ACP on alsa_card.comprC0
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-acp-device.c:1217:impl_init]: probe card hw:0
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:1019:pa_alsa_ucm_query_profiles]: UCM available for card <<<SplitPCM=1>>>hw:0
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:1024:pa_alsa_ucm_query_profiles]: UCM _alibpref=_ucm0001.
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:1128:pa_alsa_ucm_get_verb]: Set UCM verb to HiFi
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got PlaybackPCM for device Speaker: _ucm0001.hw:Xiaomi13,0
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got PlaybackCTL for device Speaker: _ucm0001.hw:Xiaomi13
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got PlaybackMixer for device Speaker: _ucm0001.default:Xiaomi13
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got PlaybackPriority for device Speaker: 100
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got PlaybackChannels for device Speaker: 2
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got CaptureCTL for device Speaker: _ucm0001.hw:Xiaomi13
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:467:ucm_get_device_property]: Got TQ for device Speaker: HiFi
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:341:ucm_get_string]: Got PlaybackChannels/Speaker: 2
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:603:ucm_get_device_property]: No _conflictingdevs for device Speaker
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:615:ucm_get_device_property]: No _supporteddevs for device Speaker
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [acp.c:2010:acp_card_new]: Found UCM profiles
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:2004:ucm_create_mapping_direction]: UCM mapping: HiFi: Speaker: sink dev Speaker
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-mixer.c:4821:pa_alsa_profile_dump]: Profile HiFi (Speaker playback), input=null, output=null priority=8100, supported=yes n_input_mappings=0, n_output_mappings=1
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-mixer.c:4837:pa_alsa_profile_dump]: Output HiFi: Speaker: sink
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-ucm.c:2355:ucm_create_verb_profiles]: Created profile HiFi for UCM verb HiFi
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:2567:ucm_probe_profile_set]: Probing profile HiFi
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:2571:ucm_probe_profile_set]: Set ucm verb to HiFi
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying _ucm0001.hw:Xiaomi13,0 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device _ucm0001.hw:Xiaomi13,0: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:2591:ucm_probe_profile_set]: Profile 'HiFi' mapping 'HiFi: Speaker: sink': output PCM open failed
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-ucm.c:2621:ucm_probe_profile_set]: Profile HiFi not supported
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying hw:0,0 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device hw:0,0: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying hw:0,1 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device hw:0,1: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying hw:0,2 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device hw:0,2: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying hw:0,3 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device hw:0,3: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: D spa.alsa [alsa-util.c:714:pa_alsa_open_by_device_string]: Trying hw:0,5 with SND_PCM_NO_AUTO_FORMAT ...
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [alsa-util.c:721:pa_alsa_open_by_device_string]: Error opening PCM device hw:0,5: Invalid argument
+Oct 28 17:30:42 localhost.localdomain wireplumber[3067]: I spa.alsa [acp.c:1808:acp_card_set_profile]: activate profile: off (0)

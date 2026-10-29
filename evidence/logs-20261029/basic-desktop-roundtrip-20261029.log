@@ -1,0 +1,12 @@
+2026-10-29 Linux -> Android -> recovery Linux desktop persistence check
+Route: systemctl reboot from Linux; wait for Android sys.boot_completed=1; adb reboot recovery; confirm SSH banner.
+No image or partition writes.
+Previous Linux boot_id: 66825ecc-52fd-41b1-a655-20e348986846
+Current Linux boot_id: 023c68f7-174d-4d18-93be-a276bc96a497
+Kernel: 7.3.0+ #172
+systemd: running
+After reboot: Stevia, PipeWire and WirePlumber active; input sources ibus:uim:cn and xkb:us; current source index 0; keyboard scaling auto-landscape.
+Saved test file: 257 bytes; SHA256 9f71270738ad6553295872a68e807e8f25156cb3d81434fb7fd100148c8aa724; exact phrase 中文保存成功 present.
+NTP synchronized after startup; final desktop check 27 pass, 2 warnings, 0 failures; HTTPS passed.
+Sensor health check: 0 failures. Initial max thermal-zone reading 69.7 C; later 39.6 C.
+File chooser UI, UIM internal 中/英 mode, and post-boot browser visual launch remain unverified.

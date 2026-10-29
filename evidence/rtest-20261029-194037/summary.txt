@@ -1,0 +1,5 @@
+19:40:37 +0s image abl-fuxi-screen-audio9-host-bindingfix.img sha256=df3662d0d03e0390
+19:40:39 +2s recovery_b 已写入并校验
+19:40:43 +6s adb reboot recovery
+19:41:00 +23s Ubuntu ssh 可用
+19:41:01 +24s FUXI_KEEP=1：留在 Ubuntu

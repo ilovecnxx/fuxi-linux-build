@@ -1,0 +1,7 @@
+before policy0=1670400kHz policy3=614400kHz policy7=1708800kHz max_temp_mC=41200
+load_1 policy0=556800kHz policy3=2803200kHz policy7=2956800kHz max_temp_mC=74900
+load_2 policy0=1459200kHz policy3=2803200kHz policy7=2956800kHz max_temp_mC=78500
+load_3 policy0=2016000kHz policy3=2803200kHz policy7=2956800kHz max_temp_mC=80000
+STOP 达到短负载温度上限
+policy0=1344000 policy3=499200 policy7=1843200 max_temp_mC=38200
+NRestarts=2

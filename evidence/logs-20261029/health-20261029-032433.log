@@ -1,0 +1,37 @@
+kernel: Linux 7.3.0+ #172 SMP PREEMPT Thu Oct 29 01:23:17 CST 2026
+uptime: up 0 minute
+PASS systemd running
+PASS phosh active
+PASS fuxi-firmware-devices active
+PASS bluetooth active
+PASS phoc 进程存在
+PASS phosh 进程存在
+PASS 屏幕键盘服务已运行（Stevia 或 Squeekboard）
+PASS 3 个 CPU 调频策略
+PASS policy0 cpus=0 1 2 governor=schedutil frequency=1900800kHz
+PASS policy3 cpus=3 4 5 6 governor=schedutil frequency=1920000kHz
+PASS policy7 cpus=7 governor=schedutil frequency=2956800kHz
+PASS 有效热区=43 最高温度=69700m°C
+PASS 3 个 CPU cooling 设备
+PASS FTM5 触摸设备已注册
+PASS DRM 已连接输出=1
+PASS 电量=81% 状态=Charging（仅验证读数）
+PASS WiFi 接口可用（尚未联网验收）
+PASS 蓝牙已上电
+PASS rmtfs 无失败状态
+PASS hexagonrpcd active
+PASS iio-sensor-proxy active
+PASS 传感器使用非调试 daemon
+PASS SSC QRTR 400 已发布
+PASS SensorProxy HasAccelerometer
+PASS SensorProxy HasAmbientLight
+PASS SensorProxy HasProximity
+PASS SensorProxy HasCompass
+PASS accelerometer: Accelerometer sensor measurement: X=0.900586 Y=0.134712 Z=9.813700 m/s²
+PASS light: Light sensor measurement: 4.533131 Lux
+PASS proximity: Proximity sensor measurement: FAR
+PASS magnetometer: Magnetometer sensor measurement: X=-17.048246 Y=-78.844284 Z=186.621323 μT
+PASS compass: Compass sensor measurement: 170.110764 °
+PASS 本次启动未发现 ADSP/remoteproc 崩溃记录
+PASS Phosh 本次启动无需重试
+验收结束：失败项=0；触摸交互、实际充电、无线 SSH 仍需各自验证。

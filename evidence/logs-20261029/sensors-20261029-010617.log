@@ -1,0 +1,321 @@
+01:06:17 == 3. 部署 + hexagonrpcd
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hexagonrpcd is already the newest version (0.4.0-1).
+libssc-bin is already the newest version (0.4.4-2).
+qrtr-tools is already the newest version (1.1-2ubuntu2).
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+PASS sensor paths, parent traversal, aliases and unmapped-path isolation
+tests/test_hexagonfs.c: In function ‘test_mapped_seq_read’:
+tests/test_hexagonfs.c:59:9: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   59 |         read(fd, buf1, 1);
+      |         ^~~~~~~~~~~~~~~~~
+tests/test_hexagonfs.c:60:9: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   60 |         read(fd, &buf1[1], 5);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+tests/test_hexagonfs.c:70:9: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   70 |         read(fd, buf1, 27);
+      |         ^~~~~~~~~~~~~~~~~~
+hexagonrpcd/rpcd.c: In function ‘create_shell_pd’:
+hexagonrpcd/rpcd.c:183:9: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+  183 |         read(shellfd, buf, stats.st_size);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Built /home/user/文档/deepseek-harness/default-workspace/linux-android/work/kbuild/hexagonrpc/hexagonrpcd-fuxi
+files-ok
+crw-rw---- 1 fastrpc fastrpc 10, 258 Oct 28 17:05 /dev/fastrpc-adsp
+     Loaded: loaded (/usr/lib/systemd/system/hexagonrpcd.service; enabled; preset: enabled)
+    Drop-In: /etc/systemd/system/hexagonrpcd.service.d
+             └─20-fuxi.conf
+     Active: active (running) since Wed 2026-10-28 17:06:24 UTC; 5ms ago
+ Invocation: f341f37d12bf4a43b1d8f230ef41a1b4
+       Docs: man:hexagonrpcd(1)
+             file:///usr/share/doc/hexagonrpcd/README.Debian
+   Main PID: 3223 (9)
+      Tasks: 1 (limit: 14037)
+     Memory: 768K (peak: 768K)
+        CPU: 4ms
+     CGroup: /system.slice/hexagonrpcd.service
+             └─3223 /usr/lib/systemd/systemd-executor --deserialize 84 --log-level info --log-target journal-or-kmsg
+
+Oct 28 17:06:24 localhost.localdomain systemd[1]: Started hexagonrpcd.service - Hexagon DSP sensors daemon.
+--- dmesg
+[    0.000000] OF: reserved mem: 0x000000009ea00000..0x00000000a307ffff (72192 KiB) nomap non-reusable adspslpi-region@9ea00000
+[   11.130081] qcom,fastrpc 6800000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: no reserved DMA memory for FASTRPC
+[   11.130523] platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@3: Adding to iommu group 8
+[   11.131552] platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@4: Adding to iommu group 9
+[   11.132425] platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@5: Adding to iommu group 10
+[   11.133133] platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@6: Adding to iommu group 11
+[   11.133819] platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@7: Adding to iommu group 12
+01:06:24 == 1. 检查桌面代理的 SSC 支持
+01:06:24 已安装的 iio-sensor-proxy 支持 SSC，复用该包
+01:06:24 == 2. 部署桌面规则与服务就绪检测
+active
+01:06:26 == 3. 验证桌面探测结果（异步探测最多等待 15 秒）
+HasAccelerometer: b true
+HasAmbientLight: b true
+HasProximity: b true
+    Waiting for iio-sensor-proxy to appear
++++ iio-sensor-proxy appeared
+=== Has accelerometer (orientation: undefined, tilt: undefined)
+=== Has ambient light sensor (value: 0.000000, unit: lux)
+=== Has proximity sensor (near: 0)
+=== Has compass (heading: unset)
+    Tilt changed: face-up
+    Light changed: 1.527429 (lux)
+    Compass heading changed: 157.640320
+    Compass heading changed: 157.585236
+    Compass heading changed: 157.572845
+    Compass heading changed: 157.595978
+    Compass heading changed: 157.585373
+    Compass heading changed: 157.586090
+    Compass heading changed: 157.595444
+    Compass heading changed: 157.580612
+    Compass heading changed: 157.579590
+    Compass heading changed: 157.567566
+    Compass heading changed: 157.576080
+    Compass heading changed: 157.574051
+    Compass heading changed: 157.585770
+    Compass heading changed: 157.579086
+    Compass heading changed: 157.585953
+    Compass heading changed: 157.580505
+    Compass heading changed: 157.596680
+    Compass heading changed: 157.611954
+    Compass heading changed: 157.603806
+    Compass heading changed: 157.613678
+    Compass heading changed: 157.623108
+    Compass heading changed: 157.597198
+    Compass heading changed: 157.587875
+    Compass heading changed: 157.601456
+01:06:32 完成，日志 /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/sensors-proxy-20261029-010624.log
+01:06:32 == 4. 读传感器（libssc 自带的 ssccli；请拿起手机转一转、用手遮一下屏幕顶部）
+--- accelerometer
+
+** (ssccli:3420): WARNING **: 17:06:32.569: Mount matrix provided by firmware is all 0, falling back to identity matrix!
+Accelerometer sensor measurement: X=0.977201 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.960441 Y=0.072463 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.966187 Y=0.067675 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.982468 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.991566 Y=0.091617 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.984862 Y=0.072463 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.960920 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.965230 Y=0.082040 Z=9.794546 m/s²
+Accelerometer sensor measurement: X=0.981510 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.971455 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.956132 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.964751 Y=0.067675 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.086828 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.986299 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.991087 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.086828 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.966666 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.961399 Y=0.067675 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.077251 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.985341 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.965709 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.991566 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.986299 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.990608 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.961878 Y=0.082040 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.965709 Y=0.062886 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.982468 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.980553 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.981510 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.970497 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.990608 Y=0.082040 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.970497 Y=0.077251 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.966187 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.967624 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.990608 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.977680 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.966187 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.970976 Y=0.082040 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.973370 Y=0.082040 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.986778 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.077251 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.971455 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.975285 Y=0.062886 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.990129 Y=0.067675 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.986778 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.989172 Y=0.072463 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.966187 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.975764 Y=0.067675 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.970976 Y=0.082040 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.982468 Y=0.077251 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.986778 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.067675 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.963793 Y=0.091617 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.980553 Y=0.082040 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.072463 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.981510 Y=0.086828 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.980553 Y=0.062886 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.096405 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.984862 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.058098 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.977680 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.970976 Y=0.082040 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.977680 Y=0.077251 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.981032 Y=0.082040 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.992524 Y=0.082040 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.967624 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.981989 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.958047 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.981032 Y=0.082040 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.984862 Y=0.072463 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.975285 Y=0.062886 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.982947 Y=0.082040 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.955653 Y=0.062886 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.972412 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.978158 Y=0.091617 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.986299 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.984383 Y=0.058098 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.981989 Y=0.067675 Z=9.832853 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.968103 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.981032 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.990129 Y=0.077251 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.981989 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.972412 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.990608 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.985341 Y=0.062886 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.091617 Z=9.804123 m/s²
+Accelerometer sensor measurement: X=0.970976 Y=0.077251 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.970497 Y=0.062886 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.984383 Y=0.067675 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.978158 Y=0.077251 Z=9.832853 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.082040 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.971455 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.973370 Y=0.101193 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.971455 Y=0.067675 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.984862 Y=0.072463 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.965709 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.975764 Y=0.072463 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.981989 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.970976 Y=0.077251 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.976243 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.982468 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.980074 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.981989 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.981032 Y=0.072463 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.976722 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.957090 Y=0.077251 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.966187 Y=0.077251 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.985341 Y=0.077251 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=1.001622 Y=0.077251 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.972412 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.972891 Y=0.086828 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.977201 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.981510 Y=0.072463 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.996354 Y=0.091617 Z=9.808911 m/s²
+Accelerometer sensor measurement: X=0.986778 Y=0.072463 Z=9.828065 m/s²
+Accelerometer sensor measurement: X=0.967624 Y=0.077251 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.965709 Y=0.067675 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.971934 Y=0.082040 Z=9.813700 m/s²
+Accelerometer sensor measurement: X=0.977680 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.987256 Y=0.082040 Z=9.823277 m/s²
+Accelerometer sensor measurement: X=0.991566 Y=0.082040 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.077251 Z=9.818488 m/s²
+Accelerometer sensor measurement: X=0.967145 Y=0.072463 Z=9.823277 m/s²
+--- proximity
+Proximity sensor measurement: FAR
+--- light
+Light sensor measurement: 1.548942 Lux
+--- magnetometer
+
+** (ssccli:3470): WARNING **: 17:06:50.961: Mount matrix provided by firmware is all 0, falling back to identity matrix!
+Magnetometer sensor measurement: X=-28.418591 Y=-67.452522 Z=179.866501 μT
+Magnetometer sensor measurement: X=-28.511700 Y=-68.730171 Z=179.325134 μT
+Magnetometer sensor measurement: X=-26.962225 Y=-68.644356 Z=180.681152 μT
+Magnetometer sensor measurement: X=-26.962225 Y=-68.644356 Z=180.681152 μT
+Magnetometer sensor measurement: X=-27.493435 Y=-67.544983 Z=181.378998 μT
+Magnetometer sensor measurement: X=-27.921553 Y=-69.267700 Z=181.158356 μT
+Magnetometer sensor measurement: X=-28.957829 Y=-68.616814 Z=180.070206 μT
+Magnetometer sensor measurement: X=-27.140963 Y=-68.790306 Z=178.731613 μT
+Magnetometer sensor measurement: X=-28.507086 Y=-68.731743 Z=179.926987 μT
+Magnetometer sensor measurement: X=-27.427414 Y=-68.669975 Z=180.229202 μT
+Magnetometer sensor measurement: X=-29.295692 Y=-68.915405 Z=178.729050 μT
+Magnetometer sensor measurement: X=-26.753935 Y=-67.781044 Z=180.039169 μT
+Magnetometer sensor measurement: X=-26.887573 Y=-67.360413 Z=178.815079 μT
+Magnetometer sensor measurement: X=-29.216482 Y=-67.924011 Z=180.036240 μT
+Magnetometer sensor measurement: X=-27.584236 Y=-68.823418 Z=181.138550 μT
+Magnetometer sensor measurement: X=-28.507086 Y=-68.731743 Z=179.926987 μT
+Magnetometer sensor measurement: X=-26.569372 Y=-67.346077 Z=180.169632 μT
+Magnetometer sensor measurement: X=-29.328707 Y=-69.631599 Z=180.869202 μT
+Magnetometer sensor measurement: X=-28.655834 Y=-68.887932 Z=181.889603 μT
+Magnetometer sensor measurement: X=-28.891306 Y=-67.621063 Z=179.722214 μT
+Magnetometer sensor measurement: X=-28.072552 Y=-69.132133 Z=180.248627 μT
+Magnetometer sensor measurement: X=-28.003721 Y=-68.137177 Z=180.201584 μT
+Magnetometer sensor measurement: X=-27.827839 Y=-67.844765 Z=180.489273 μT
+Magnetometer sensor measurement: X=-26.753935 Y=-67.781044 Z=180.039169 μT
+Magnetometer sensor measurement: X=-28.090504 Y=-67.005096 Z=178.642975 μT
+Magnetometer sensor measurement: X=-29.114649 Y=-68.770241 Z=180.979523 μT
+Magnetometer sensor measurement: X=-28.507086 Y=-68.731743 Z=179.926987 μT
+Magnetometer sensor measurement: X=-29.406208 Y=-68.211693 Z=177.942932 μT
+Magnetometer sensor measurement: X=-29.864531 Y=-68.530655 Z=180.965164 μT
+--- compass
+Compass sensor measurement: 158.352020 °
+Compass sensor measurement: 158.368317 °
+Compass sensor measurement: 158.384750 °
+Compass sensor measurement: 158.403091 °
+Compass sensor measurement: 158.428085 °
+Compass sensor measurement: 158.433594 °
+Compass sensor measurement: 158.436111 °
+Compass sensor measurement: 158.441925 °
+Compass sensor measurement: 158.434433 °
+Compass sensor measurement: 158.439102 °
+Compass sensor measurement: 158.437225 °
+Compass sensor measurement: 158.426361 °
+Compass sensor measurement: 158.408127 °
+Compass sensor measurement: 158.408844 °
+Compass sensor measurement: 158.405090 °
+Compass sensor measurement: 158.401733 °
+Compass sensor measurement: 158.407806 °
+Compass sensor measurement: 158.406174 °
+Compass sensor measurement: 158.399429 °
+Compass sensor measurement: 158.419861 °
+Compass sensor measurement: 158.414932 °
+Compass sensor measurement: 158.400269 °
+Compass sensor measurement: 158.395569 °
+Compass sensor measurement: 158.395691 °
+Compass sensor measurement: 158.375549 °
+Compass sensor measurement: 158.397110 °
+Compass sensor measurement: 158.409821 °
+Compass sensor measurement: 158.397263 °
+Compass sensor measurement: 158.403732 °
+Compass sensor measurement: 158.402420 °
+Compass sensor measurement: 158.417892 °
+Compass sensor measurement: 158.415405 °
+Compass sensor measurement: 158.424469 °
+01:07:03 完成，日志 /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/sensors-20261029-010617.log

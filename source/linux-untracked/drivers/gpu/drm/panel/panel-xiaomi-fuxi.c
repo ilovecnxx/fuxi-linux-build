@@ -11,16 +11,22 @@
 
 #include <linux/backlight.h>
 #include <linux/delay.h>
+#include <linux/errno.h>
 #include <linux/gpio/consumer.h>
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/regulator/consumer.h>
 
 #include <drm/display/drm_dsc.h>
+#include <drm/display/drm_dsc_helper.h>
 #include <drm/drm_mipi_dsi.h>
 #include <drm/drm_modes.h>
 #include <drm/drm_panel.h>
 #include <drm/drm_probe_helper.h>
+#include <video/mipi_display.h>
+
+#define XIAOMI_FUXI_BL_MIN	4
+#define XIAOMI_FUXI_BL_MAX	4095
 
 /*
  * The panel's refresh rate is selected by three commands in the init
@@ -61,6 +67,57 @@ struct xiaomi_fuxi_panel {
 	struct regulator_bulk_data supplies[3];
 };
 
+/*
+ * Some commands in the vendor init table are DCS long writes even though
+ * their payload is short enough for a DCS short-write packet.  The regular
+ * DCS sequence helpers choose packet type from payload length, so preserve
+ * the vendor packet type explicitly for those commands.
+ */
+static void xiaomi_fuxi_long_write_multi(struct mipi_dsi_multi_context *ctx,
+					 u8 type, const u8 *data, size_t len)
+{
+	struct mipi_dsi_device *dsi = ctx->dsi;
+	struct mipi_dsi_msg msg = {
+		.channel = dsi->channel,
+		.type = type,
+		.tx_len = len,
+		.tx_buf = data,
+	};
+	ssize_t ret;
+
+	if (ctx->accum_err)
+		return;
+
+	if (dsi->mode_flags & MIPI_DSI_MODE_LPM)
+		msg.flags |= MIPI_DSI_MSG_USE_LPM;
+
+	if (!dsi->host || !dsi->host->ops || !dsi->host->ops->transfer)
+		ret = -EOPNOTSUPP;
+	else
+		ret = dsi->host->ops->transfer(dsi->host, &msg);
+
+	if (ret < 0) {
+		ctx->accum_err = ret;
+		dev_err(&dsi->dev,
+			"failed to send DSI long write (type 0x%02x): %zd\n",
+			type, ret);
+	}
+}
+
+#define xiaomi_fuxi_dcs_long_write_seq_multi(ctx, seq...) \
+	do { \
+		static const u8 d[] = { seq }; \
+		xiaomi_fuxi_long_write_multi(ctx, MIPI_DSI_DCS_LONG_WRITE, d, \
+					     ARRAY_SIZE(d)); \
+	} while (0)
+
+#define xiaomi_fuxi_generic_long_write_seq_multi(ctx, seq...) \
+	do { \
+		static const u8 d[] = { seq }; \
+		xiaomi_fuxi_long_write_multi(ctx, MIPI_DSI_GENERIC_LONG_WRITE, d, \
+					     ARRAY_SIZE(d)); \
+	} while (0)
+
 /* power-up order and the settle time after each supply (vendor dsi_panel_pwr_supply_M3) */
 static const struct {
 	const char *name;
@@ -80,6 +137,7 @@ static int xiaomi_fuxi_on(struct xiaomi_fuxi_panel *ctx)
 {
 	const struct xiaomi_fuxi_rate *rate = xiaomi_fuxi_rate();
 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+	struct drm_dsc_picture_parameter_set pps;
 
 	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
 
@@ -104,11 +162,11 @@ static int xiaomi_fuxi_on(struct xiaomi_fuxi_panel *ctx)
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x00, 0x00, 0x04, 0x37);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x00, 0x00, 0x09, 0x5f);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, rate->reg60);
+	mipi_dsi_dcs_write_var_seq_multi(&dsi_ctx, 0x60, rate->reg60);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x30, 0xbd);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbd, rate->regbd);
+	mipi_dsi_dcs_write_var_seq_multi(&dsi_ctx, 0xbd, rate->regbd);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x16, 0xf2);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x01, rate->regf2);
+	mipi_dsi_dcs_write_var_seq_multi(&dsi_ctx, 0xf2, 0x01, rate->regf2);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x0f);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
@@ -138,15 +196,15 @@ static int xiaomi_fuxi_on(struct xiaomi_fuxi_panel *ctx)
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x01, 0x64, 0x92);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x92, 0x70);
+	xiaomi_fuxi_dcs_long_write_seq_multi(&dsi_ctx, 0x92, 0x70);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x02, 0x7e, 0x92);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x92, 0x0f);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb, 0x30);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x0f);
+	xiaomi_fuxi_dcs_long_write_seq_multi(&dsi_ctx, 0xbb, 0x30);
+	xiaomi_fuxi_dcs_long_write_seq_multi(&dsi_ctx, 0xf7, 0x0f);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x20, 0xf6);
@@ -157,10 +215,14 @@ static int xiaomi_fuxi_on(struct xiaomi_fuxi_panel *ctx)
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x98, 0x00, 0x09, 0x80);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00, 0x0f, 0xf6);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf6, 0x10);
-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x0f);
+	xiaomi_fuxi_dcs_long_write_seq_multi(&dsi_ctx, 0xf7, 0x0f);
 	mipi_dsi_msleep(&dsi_ctx, 20);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29);
 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+
+	/* Override the vendor PPS height (2520) with the active mode height. */
+	drm_dsc_pps_payload_pack(&pps, &ctx->dsc);
+	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
 
 	return dsi_ctx.accum_err;
 }
@@ -213,7 +275,12 @@ static int xiaomi_fuxi_prepare(struct drm_panel *panel)
 	}
 
 	/* vendor qcom,mdss-dsi-reset-sequence = <0 1>, <1 10> */
-	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+	ret = gpiod_direction_output(ctx->reset_gpio, 1);
+	if (ret) {
+		dev_err(dev, "failed to configure reset GPIO: %d\n", ret);
+		xiaomi_fuxi_power_off(ctx);
+		return ret;
+	}
 	usleep_range(1000, 2000);
 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
 	usleep_range(10000, 11000);
@@ -279,6 +346,11 @@ static int xiaomi_fuxi_bl_update_status(struct backlight_device *bl)
 	u16 brightness = backlight_get_brightness(bl);
 	int ret;
 
+	/* Match qcom,mdss-dsi-bl-min-level; keep zero available for blanking. */
+	if (brightness && brightness < XIAOMI_FUXI_BL_MIN)
+		brightness = XIAOMI_FUXI_BL_MIN;
+	brightness = min_t(u16, brightness, XIAOMI_FUXI_BL_MAX);
+
 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
 	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
@@ -296,7 +368,8 @@ xiaomi_fuxi_create_backlight(struct mipi_dsi_device *dsi)
 	struct device *dev = &dsi->dev;
 	const struct backlight_properties props = {
 		.type = BACKLIGHT_RAW,
-		.brightness = 2047,
+		/* Match qcom,mdss-brightness-init-level in the vendor panel DT. */
+		.brightness = 0x133,
 		.max_brightness = 4095,
 	};
 
@@ -333,17 +406,23 @@ static int xiaomi_fuxi_probe(struct mipi_dsi_device *dsi)
 
 	dsi->lanes = 4;
 	dsi->format = MIPI_DSI_FMT_RGB888;
-	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
+	dsi->hs_rate = 1100000000UL;
+	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+			  MIPI_DSI_MODE_DSC_ALL_SLICES_IN_PKT;
 
 	/* matches the PPS sent in xiaomi_fuxi_on() (DSC 1.1, 8 bpc, 8 bpp) */
 	ctx->dsc.dsc_version_major = 1;
 	ctx->dsc.dsc_version_minor = 1;
+	ctx->dsc.pic_width = 1080;
+	ctx->dsc.pic_height = 2400;
 	ctx->dsc.slice_height = 40;
 	ctx->dsc.slice_width = 540;
 	ctx->dsc.slice_count = 2;
 	ctx->dsc.bits_per_component = 8;
 	ctx->dsc.bits_per_pixel = 8 << 4;
 	ctx->dsc.block_pred_enable = true;
+	ctx->dsc.native_422 = false;
+	ctx->dsc.native_420 = false;
 	dsi->dsc = &ctx->dsc;
 
 	ctx->panel.prepare_prev_first = true;

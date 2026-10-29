@@ -6,9 +6,9 @@
  * sysfs so that the sensor can be identified over CCI with i2c-dev before a
  * real sensor driver exists:
  *
- *   echo 1 > /sys/bus/platform/devices/<node>/power
+ *   echo 1 > /sys/bus/platform/devices/<node>/power_on
  *   i2ctransfer -y <cci bus> w2@0x1a 0x00 0x16 r2
- *   echo 0 > /sys/bus/platform/devices/<node>/power
+ *   echo 0 > /sys/bus/platform/devices/<node>/power_on
  *
  * DT: compatible "xiaomi,fuxi-camera-power"; "supply-names" lists the
  * "<name>-supply" properties in power-up order; "clocks" = MCLK
@@ -34,6 +34,7 @@ struct fuxi_cam_power {
 	struct clk *mclk;
 	u32 mclk_rate;
 	struct gpio_desc *reset;
+	/* Serialize power-state transitions and their hardware sequencing. */
 	struct mutex lock;
 	bool on;
 };
@@ -88,16 +89,16 @@ static void fuxi_cam_power_off(struct fuxi_cam_power *cp)
 	dev_info(cp->dev, "powered off\n");
 }
 
-static ssize_t power_show(struct device *dev, struct device_attribute *attr,
-			  char *buf)
+static ssize_t power_on_show(struct device *dev, struct device_attribute *attr,
+			     char *buf)
 {
 	struct fuxi_cam_power *cp = dev_get_drvdata(dev);
 
 	return sysfs_emit(buf, "%d\n", cp->on);
 }
 
-static ssize_t power_store(struct device *dev, struct device_attribute *attr,
-			   const char *buf, size_t count)
+static ssize_t power_on_store(struct device *dev, struct device_attribute *attr,
+			      const char *buf, size_t count)
 {
 	struct fuxi_cam_power *cp = dev_get_drvdata(dev);
 	bool on;
@@ -120,10 +121,10 @@ static ssize_t power_store(struct device *dev, struct device_attribute *attr,
 
 	return ret ? ret : count;
 }
-static DEVICE_ATTR_RW(power);
+static DEVICE_ATTR_RW(power_on);
 
 static struct attribute *fuxi_cam_power_attrs[] = {
-	&dev_attr_power.attr,
+	&dev_attr_power_on.attr,
 	NULL
 };
 ATTRIBUTE_GROUPS(fuxi_cam_power);

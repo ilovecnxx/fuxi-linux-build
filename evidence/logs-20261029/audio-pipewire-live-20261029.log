@@ -1,0 +1,49 @@
+B Main AMP: On  in 1 out 1 - R8216(0x2018) mask 0x1
+ widget-type out_drv
+ out  "static" "B SPK" "cs35l41.0-0040"
+ in  "static" "B DRE" "cs35l41.0-0040"
+ in  "static" "B CLASS H" "cs35l41.0-0040"
+T Main AMP: On  in 1 out 1 - R8216(0x2018) mask 0x1
+ widget-type out_drv
+ out  "static" "T SPK" "cs35l41.0-0042"
+ in  "static" "T DRE" "cs35l41.0-0042"
+ in  "static" "T CLASS H" "cs35l41.0-0042"
+PASS user PipeWire stream completed
+W 17:32:02.016803             mod.rt ../src/modules/module-rt.c:331:translate_error: RTKit error: org.freedesktop.DBus.Error.ServiceUnknown
+W 17:32:02.016855             mod.rt ../src/modules/module-rt.c:995:do_rtkit_setup: RTKit does not give us MaxRealtimePriority, using 1
+PipeWire 'pipewire-0' [1.6.8, fuxi@localhost.localdomain, cookie:1354993485]
+ └─ Clients:
+        36. pipewire                            [1.6.8, fuxi@localhost.localdomain, pid:585]
+        40. WirePlumber                         [1.6.8, fuxi@localhost.localdomain, pid:3140]
+        45. wpctl                               [1.6.8, fuxi@localhost.localdomain, pid:3387]
+        52. Phone Shell Volume Control          [1.6.8, fuxi@localhost.localdomain, pid:681]
+        53. GNOME Volume Control Media Keys     [1.6.8, fuxi@localhost.localdomain, pid:1201]
+        54. WirePlumber [client]                [1.6.8, fuxi@localhost.localdomain, pid:3140]
+
+Audio
+ ├─ Devices:
+ │      37. Built-in Audio                      [alsa]
+ │      48. Compress-Offload device (ALSA card 0) [alsa:compressed]
+ │  
+ ├─ Sinks:
+ │  *   39. Built-in Audio Stereo speakers (conservative bring-up volume) [vol: 0.40]
+ │  
+ ├─ Sources:
+ │  
+ ├─ Filters:
+ │  
+ └─ Streams:
+
+Video
+ ├─ Devices:
+ │  
+ ├─ Sinks:
+ │  
+ ├─ Sources:
+ │  
+ ├─ Filters:
+ │  
+ └─ Streams:
+
+Settings
+ └─ Default Configured Devices:

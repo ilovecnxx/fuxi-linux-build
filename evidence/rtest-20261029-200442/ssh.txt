@@ -1,0 +1,4 @@
+$ uname -v; cat /proc/sys/kernel/random/boot_id; cat /sys/module/panel_xiaomi_fuxi/parameters/refresh
+#189 SMP PREEMPT Thu Oct 29 20:04:05 CST 2026
+cb840790-64ed-492d-bdc3-e037b0fb57e4
+120

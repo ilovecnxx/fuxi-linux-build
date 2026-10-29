@@ -18,7 +18,10 @@ say "== 装软件包"
 T=3600 ssh_ 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q 2>&1 | tail -n 1
 apt-get install -y phosh phoc squeekboard gnome-console nautilus gnome-control-center \
   phosh-mobile-settings fonts-noto-cjk locales network-manager-gnome \
-  pipewire-audio wireplumber alsa-ucm-conf alsa-utils 2>&1 | tail -n 3
+  ca-certificates xdg-utils epiphany-browser gnome-text-editor language-pack-zh-hans language-pack-gnome-zh-hans \
+  phosh-osk-stevia-uim \
+  pipewire-audio wireplumber rtkit alsa-ucm-conf alsa-utils \
+  kbd dbus-user-session gnome-session-common 2>&1 | tail -n 3
 apt-get install -y --no-install-recommends mesa-utils 2>&1 | tail -n 1'
 
 say "== 用户与配置"
@@ -26,11 +29,18 @@ ssh_ "set -e
 id fuxi >/dev/null 2>&1 || useradd -m -u 1000 -s /bin/bash -G video,render,input,audio,netdev,plugdev,sudo fuxi
 echo 'fuxi:$PIN' | chpasswd
 mkdir -p /etc/phosh /home/fuxi/.config
+chown -R fuxi:fuxi /home/fuxi/.config
+loginctl enable-linger fuxi
+# 10-28 关键修复：rootfs 制作时 setuid 位丢了，非 root 的 pam_unix（锁屏认证走 unix_chkpwd）读不到
+# /etc/shadow → 正确密码也报“密码错误”。恢复标准 setuid root 二进制。
+chmod 4755 /sbin/unix_chkpwd /usr/bin/passwd /usr/bin/su /usr/bin/chsh /usr/bin/chfn \
+  /usr/bin/newgrp /usr/bin/gpasswd /usr/bin/mount /usr/bin/umount 2>/dev/null || true
 # phoc：软件渲染 + 缩放
 printf '%s\n' '[output:DSI-1]' 'scale = 2.5' '[output:Unknown-1]' 'scale = 2.5' > /etc/phosh/phoc.ini
 mkdir -p /etc/systemd/system/phosh.service.d
-# 有 Adreno（msm 驱动 + renderD128，full/desk/disp 镜像）就用 GPU 渲染，否则 pixman 软件渲染（simpledrm）
-if readlink /sys/class/drm/renderD128/device/driver 2>/dev/null | grep -q msm; then R=; else R='Environment=WLR_RENDERER=pixman'; fi
+# Mesa 实际拿到 Adreno（freedreno FD7xx）才用 GPU 渲染，否则 pixman 软件渲染。
+# 不能只看 renderD128 属于 msm：ZAP 被 TZ 拒绝（-22）时 msm 照样注册 render 节点，但 GPU 不可用。
+if eglinfo -B -p surfaceless 2>/dev/null | grep -q 'renderer: FD'; then R=; else R='Environment=WLR_RENDERER=pixman'; fi
 printf '%s\n' '[Service]' \$R 'Environment=WLR_NO_HARDWARE_CURSORS=1' 'Environment=LANG=zh_CN.UTF-8' > /etc/systemd/system/phosh.service.d/10-fuxi.conf
 locale-gen zh_CN.UTF-8 en_US.UTF-8 >/dev/null 2>&1 || true
 systemctl daemon-reload
@@ -40,5 +50,7 @@ echo 'fuxi-mainline 第十二次（M5.3）: apt 装 phosh 等；用户 fuxi（ui
 echo config-ok"
 
 say "== 启动 Phosh"
+cat "$B/work/rootfs-overlay/etc/systemd/system/phosh.service.d/20-fuxi-session.conf" | ssh_ 'cat > /etc/systemd/system/phosh.service.d/20-fuxi-session.conf; systemctl daemon-reload'
 ssh_ 'systemctl restart phosh.service; sleep 15; systemctl is-active phosh.service; journalctl -u phosh -b --no-pager -o cat | tail -n 15'
+"$B/scripts/fuxi-basic-desktop.sh" || exit $?
 say "完成，日志 $LOG"

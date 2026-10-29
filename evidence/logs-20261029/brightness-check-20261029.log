@@ -1,0 +1,38 @@
+type=raw cur=64 actual=64 max=4095
+  systemd-backlight@backlight:ae94000.dsi.0.service loaded active exited Load/Save Screen Backlight Brightness of backlight:ae94000.dsi.0
+64
+
+
+Call failed: Your session has no seat, refusing.
+set 400 -> brightness=64 actual=64
+Call failed: Your session has no seat, refusing.
+set 1500 -> brightness=64 actual=64
+Call failed: Your session has no seat, refusing.
+set 64 -> brightness=64 actual=64
+ c1 1000 fuxi -     604  manager       -      no  -
+c17    0 root -     2778 manager-early -      no  -
+c18    0 root -     2864 user-early    ttyGS0 no  -
+c27    0 root -     8769 user          -      no  -
+ c3 1000 fuxi seat0 676  user          tty7   yes 8min ago
+session=c3
+Call failed: Failed to write to brightness device: Protocol error
+set 400 -> brightness=400 actual=400
+Call failed: Failed to write to brightness device: Protocol error
+set 1500 -> brightness=1500 actual=1500
+Call failed: Failed to write to brightness device: Protocol error
+set 4095 -> brightness=4095 actual=4095
+Call failed: Failed to write to brightness device: Protocol error
+set 64 -> brightness=64 actual=64
+dmesg-checked
+crtc active=1
+logind set 300 ok
+logind set 64 ok
+-- journal: output power/blank events
+[   10.024860] localhost.localdomain kernel: clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[   10.024870] localhost.localdomain kernel: clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+[   10.025243] localhost.localdomain kernel: CPUidle PSCI: Initialized CPU PM domain topology using OSI mode
+[   10.025380] localhost.localdomain kernel: failed to register cpuidle driver
+[   10.026004] localhost.localdomain kernel: clocksource: arch_mmio_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+[    0.657959] msm-dsi: lane rate 1100000000 Hz, byte clock 137500000 Hz
+[  119.797248] msm-dsi: lane rate 1100000000 Hz, byte clock 137500000 Hz
+[  639.532437] msm-dsi: lane rate 1100000000 Hz, byte clock 137500000 Hz

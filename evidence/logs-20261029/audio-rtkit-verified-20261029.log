@@ -1,0 +1,24 @@
+rtkit 0.14-1ubuntu1 install ok installed
+active
+active
+active
+active
+   3148    3148  TS      - pipewire
+   3148    3163  RR     20 data-loop.0
+   3149    3149  TS      - wireplumber
+   3149    3169  RR     20 data-loop.0
+   3149    3181  RR     20 data-loop.0
+   3150    3150  TS      - pipewire
+   3151    3151  TS      - pipewire-pulse
+   3151    3160  RR     20 data-loop.0
+Oct 28 17:43:15 localhost.localdomain systemd[1]: Starting rtkit-daemon.service - RealtimeKit Scheduling Policy Service...
+Oct 28 17:43:15 localhost.localdomain systemd[1]: Started rtkit-daemon.service - RealtimeKit Scheduling Policy Service.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Handling system-suspend using logind.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3148 of process 3148 owned by '1000' high priority at nice level -11.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3163 of process 3148 owned by '1000' RT at priority 20.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3151 of process 3151 owned by '1000' high priority at nice level -11.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3160 of process 3151 owned by '1000' RT at priority 20.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3149 of process 3149 owned by '1000' high priority at nice level -11.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3169 of process 3149 owned by '1000' RT at priority 20.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3149 of process 3149 owned by '1000' high priority at nice level -11.
+Oct 28 17:43:15 localhost.localdomain rtkit-daemon[3159]: Successfully made thread 3181 of process 3149 owned by '1000' RT at priority 20.

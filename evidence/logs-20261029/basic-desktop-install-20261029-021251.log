@@ -1,0 +1,40 @@
+Hit:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking InRelease
+Hit:2 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-updates InRelease
+Hit:3 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-backports InRelease
+Hit:4 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-security InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ca-certificates is already the newest version (20260816ubuntu0.26.10.1).
+epiphany-browser is already the newest version (50.4-2).
+gnome-text-editor is already the newest version (50.1-2).
+language-pack-zh-hans is already the newest version (1:26.10+20261008).
+language-pack-gnome-zh-hans is already the newest version (1:26.10+20261008).
+Solving dependencies...
+Recommended packages:
+  libfile-mimeinfo-perl libnet-dbus-perl libx11-protocol-perl
+The following NEW packages will be installed:
+  xdg-utils
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 66.1 kB of archives.
+After this operation, 348 kB of additional disk space will be used.
+Get:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking/main arm64 xdg-utils all 1.2.1-2ubuntu2 [66.1 kB]
+Fetched 66.1 kB in 0s (366 kB/s)
+Selecting previously unselected package xdg-utils.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 57431 files and directories currently installed.)
+Preparing to unpack .../xdg-utils_1.2.1-2ubuntu2_all.deb ...
+Unpacking xdg-utils (1.2.1-2ubuntu2) ...
+Setting up xdg-utils (1.2.1-2ubuntu2) ...
+update-alternatives: using /usr/bin/xdg-open to provide /usr/bin/open (open) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/open.1.gz because associated file /usr/share/man/man1/xdg-open.1.gz (of link group open) does not exist
+Processing triggers for man-db (2.13.1-1build1) ...
+ca-certificates	20260816ubuntu0.26.10.1	install ok installed
+epiphany-browser	50.4-2	install ok installed
+gnome-text-editor	50.1-2	install ok installed
+language-pack-gnome-zh-hans	1:26.10+20261008	install ok installed
+language-pack-zh-hans	1:26.10+20261008	install ok installed
+System CA store: {'x509': 120, 'crl': 0, 'x509_ca': 120}
+Timezone=Asia/Shanghai
+NTPSynchronized=yes
+Backup: /root/fuxi-mainline-backup/basic-desktop-20261029-021251

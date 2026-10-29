@@ -1,0 +1,13 @@
+#189 SMP PREEMPT Thu Oct 29 20:04:05 CST 2026
+running
+NRestarts=0
+[    0.000871] pid_max: default: 32768 minimum: 301
+[    0.112509] iommu: Default domain type: Translated
+[    0.122939] PCI: CLS 0 bytes, default 64
+[    0.655978] pci 0000:01:00.0: ASPM: default states L0s L1
+[    9.709476] systemd[1]: Queued start job for default target graphical.target.
+[   16.126089] rx_macro 6ac0000.codec: Driver needs fixing: Unsorted reg_defaults, sorting the copy
+38400 cpu3-bottom-thermal
+39200 cpu3-top-thermal
+40000 cpu4-bottom-thermal
+gpu cooling /sys/class/thermal/cooling_device3: cur_state=0 max=7

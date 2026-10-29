@@ -6,7 +6,7 @@
 # 用法: scripts/fuxi-camera-probe.sh [镜像]（手机先在 Android 或 Ubuntu 都行）
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
-IMG="${1:-$B/work/kbuild/abl-fuxi-camera1.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-camera2.img}"
 LOG="$B/work/claude-logs/camera-probe-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }
@@ -43,14 +43,14 @@ for m in "cam0 主摄 ac15000 1" "cam2 超广角 ac15000 0" "cam1 前摄 ac16000
   bus=$(bus_of $3 $4)
   echo "======== $1（$2）CCI $3 主机$4 → i2c-$bus，电源 $node"
   [ -n "$node" ] && [ -n "$bus" ] || { echo "缺电源节点或总线"; continue; }
-  echo 1 > $node/power || { echo "上电失败"; dmesg | tail -n 5; continue; }
+  echo 1 > $node/power_on || { echo "上电失败"; dmesg | tail -n 5; continue; }
   sleep 0.05
   for a in $(seq 8 119); do
     x=$(printf "0x%02x" $a)
     r=$(rd $bus $x 0x00 0x00 2) || continue
     echo "  地址 $x 有应答：[0x0000]=$r  [0x0016]=$(rd $bus $x 0x00 0x16 2)  [0x300a]=$(rd $bus $x 0x30 0x0a 3)  [0x03f0]=$(rd $bus $x 0x03 0xf0 2)"
   done
-  echo 0 > $node/power
+  echo 0 > $node/power_on
 done
 echo "--- CAMSS"; ls /dev/media* /dev/v4l-subdev* 2>&1 | head -n 5
 echo "--- dmesg"; dmesg | grep -iE "cci|camera-power|camcc|camss|csiphy" | tail -n 30'

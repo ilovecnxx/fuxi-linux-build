@@ -12,8 +12,10 @@ set -euo pipefail
 B="$(cd "$(dirname "$0")/.." && pwd)"
 SRC=/lib/firmware/qcom/sm8550/SM8550-QRD-tplg.bin.zst
 OUT="$B/work/firmware-audio/qcom/sm8550"
-W=$(mktemp -d); trap 'rm -rf "$W"' EXIT
+SD="${SD:-2}"
+case "$SD" in 1|2) ;; *) echo 'SD 必须为 1（SD0）或 2（SD1）' >&2; exit 2;; esac
 mkdir -p "$OUT"
+W=$(mktemp -d "$OUT/.build.XXXXXX"); trap 'rm -rf "$W"' EXIT
 zstd -dqf "$SRC" -o "$W/qrd.bin"
 alsatplg -d "$W/qrd.bin" -o "$W/qrd.conf"
 # alsatplg 1.2.15 反编译的瑕疵：清单（无私有数据）被写成引用 'manifest:data0'，还粘到了第一条 SectionData 上；
@@ -50,10 +52,18 @@ open(dst, "w").write(s)
 EOF
 # 路由里引用的 BE 流名（'TX_CODEC_DMA_TX_3 Capture' 等）由内核的 q6apm-lpass-dais 提供，alsatplg 会报
 # "undefined ... widget/stream"，不影响产物（原样保留在路由表里）
-alsatplg -c "$W/fuxi.conf" -o "$OUT/Xiaomi-13-tplg.bin" 2>&1 | grep -v 'undefined s[a-z]* widget/stream' || true
-[ -s "$OUT/Xiaomi-13-tplg.bin" ]
+if ! alsatplg -c "$W/fuxi.conf" -o "$W/fuxi.bin" > "$W/compiler.log" 2>&1; then
+  cat "$W/compiler.log" >&2
+  exit 1
+fi
+grep -v 'undefined s[a-z]* widget/stream' "$W/compiler.log" || true
+[ -s "$W/fuxi.bin" ]
 # 回读核对
-alsatplg -d "$OUT/Xiaomi-13-tplg.bin" -o "$W/check.conf"
+alsatplg -d "$W/fuxi.bin" -o "$W/check.conf"
 grep -q "'Secondary MI2S Playback, , device16.i2s_rx1'" "$W/check.conf"
 grep -A30 "'device16.i2s_rx1:tuple0' {" "$W/check.conf" | grep -E 'token(1|250|256) ' | tr -s '\t\n' ' '; echo
+# 只有编译和回读成功才替换既有产物，避免失败时把旧文件误报为新构建。
+mv "$W/fuxi.bin" "$OUT/Xiaomi-13-tplg.bin"
+cp "$W/compiler.log" "$OUT/Xiaomi-13-tplg.build.log"
+sha256sum "$OUT/Xiaomi-13-tplg.bin" > "$OUT/Xiaomi-13-tplg.sha256"
 echo "[ok] $OUT/Xiaomi-13-tplg.bin $(stat -c %s "$OUT/Xiaomi-13-tplg.bin") bytes（SD_LINE_IDX=${SD:-2}）"

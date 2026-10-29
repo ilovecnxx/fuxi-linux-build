@@ -2,7 +2,7 @@
 
 > 更新：2026-10-25（按本轮 GitHub/上游复核修订）
 > 工作目录：`/home/user/文档/deepseek-harness/default-workspace/linux-android`
-> 设备：小米 13（fuxi，SM8550，序列号 f8****82），bootloader 已解锁，4K 页，A/B 动态分区
+> 设备：小米 13（fuxi，SM8550，序列号 f8286c82），bootloader 已解锁，4K 页，A/B 动态分区
 
 ---
 
@@ -358,7 +358,7 @@ work/uefi-fuxi/Mu-fuxi-v1.img           重打包 v1（base 0x80000000，page 40
 - 进入 DXE 后出现**异步异常**（`Asynchronous Exception at 0xA8BDA9C6`，异常处理器递归打印 `PrintLib Buffer==NULL`），随后设备**反复重启**。
 
 ## 当前状态
-- 已刷回**备份的原厂 boot_b / init_boot_b / vendor_boot_b**，LineageOS 已正常启动（adb devices 可见 `f8****82 device`，USB MTP 正常）。
+- 已刷回**备份的原厂 boot_b / init_boot_b / vendor_boot_b**，LineageOS 已正常启动（adb devices 可见 `f8286c82 device`，USB MTP 正常）。
 - `vbmeta_b` 被替换为 `--disable-verity --disable-verification` 版本（用于允许自定义 boot）；回滚用 `backups/20261024-172623/vbmeta_b.img`。
 - 固件实验产物：`build/edk2-msm/boot-fuxi.img`（32MB FD + mini 内核 Tiano）。
 
@@ -405,7 +405,7 @@ work/uefi-fuxi/Mu-fuxi-v1.img           重打包 v1（base 0x80000000，page 40
   - 若它也重启 → 异常在 EDK2/DXE 基础层（内存映射/GIC/定时器），与我们的驱动无关。
 
 ### D.2 当前恢复状态
-- Android 已恢复（adb `f8****82 device`、MTP 正常），`boot_b` 为原厂备份镜像。
+- Android 已恢复（adb `f8286c82 device`、MTP 正常），`boot_b` 为原厂备份镜像。
 - `sm8550.fdf`/`fuxi.fdf.inc` 已恢复原状；实验镜像我方均留档。
 
 ### D.3 第 3 次实验（二分对照组）：无 FuxiLinuxBoot 驱动

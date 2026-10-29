@@ -6,7 +6,7 @@
 # 用法: scripts/fuxi-m6-sleep.sh [镜像]
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
-IMG="${1:-$B/work/kbuild/abl-fuxi-sleep1.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-sleep2.img}"
 LOG="$B/work/claude-logs/m6-sleep-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }

@@ -1,5 +1,5 @@
 #!/bin/bash
-# 取回上一轮内核日志（ramoops，DTS 里 0xa7000000 起 4 MB；从 wifi7 镜像起有）。
+# 取回上一轮内核日志（ramoops，DTS 里 0xa7000000 起 4 MB；从 wifi8 镜像起有）。
 # 卡死后长按电源会冷启动，DDR 内容可能丢；热重启（panic 后 reboot、看门狗）才一定保得住。
 # systemd-pstore.service 开机时把 /sys/fs/pstore 搬到 /var/lib/systemd/pstore/<时间>/。
 # 用法: scripts/fuxi-pstore.sh（手机在 Ubuntu）→ work/claude-logs/pstore-<时间>/

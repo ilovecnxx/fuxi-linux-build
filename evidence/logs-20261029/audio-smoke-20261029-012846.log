@@ -1,0 +1,17 @@
+
+speaker-test 1.2.15.2
+
+Playback device is plughw:0,0
+Stream parameters are 48000Hz, S16_LE, 2 channels
+Sine wave rate is 440.0000Hz
+Rate set to 48000Hz (requested 48000Hz)
+Buffer size range from 960 to 130560
+Period size range from 480 to 16320
+Periods = 2
+was set period_size = 12000
+was set buffer_size = 24000
+ 0 - Front Left
+ 1 - Front Right
+Time per period = 5.752974
+-- No entries --
+PASS PCM stream completed; physical sound and speaker protection remain separate checks

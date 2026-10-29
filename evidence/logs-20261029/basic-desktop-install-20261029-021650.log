@@ -1,0 +1,28 @@
+Hit:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking InRelease
+Hit:2 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-updates InRelease
+Hit:3 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-backports InRelease
+Hit:4 http://mirrors.tuna.tsinghua.edu.cn/ubuntu stonking-security InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ca-certificates is already the newest version (20260816ubuntu0.26.10.1).
+xdg-utils is already the newest version (1.2.1-2ubuntu2).
+epiphany-browser is already the newest version (50.4-2).
+gnome-text-editor is already the newest version (50.1-2).
+language-pack-zh-hans is already the newest version (1:26.10+20261008).
+language-pack-gnome-zh-hans is already the newest version (1:26.10+20261008).
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+ca-certificates	20260816ubuntu0.26.10.1	install ok installed
+epiphany-browser	50.4-2	install ok installed
+gnome-text-editor	50.1-2	install ok installed
+language-pack-gnome-zh-hans	1:26.10+20261008	install ok installed
+language-pack-zh-hans	1:26.10+20261008	install ok installed
+System CA store: {'x509': 120, 'crl': 0, 'x509_ca': 120}
+Timezone=Asia/Shanghai
+NTPSynchronized=yes
+Backup: /root/fuxi-mainline-backup/basic-desktop-20261029-021650
+/usr/local/share/applications/org.gnome.Epiphany.desktop.new: warning: value "Браузери веб" for key "Comment[tg]" in group "Desktop Entry" looks the same as that of key "GenericName[tg]"
+/usr/local/share/applications/org.gnome.Epiphany.desktop.new: warning: value "Веб браузер" for key "Comment[uz@cyrillic]" in group "Desktop Entry" looks the same as that of key "Name[uz@cyrillic]"
+/usr/local/share/applications/org.gnome.Epiphany.desktop.new: error: filename does not have a .desktop extension

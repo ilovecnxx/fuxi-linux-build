@@ -1,0 +1,6 @@
+00:38:08 +0s image abl-fuxi-daily-pm1.img sha256=3b02fd600d16c41a
+00:38:08 +0s 手机在 Ubuntu，先重启回 Android
+00:38:51 +43s recovery_b 已写入并校验
+00:38:56 +48s adb reboot recovery
+00:39:13 +65s Ubuntu ssh 可用
+00:39:15 +67s FUXI_KEEP=1：留在 Ubuntu

@@ -40,7 +40,7 @@
 			link-name = "Secondary MI2S Playback";
 
 			codec {
-				sound-dai = <&spk_amp_t>, <&spk_amp_b>;
+				sound-dai = <&spk_amp_t 0>, <&spk_amp_b 0>;
 			};
 
 			cpu {
@@ -78,13 +78,12 @@
 		sound-name-prefix = "B";
 		/* DSP 固件名 cirrus/cs35l41-dsp1-spk-prot-xiaomi-fuxi-B.{wmfw,bin}（打开 "B DSP1 Preload Switch" 才加载） */
 		cirrus,subsystem-id = "xiaomi-fuxi";
-		#sound-dai-cells = <0>;
+		#sound-dai-cells = <1>;
 
 		cirrus,boost-peak-milliamp = <4000>;
 		cirrus,boost-ind-nanohenry = <1000>;
 		cirrus,boost-cap-microfarad = <15>;
 		cirrus,asp-sdout-hiz = <3>;
-		cirrus,right-channel-amp;
 		cirrus,gpio2-src-select = <4>;
 		cirrus,gpio2-output-enable;
 	};
@@ -98,7 +97,7 @@
 		pinctrl-names = "default";
 		sound-name-prefix = "T";
 		cirrus,subsystem-id = "xiaomi-fuxi";
-		#sound-dai-cells = <0>;
+		#sound-dai-cells = <1>;
 
 		cirrus,boost-peak-milliamp = <4000>;
 		cirrus,boost-ind-nanohenry = <1000>;
@@ -113,7 +112,7 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 
-	dai@18 {
+	dai@12 {
 		reg = <SECONDARY_MI2S_RX>;
 		clocks = <&q6prmcc LPASS_CLK_ID_SEC_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
 		clock-names = "bclk";

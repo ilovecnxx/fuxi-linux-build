@@ -1,0 +1,10 @@
+只读音频检查，日志 /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/audio-check-20261029-011302.log
+7.3.0+ #168 SMP PREEMPT Thu Oct 29 00:37:25 CST 2026
+FAIL ALSA 未启用
+FAIL Xiaomi 声卡尚未注册
+FAIL CS35L41 @0040 未绑定
+FAIL CS35L41 @0042 未绑定
+--- 音频内核日志
+Oct 28 17:09:13 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:1
+Oct 28 17:09:13 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:2
+音频检查失败项=4（不代表实际出声或录音验收）

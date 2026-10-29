@@ -1,0 +1,59 @@
+7.3.0+ #172 SMP PREEMPT Thu Oct 29 01:23:17 CST 2026
+ 0 [Xiaomi13       ]: sm8550 - Xiaomi-13
+                      Xiaomi-13
+PASS Xiaomi 声卡 card0 已注册
+**** List of PLAYBACK Hardware Devices ****
+card 0: Xiaomi13 [Xiaomi-13], device 0: MultiMedia1 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: Xiaomi13 [Xiaomi-13], device 1: MultiMedia2 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: Xiaomi13 [Xiaomi-13], device 5: MultiMedia6 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+PASS PCM 播放设备 0 存在
+PASS B 功放音量控件存在
+numid=19,iface=MIXER,name='B Digital PCM Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=816,step=0
+  : values=0
+  | dBrange-
+    rangemin=0,,rangemax=0
+      | dBscale-min=-99999.99dB,step=0.00dB,mute=1
+    rangemin=1,,rangemax=913
+      | dBminmax-min=-102.00dB,max=12.00dB
+PASS B 音量硬上限已生效（816）
+PASS T 功放音量控件存在
+numid=1,iface=MIXER,name='T Digital PCM Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=816,step=0
+  : values=0
+  | dBrange-
+    rangemin=0,,rangemax=0
+      | dBscale-min=-99999.99dB,step=0.00dB,mute=1
+    rangemin=1,,rangemax=913
+      | dBminmax-min=-102.00dB,max=12.00dB
+PASS T 音量硬上限已生效（816）
+numid=53,iface=MIXER,name='B PCM Source'
+numid=74,iface=MIXER,name='RCV MUX'
+numid=65,iface=MIXER,name='SECONDARY_MI2S_RX Audio Mixer MultiMedia1'
+numid=64,iface=MIXER,name='SECONDARY_MI2S_RX Audio Mixer MultiMedia2'
+numid=63,iface=MIXER,name='SECONDARY_MI2S_RX Audio Mixer MultiMedia5'
+numid=45,iface=MIXER,name='T PCM Source'
+PASS CS35L41 0-0040 已绑定
+PASS CS35L41 0-0042 已绑定
+--- 音频内核日志
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0040: supply VA not found, using dummy regulator
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0040: supply VP not found, using dummy regulator
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0040: Subsystem ID: xiaomi-fuxi
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0040: Cirrus Logic CS35L41 (35a40), Revision: B2
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0042: supply VA not found, using dummy regulator
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0042: supply VP not found, using dummy regulator
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0042: Subsystem ID: xiaomi-fuxi
+Oct 28 17:24:54 localhost.localdomain kernel: cs35l41 0-0042: Cirrus Logic CS35L41 (35a40), Revision: B2
+Oct 28 17:24:56 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:1
+Oct 28 17:25:01 localhost.localdomain kernel: qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
+Oct 28 17:25:01 localhost.localdomain kernel: platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu group 14
+Oct 28 17:25:01 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:2
+Oct 28 17:25:01 localhost.localdomain kernel: snd-sc8280xp sound: ASoC: Parent card not yet available, widget card binding deferred
+Oct 28 17:25:01 localhost.localdomain kernel:  MultiMedia2 Playback: ASoC: no backend DAIs enabled for MultiMedia2 Playback, possibly missing ALSA mixer-based routing or UCM profile
+音频检查失败项=0（不代表实际出声或录音验收）

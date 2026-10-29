@@ -1,0 +1,12 @@
+running
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16  -
+B Main AMP: Off  in 0 out 1 - R8216(0x2018) mask 0x1
+T Main AMP: Off  in 0 out 1 - R8216(0x2018) mask 0x1
+adf9f0212c029717f765eff453cf5a75c9907c9804f0b57bfcee11c493cafe0b  /usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/HiFi-speaker.conf
+fa331515be2da6075f83004161eaecbef5c6b06b334de647e2c1727f14b03424  /usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/HiFi.conf
+650ee51d3304eac37425a9c516d2592a1e222d9addf27d647c247a62ae6348d7  /usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13-speaker.conf
+c79e3bafeec8f9086bbe0bb99ef6990064192bee89855c177c1ab438ba04dd71  /usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13-wcd.conf
+7c74d2c05de3d8446a4d5d3d112802911d33da8137f9aa4ae6ec8328c1747260  /usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13.conf

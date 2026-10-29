@@ -1,0 +1,25 @@
+LISTEN NOW: top
+{
+  "mode": "top",
+  "digital_raw": 577,
+  "digital_db": -30,
+  "analog_raw": 5,
+  "source_peak": 0.5,
+  "frequency_hz": 1000,
+  "saved": {
+    "B Digital PCM Volume": "497",
+    "B Analog PCM Volume": "0",
+    "T Digital PCM Volume": "497",
+    "T Analog PCM Volume": "0",
+    "SECONDARY_MI2S_RX Audio Mixer MultiMedia1": "on,off"
+  },
+  "faults": [],
+  "stream_completed": true,
+  "restored": {
+    "B Digital PCM Volume": "497",
+    "B Analog PCM Volume": "0",
+    "T Digital PCM Volume": "497",
+    "T Analog PCM Volume": "0",
+    "SECONDARY_MI2S_RX Audio Mixer MultiMedia1": "on,off"
+  }
+}

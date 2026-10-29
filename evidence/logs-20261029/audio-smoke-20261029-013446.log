@@ -1,0 +1,11 @@
+B Main AMP: On  in 1 out 1 - R8216(0x2018) mask 0x1
+ widget-type out_drv
+ out  "static" "B SPK" "cs35l41.0-0040"
+ in  "static" "B DRE" "cs35l41.0-0040"
+ in  "static" "B CLASS H" "cs35l41.0-0040"
+T Main AMP: On  in 1 out 1 - R8216(0x2018) mask 0x1
+ widget-type out_drv
+ out  "static" "T SPK" "cs35l41.0-0042"
+ in  "static" "T DRE" "cs35l41.0-0042"
+ in  "static" "T CLASS H" "cs35l41.0-0042"
+PASS user PipeWire stream completed with both amplifier paths on

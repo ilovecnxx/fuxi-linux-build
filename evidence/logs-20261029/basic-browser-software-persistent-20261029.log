@@ -1,0 +1,8 @@
+ActiveState=active
+ExecMainCode=0
+ExecMainStatus=0
+7096 /usr/bin/epiphany --new-window https://example.com
+7106 /usr/lib/aarch64-linux-gnu/webkitgtk-6.0/WebKitNetworkProcess 2 11
+7136 /usr/lib/aarch64-linux-gnu/webkitgtk-6.0/WebKitWebProcess 4 32
+7187 /usr/lib/aarch64-linux-gnu/webkitgtk-6.0/WebKitWebProcess 6 34
+7216 /usr/lib/aarch64-linux-gnu/webkitgtk-6.0/WebKitWebProcess 8 24

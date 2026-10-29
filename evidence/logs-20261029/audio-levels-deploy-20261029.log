@@ -1,0 +1,14 @@
+numid=19,iface=MIXER,name='B Digital PCM Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=816,step=0
+  : values=577
+  | dBrange-
+    rangemin=0,,rangemax=0
+      | dBscale-min=-99999.99dB,step=0.00dB,mute=1
+    rangemin=1,,rangemax=913
+      | dBminmax-min=-102.00dB,max=12.00dB
+
+numid=20,iface=MIXER,name='B Analog PCM Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=20,step=0
+  : values=5
+  | dBscale-min=0.50dB,step=1.00dB,mute=0
+Volume: 1.00

@@ -1,0 +1,23 @@
+只读验收，日志 /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/health-20261029-003937.log
+kernel: Linux 7.3.0+ #168 SMP PREEMPT Thu Oct 29 00:37:25 CST 2026
+uptime: up 0 minute
+PASS systemd running
+PASS phosh active
+PASS fuxi-firmware-devices active
+PASS bluetooth active
+PASS phoc 进程存在
+PASS phosh 进程存在
+PASS 屏幕键盘服务已运行（Stevia 或 Squeekboard）
+PASS 3 个 CPU 调频策略
+PASS policy0 cpus=0 1 2 governor=schedutil frequency=2016000kHz
+PASS policy3 cpus=3 4 5 6 governor=schedutil frequency=2707200kHz
+PASS policy7 cpus=7 governor=schedutil frequency=2956800kHz
+PASS 有效热区=43 最高温度=61400m°C
+PASS 3 个 CPU cooling 设备
+PASS FTM5 触摸设备已注册
+PASS DRM 已连接输出=1
+PASS 电量=100% 状态=Charging（仅验证读数）
+PASS WiFi 接口可用（尚未联网验收）
+PASS 蓝牙已上电
+PASS rmtfs 无失败状态
+验收结束：失败项=0；触摸交互、实际充电、无线 SSH 仍需各自验证。

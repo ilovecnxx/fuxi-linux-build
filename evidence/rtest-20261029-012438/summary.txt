@@ -1,0 +1,6 @@
+01:24:38 +0s image abl-fuxi-audio-probe4.img sha256=d16eaab0ee4e5d4a
+01:24:38 +0s 手机在 Ubuntu，先重启回 Android
+01:25:20 +42s recovery_b 已写入并校验
+01:25:25 +47s adb reboot recovery
+01:25:43 +65s Ubuntu ssh 可用
+01:25:46 +68s FUXI_KEEP=1：留在 Ubuntu

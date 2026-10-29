@@ -1,0 +1,14 @@
+01:24:38 +0s image abl-fuxi-audio-probe4.img sha256=d16eaab0ee4e5d4a
+01:24:38 +0s 手机在 Ubuntu，先重启回 Android
+work/kbuild/abl-fuxi-audio-probe4.img: 1 file pushed, 0 skipped. 54.6 MB/s (10047488 bytes in 0.176s)
+01:25:20 +42s recovery_b 已写入并校验
+01:25:25 +47s adb reboot recovery
+01:25:43 +65s Ubuntu ssh 可用
+$ uname -rv; systemctl is-system-running --wait; cat /proc/asound/cards; amixer -D hw:0 cget "name=\"T Digital PCM Volume\""
+7.3.0+ #172 SMP PREEMPT Thu Oct 29 01:23:17 CST 2026
+running
+--- no soundcards ---
+ALSA lib confmisc.c:165:(snd_config_get_card) [error.core] Cannot get card index for 0
+amixer: Control hw:0 open error: No such file or directory
+
+01:25:46 +68s FUXI_KEEP=1：留在 Ubuntu

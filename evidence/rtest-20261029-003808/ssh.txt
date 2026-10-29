@@ -1,0 +1,4 @@
+$ uname -v; systemctl is-system-running; systemctl is-active phosh
+#168 SMP PREEMPT Thu Oct 29 00:37:25 CST 2026
+starting
+activating

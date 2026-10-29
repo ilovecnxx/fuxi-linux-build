@@ -1,0 +1,6 @@
+20:13:29 +0s image abl-fuxi-screen120-regcn.img sha256=a6c36fe33291882d
+20:13:30 +1s 手机在 Ubuntu，先重启回 Android
+20:14:13 +44s recovery_b 已写入并校验
+20:14:18 +49s adb reboot recovery
+20:14:35 +66s Ubuntu ssh 可用
+20:14:37 +68s FUXI_KEEP=1：留在 Ubuntu

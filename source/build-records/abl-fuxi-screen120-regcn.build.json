@@ -1,0 +1,14 @@
+{
+  "built_at": "2026-10-29T12:12:43.726040+00:00",
+  "dtb": "sm8550-xiaomi-fuxi-r120-audio-disp",
+  "power_management_requested": true,
+  "kernel_commit": "5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f",
+  "kernel_tracked_changes": true,
+  "sha256": {
+    "boot_image": "a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f",
+    "config": "a1d644668255b9faeb1cc2fd18e76cc6bf8e2aef0b770d800e7d9726f19af70a",
+    "builtin_dtb": "14c2563e2e8f719ccced10ea75da5f99928f621a81c8117f54cd83e4797b3a71",
+    "kernel_image_gz": "3d2237b7da7f77d0c73ee753440a44bf71c278055c3a870152ec826f68aa549b",
+    "abl_dtb": "8fae172ccc6280b679bb6ce966de38ebc7454c23967932d7a98e33c938842243"
+  }
+}

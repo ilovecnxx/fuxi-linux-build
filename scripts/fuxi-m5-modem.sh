@@ -6,12 +6,12 @@
 #   3. 部署固件、EFS 副本（/var/lib/fuxi-rmtfs）、rootfs-overlay（含 rmtfs 文件模式 drop-in）；
 #      apt 安装期间用 policy-rc.d 禁止服务自启（防止 rmtfs 用发行版默认的 -P 碰真分区）
 #   4. bind IPA → 启动 tqftpserv、rmtfs（由它启动基带）→ 检查 remoteproc、ModemManager、SIM
-# 用法: scripts/fuxi-m5-modem.sh [镜像，默认 work/kbuild/abl-fuxi-modem2.img]
+# 用法: scripts/fuxi-m5-modem.sh [镜像，默认 work/kbuild/abl-fuxi-modem4.img]
 # 日志: work/claude-logs/m5-modem-<时间>.log
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
 ADB="$B/tools/platform-tools/adb"
-IMG="${1:-$B/work/kbuild/abl-fuxi-modem2.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-modem4.img}"
 LOG="$B/work/claude-logs/m5-modem-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }

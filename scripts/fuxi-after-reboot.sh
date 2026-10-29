@@ -3,7 +3,7 @@
 # 每一步成功后记到 work/state/after-reboot.done；重跑时跳过已完成的步骤，失败的步骤从头再来。
 # 需要人配合的步骤（看屏幕/听声音/插拔）会先 notify-send 提醒；WiFi 账号从环境变量来（没给就跳过连网这步）。
 # 用法: scripts/fuxi-after-reboot.sh [--list] [--reset] [--from 步骤] [--only 步骤]
-#   FUXI_WIFI_SSID=... FUXI_WIFI_PSK=... scripts/fuxi-after-reboot.sh
+#   FUXI_WIFI_SSID=... FUXI_WIFI_PSK=... FUXI_PIN=... scripts/fuxi-after-reboot.sh
 # 注意：别在本脚本运行时修改它调用的子脚本（bash 边读边执行）。
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
@@ -21,19 +21,19 @@ wifi_connect() {
 
 # 步骤名|命令（在 B 下执行）|说明
 STEPS=(
-  "wifi-bt|scripts/fuxi-m5-wifi-bt.sh|WiFi/蓝牙部署与验证（wifi6）"
+  "wifi-bt|scripts/fuxi-m5-wifi-bt.sh|WiFi/蓝牙部署与验证（daily-pm1）"
   "wifi-connect|wifi_connect|连 WiFi（FUXI_WIFI_SSID/PSK）"
-  "pm|scripts/fuxi-m6-pm.sh|调频/温控（pm1）"
-  "sensors|scripts/fuxi-sensors.sh|hexagonrpcd + ssccli（wifi6）"
+  "pm|scripts/fuxi-m6-pm.sh|调频/温控（pm2）"
+  "sensors|scripts/fuxi-sensors.sh|hexagonrpcd + ssccli（daily-pm1）"
   "sensors-proxy|scripts/fuxi-sensors-proxy.sh|重编带 SSC 的 iio-sensor-proxy"
-  "phosh|scripts/fuxi-m5-phosh.sh|Phosh 手机界面（软件渲染）"
+  "phosh|scripts/fuxi-m5-phosh.sh \"\${FUXI_PIN:-}\"|Phosh 手机界面（PIN 由 FUXI_PIN 传入，没给就跳过）"
   "display|scripts/fuxi-m6-display.sh|原生显示 + GPU（需要看屏幕）"
-  "modem|scripts/fuxi-m5-modem.sh|基带首次启动（modem2）"
-  "audio1|scripts/fuxi-m6-audio.sh work/kbuild/abl-fuxi-audio1.img|扬声器（需要听）"
-  "audio2|scripts/fuxi-m6-audio.sh work/kbuild/abl-fuxi-audio2.img|麦克风（需要说话）"
+  "modem|scripts/fuxi-m5-modem.sh|基带首次启动（modem4）"
+  "audio1|scripts/fuxi-m6-audio.sh work/kbuild/abl-fuxi-audio4.img|扬声器（需要听）"
+  "audio2|scripts/fuxi-m6-audio.sh work/kbuild/abl-fuxi-audio3.img|麦克风（需要说话）"
   "usbc|scripts/fuxi-m6-usbc.sh|USB-C OTG/USB3（需要插拔）"
-  "camera|scripts/fuxi-camera-probe.sh|相机 CCI/传感器 ID 探测（camera1）"
-  "sleep|scripts/fuxi-m6-sleep.sh|CPU 深度空闲 + s2idle 挂起（sleep1）"
+  "camera|scripts/fuxi-camera-probe.sh|相机 CCI/传感器 ID 探测（camera2）"
+  "sleep|scripts/fuxi-m6-sleep.sh|CPU 深度空闲 + s2idle 挂起（sleep2）"
 )
 
 case "${1:-}" in

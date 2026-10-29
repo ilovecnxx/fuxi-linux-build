@@ -1,0 +1,9 @@
+Can't connect: Host is down
+	Discoverable: yes
+	DiscoverableTimeout: 0x000000b4 (180)
+[[0;92mNEW[0m] Device <phone> localhost.localdomain
+44 bytes from 14:85:7F:4E:C3:3D id 6 time 20.50ms
+44 bytes from 14:85:7F:4E:C3:3D id 7 time 21.52ms
+8 sent, 8 received, 0% loss
+Connections:
+	< ACL 14:85:7F:4E:C3:3D handle 1 state 1 lm PERIPHERAL 

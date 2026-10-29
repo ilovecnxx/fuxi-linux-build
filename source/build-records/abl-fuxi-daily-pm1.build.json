@@ -1,0 +1,14 @@
+{
+  "built_at": "2026-10-28T16:37:29.912428+00:00",
+  "dtb": "sm8550-xiaomi-fuxi-min",
+  "power_management_requested": true,
+  "kernel_commit": "5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f",
+  "kernel_tracked_changes": true,
+  "sha256": {
+    "boot_image": "3b02fd600d16c41af37503495962046f8733eb014f297a3ac7e0de88c0bbced8",
+    "config": "6112c7279b54bbc960bc90d7a1ad911f42484e083ce4a5baf197418cde337eb1",
+    "builtin_dtb": "ce8b568278e7e9d5797a04c4e2aada13eabcf16e548ea6ec893fc4be281fb52d",
+    "kernel_image_gz": "5059908e7d31c256586ae53482eb6d3632b6fccd0632945c12104e938f8b6fc0",
+    "abl_dtb": "8fae172ccc6280b679bb6ce966de38ebc7454c23967932d7a98e33c938842243"
+  }
+}

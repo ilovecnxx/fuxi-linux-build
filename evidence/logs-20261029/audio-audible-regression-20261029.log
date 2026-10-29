@@ -1,0 +1,37 @@
+test_cache_only_cannot_prove_hardware_health (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_cache_only_cannot_prove_hardware_health) ... ok
+test_closed_pcm_has_no_valid_pointer (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_closed_pcm_has_no_valid_pointer) ... ok
+test_duplicate_channel_slot_is_rejected (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_duplicate_channel_slot_is_rejected) ... ok
+test_each_short_boost_and_thermal_fault_is_rejected (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_each_short_boost_and_thermal_fault_is_rejected) ... ok
+test_live_configuration_passes_despite_old_latched_unlock (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_live_configuration_passes_despite_old_latched_unlock) ... ok
+test_live_unlock_cannot_hide_behind_old_lock_event (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_live_unlock_cannot_hide_behind_old_lock_event) ... ok
+test_missing_raw_status_is_not_assumed_zero_or_healthy (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_missing_raw_status_is_not_assumed_zero_or_healthy) ... ok
+test_muted_or_raised_gain_fails_conservative_check (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_muted_or_raised_gain_fails_conservative_check) ... ok
+test_parser_stops_before_dsp_memory_and_preserves_missing_reads (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_parser_stops_before_dsp_memory_and_preserves_missing_reads) ... ok
+test_realtime_requires_an_actual_realtime_data_loop (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_realtime_requires_an_actual_realtime_data_loop) ... ok
+test_running_pcm_alone_does_not_prove_amplifier_is_enabled (test_fuxi_audio_diagnose.AudioDiagnoseTest.test_running_pcm_alone_does_not_prove_amplifier_is_enabled) ... ok
+test_faded_half_scale_stereo_fixture (test_fuxi_audio_tone.AudioToneTest.test_faded_half_scale_stereo_fixture) ... ok
+test_compiler_failure_preserves_previous_topology (test_fuxi_audio_tplg.AudioTopologyTest.test_compiler_failure_preserves_previous_topology) ... ok
+test_invalid_data_line_preserves_previous_topology (test_fuxi_audio_tplg.AudioTopologyTest.test_invalid_data_line_preserves_previous_topology) ... ok
+test_success_rewrites_secondary_interface_and_channel (test_fuxi_audio_tplg.AudioTopologyTest.test_success_rewrites_secondary_interface_and_channel) ... ok
+test_audio_variant_includes_amplifier_bus_dependencies (test_fuxi_build_abl.BuildTest.test_audio_variant_includes_amplifier_bus_dependencies) ... ok
+test_default_pm_manifest_and_config_restore (test_fuxi_build_abl.BuildTest.test_default_pm_manifest_and_config_restore) ... ok
+test_failed_kernel_restores_config (test_fuxi_build_abl.BuildTest.test_failed_kernel_restores_config) ... ok
+test_failed_olddefconfig_restores_config (test_fuxi_build_abl.BuildTest.test_failed_olddefconfig_restores_config) ... ok
+test_lock_prevents_configuration_changes (test_fuxi_build_abl.BuildTest.test_lock_prevents_configuration_changes) ... ok
+test_pm_can_be_explicitly_disabled (test_fuxi_build_abl.BuildTest.test_pm_can_be_explicitly_disabled) ... ok
+test_repack_cannot_leave_stale_provenance (test_fuxi_build_abl.BuildTest.test_repack_cannot_leave_stale_provenance) ... ok
+test_bad_coefficient_header_keeps_existing_artifacts (test_fuxi_cirrus_firmware.CirrusFirmwareTest.test_bad_coefficient_header_keeps_existing_artifacts) ... ok
+test_calibration_firmware_is_not_used_as_protection_fallback (test_fuxi_cirrus_firmware.CirrusFirmwareTest.test_calibration_firmware_is_not_used_as_protection_fallback) ... ok
+test_missing_top_coefficients_do_not_partially_replace_outputs (test_fuxi_cirrus_firmware.CirrusFirmwareTest.test_missing_top_coefficients_do_not_partially_replace_outputs) ... ok
+test_real_vendor_prefixes_map_to_lowercase_channel_names (test_fuxi_cirrus_firmware.CirrusFirmwareTest.test_real_vendor_prefixes_map_to_lowercase_channel_names) ... ok
+test_sx_step_count_and_regular_register_ranges (test_fuxi_volume_limit.VolumeLimitTest.test_sx_step_count_and_regular_register_ranges) ... ok
+test_delayed_service_is_accepted (test_fuxi_wait_ssc.WaitSSCTest.test_delayed_service_is_accepted) ... ok
+test_failed_lookup_does_not_count_even_with_a_matching_line (test_fuxi_wait_ssc.WaitSSCTest.test_failed_lookup_does_not_count_even_with_a_matching_line) ... ok
+test_hung_discovery_is_bounded (test_fuxi_wait_ssc.WaitSSCTest.test_hung_discovery_is_bounded) ... ok
+test_invalid_deadline_is_rejected (test_fuxi_wait_ssc.WaitSSCTest.test_invalid_deadline_is_rejected) ... ok
+test_other_services_do_not_count_as_ssc (test_fuxi_wait_ssc.WaitSSCTest.test_other_services_do_not_count_as_ssc) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 7.385s
+
+OK

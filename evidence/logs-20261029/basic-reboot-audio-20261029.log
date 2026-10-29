@@ -1,0 +1,33 @@
+Evidence: /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/audio-diagnose-20261028-181149-907276Z.json
+PASS ALSA PCM is RUNNING
+PASS B all diagnostic registers readable
+PASS B volatile status is not cache-only
+PASS B DAPM amplifier on
+PASS B GLOBAL_EN and AMP_EN set
+PASS B ASPRX1 enabled and routed to DAC
+PASS B receives configured slot 1
+PASS B 48 kHz, I2S, 16-bit receive format
+PASS B PLL configured for 1.536 MHz BCLK
+PASS B live PLL locked without unlock
+PASS B no live thermal/boost/short fault
+PASS B digital gain remains conservative (-30 dB)
+PASS B analog gain matches tested raw 5
+PASS T all diagnostic registers readable
+PASS T volatile status is not cache-only
+PASS T DAPM amplifier on
+PASS T GLOBAL_EN and AMP_EN set
+PASS T ASPRX1 enabled and routed to DAC
+PASS T receives configured slot 0
+PASS T 48 kHz, I2S, 16-bit receive format
+PASS T PLL configured for 1.536 MHz BCLK
+PASS T live PLL locked without unlock
+PASS T no live thermal/boost/short fault
+PASS T digital gain remains conservative (-30 dB)
+PASS T analog gain matches tested raw 5
+PASS PipeWire data loop has realtime scheduling
+PASS ALSA hardware pointer advances
+PASS Silent desktop playback completed
+PASS B amplifier returns to idle
+PASS T amplifier returns to idle
+PASS No new audio driver errors
+Silent diagnostics do not assess audibility; see the recorded listening results.

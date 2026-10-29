@@ -1,0 +1,38 @@
+PASS Linux rootfs on sda33
+PASS Rootfs has at least 1 GiB free
+PASS System startup complete
+PASS Phosh and sensor services active
+PASS Keyboard and user audio services active
+PASS Wayland session socket
+PASS Readable portrait keyboard sizing
+PASS Chinese on-screen Pinyin engine installed
+PASS Pinyin and English keyboard layouts configured
+PASS Timezone Asia/Shanghai
+PASS Network time synchronized
+PASS HTTPS system trust store
+PASS Application installed: epiphany
+PASS Application installed: gnome-text-editor
+PASS Application installed: kgx
+PASS Application installed: nautilus
+PASS Application installed: xdg-mime
+PASS Chinese translation package: language-pack-zh-hans
+PASS Chinese translation package: language-pack-gnome-zh-hans
+PASS Usable default handler: x-scheme-handler/http
+PASS Usable default handler: x-scheme-handler/https
+PASS Default speaker sink registered
+PASS Default speaker volume readable
+PASS Battery percentage readable
+PASS Default network route
+WARN WiFi associated
+  loopback:connected (externally)
+wifi:disconnected
+wifi-p2p:disconnected
+ethernet:unmanaged
+iptunnel:unmanaged
+WARN Backlight control exposed
+  []
+PASS Verified HTTPS: https://example.com/
+PASS Verified HTTPS: https://ports.ubuntu.com/ubuntu-ports/
+Summary: {'pass': 27, 'warn': 2, 'fail': 0}
+Evidence: /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/basic-check-20261028-185310-145944Z.json
+Touch, typing, app rendering, physical charging and sound require separate evidence.

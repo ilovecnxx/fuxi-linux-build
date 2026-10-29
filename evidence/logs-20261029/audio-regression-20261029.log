@@ -1,0 +1,21 @@
+test_compiler_failure_preserves_previous_topology (test_fuxi_audio_tplg.AudioTopologyTest.test_compiler_failure_preserves_previous_topology) ... ok
+test_invalid_data_line_preserves_previous_topology (test_fuxi_audio_tplg.AudioTopologyTest.test_invalid_data_line_preserves_previous_topology) ... ok
+test_success_rewrites_secondary_interface_and_channel (test_fuxi_audio_tplg.AudioTopologyTest.test_success_rewrites_secondary_interface_and_channel) ... ok
+test_audio_variant_includes_amplifier_bus_dependencies (test_fuxi_build_abl.BuildTest.test_audio_variant_includes_amplifier_bus_dependencies) ... ok
+test_default_pm_manifest_and_config_restore (test_fuxi_build_abl.BuildTest.test_default_pm_manifest_and_config_restore) ... ok
+test_failed_kernel_restores_config (test_fuxi_build_abl.BuildTest.test_failed_kernel_restores_config) ... ok
+test_failed_olddefconfig_restores_config (test_fuxi_build_abl.BuildTest.test_failed_olddefconfig_restores_config) ... ok
+test_lock_prevents_configuration_changes (test_fuxi_build_abl.BuildTest.test_lock_prevents_configuration_changes) ... ok
+test_pm_can_be_explicitly_disabled (test_fuxi_build_abl.BuildTest.test_pm_can_be_explicitly_disabled) ... ok
+test_repack_cannot_leave_stale_provenance (test_fuxi_build_abl.BuildTest.test_repack_cannot_leave_stale_provenance) ... ok
+test_sx_step_count_and_regular_register_ranges (test_fuxi_volume_limit.VolumeLimitTest.test_sx_step_count_and_regular_register_ranges) ... ok
+test_delayed_service_is_accepted (test_fuxi_wait_ssc.WaitSSCTest.test_delayed_service_is_accepted) ... ok
+test_failed_lookup_does_not_count_even_with_a_matching_line (test_fuxi_wait_ssc.WaitSSCTest.test_failed_lookup_does_not_count_even_with_a_matching_line) ... ok
+test_hung_discovery_is_bounded (test_fuxi_wait_ssc.WaitSSCTest.test_hung_discovery_is_bounded) ... ok
+test_invalid_deadline_is_rejected (test_fuxi_wait_ssc.WaitSSCTest.test_invalid_deadline_is_rejected) ... ok
+test_other_services_do_not_count_as_ssc (test_fuxi_wait_ssc.WaitSSCTest.test_other_services_do_not_count_as_ssc) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 6.933s
+
+OK

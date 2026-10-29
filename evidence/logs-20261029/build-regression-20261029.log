@@ -1,0 +1,11 @@
+test_default_pm_manifest_and_config_restore (test_fuxi_build_abl.BuildTest.test_default_pm_manifest_and_config_restore) ... ok
+test_failed_kernel_restores_config (test_fuxi_build_abl.BuildTest.test_failed_kernel_restores_config) ... ok
+test_failed_olddefconfig_restores_config (test_fuxi_build_abl.BuildTest.test_failed_olddefconfig_restores_config) ... ok
+test_lock_prevents_configuration_changes (test_fuxi_build_abl.BuildTest.test_lock_prevents_configuration_changes) ... ok
+test_pm_can_be_explicitly_disabled (test_fuxi_build_abl.BuildTest.test_pm_can_be_explicitly_disabled) ... ok
+test_repack_cannot_leave_stale_provenance (test_fuxi_build_abl.BuildTest.test_repack_cannot_leave_stale_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.533s
+
+OK

@@ -1,0 +1,21 @@
+01:20:26 +0s image abl-fuxi-audio-probe3.img sha256=6b592783e9a8ffcb
+01:20:27 +1s 手机在 Ubuntu，先重启回 Android
+work/kbuild/abl-fuxi-audio-probe3.img: 1 file pushed, 0 skipped. 55.7 MB/s (10047488 bytes in 0.172s)
+01:20:57 +31s recovery_b 已写入并校验
+01:21:03 +37s adb reboot recovery
+01:21:20 +54s Ubuntu ssh 可用
+$ uname -rv; cat /proc/asound/cards; dmesg | grep -iE "cs35l41|sc8280xp|asoc|q6apm|audioreach|880000" | tail -n 40
+7.3.0+ #171 SMP PREEMPT Thu Oct 29 01:20:05 CST 2026
+--- no soundcards ---
+[    0.000000] OF: reserved mem: 0x00000000d8800000..0x00000000e11fffff (141312 KiB) nomap non-reusable ta-region@d8800000
+[    0.000000]   node   0: [mem 0x0000000880000000-0x00000008b9cfffff]
+[    0.380674] vreg_l2f_0p88: Setting 880000-912000uV
+[    0.383010] cs35l41 0-0040: supply VA not found, using dummy regulator
+[    0.384241] cs35l41 0-0040: supply VP not found, using dummy regulator
+[    0.434569] cs35l41 0-0040: Subsystem ID: xiaomi-fuxi
+[    0.440921] cs35l41 0-0040: Cirrus Logic CS35L41 (35a40), Revision: B2
+[    0.443076] cs35l41 0-0042: supply VA not found, using dummy regulator
+[    0.444344] cs35l41 0-0042: supply VP not found, using dummy regulator
+[    0.493967] cs35l41 0-0042: Subsystem ID: xiaomi-fuxi
+[    0.502850] cs35l41 0-0042: Cirrus Logic CS35L41 (35a40), Revision: B2
+01:21:21 +55s FUXI_KEEP=1：留在 Ubuntu

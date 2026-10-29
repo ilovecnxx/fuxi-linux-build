@@ -1,0 +1,74 @@
+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/display/panel/xiaomi,fuxi-m3-38-0c-0a.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Xiaomi 13 (fuxi) Samsung M3 AMOLED DSI Panel
+
+maintainers:
+  - Neil Armstrong <neil.armstrong@linaro.org>
+
+description:
+  The Xiaomi 13 uses a 1080x2400 Samsung AMOLED panel connected over a
+  four-lane MIPI DSI link. The panel operates in command mode and uses DSC.
+
+allOf:
+  - $ref: panel-common.yaml#
+
+properties:
+  compatible:
+    const: xiaomi,fuxi-m3-38-0c-0a
+
+  reg:
+    maxItems: 1
+
+  vddio-supply:
+    description: 1.8 V panel I/O supply
+
+  vddd-supply:
+    description: 1.5 V panel core supply
+
+  vci-supply:
+    description: 3.0 V panel analog supply
+
+  port: true
+  reset-gpios: true
+
+required:
+  - compatible
+  - reg
+  - vddio-supply
+  - vddd-supply
+  - vci-supply
+  - reset-gpios
+  - port
+
+unevaluatedProperties: false
+
+examples:
+  - |
+    #include <dt-bindings/gpio/gpio.h>
+
+    dsi {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        panel@0 {
+            compatible = "xiaomi,fuxi-m3-38-0c-0a";
+            reg = <0>;
+
+            vddio-supply = <&panel_vddio_1p8>;
+            vddd-supply = <&panel_vddd_1p5>;
+            vci-supply = <&panel_vci_3p0>;
+            reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
+
+            port {
+                panel_in: endpoint {
+                    remote-endpoint = <&mdss_dsi0_out>;
+                };
+            };
+        };
+    };
+
+...

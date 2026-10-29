@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * fuxi（Xiaomi 13）早期屏幕 console：simpledrm/fbcon 接管之前，把内核日志画到
- * bootloader 留下的帧缓冲上。手机没有可用 UART，内核在 simpledrm probe 之前出问题时
- * 这是唯一能看到日志的地方。
+ * fuxi（Xiaomi 13）早期屏幕 console：在 simpledrm/fbcon 接管前显示内核日志。
+ * 手机没有可用 UART；内核若在 simpledrm probe 前出错，只能通过屏幕看日志。
  *
  * 只在命令行带 fuxi.fb=0x<phys>,<stride_px>,<height>,<width>,<bpp> 时启用。
  * early_initcall 注册（CON_PRINTBUFFER 会回放此前的全部日志）；DT 里有可用的
@@ -49,7 +48,7 @@ static int __init fuxi_fb_param(char *str)
 }
 early_param("fuxi.fb", fuxi_fb_param);
 
-/* 画一行文本（8x16 字模放大 FUXI_TEXT_SCALE 倍，白字黑底），到底后从头覆盖 */
+/* 画一行放大的 8x16 字符；白字黑底，写到底后从头覆盖。 */
 static void fuxi_draw_line(const char *s, unsigned int len)
 {
 	unsigned int maxc = (fuxi_fb_width - FUXI_TEXT_X) / (8 * FUXI_TEXT_SCALE);
@@ -124,8 +123,8 @@ static int __init fuxi_console_init(void)
 	if (!fuxi_fb_valid)
 		return 0;
 	/*
-	 * 帧缓冲在 linear map 里时 arm64 ioremap() 会拒绝，只能用 linear map + dcache clean；
-	 * DTS 把它保留为 no-map（cont_splash）后不在 linear map 里，用 ioremap_wc。
+	 * arm64 ioremap() 会拒绝 linear-map 帧缓冲，须用 linear map 并清理缓存。
+	 * DTS 以 no-map（cont_splash）保留帧缓冲时，改用 ioremap_wc。
 	 */
 	if (pfn_is_map_memory(PHYS_PFN(fuxi_fb_base)))
 		fuxi_fb_lin = phys_to_virt(fuxi_fb_base);

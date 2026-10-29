@@ -1,0 +1,16 @@
+Android remaining wait: 23s
+Linux SSH ready: 20s
+7.3.0+ #172 SMP PREEMPT Thu Oct 29 01:23:17 CST 2026
+44407a8d-5d47-4064-b63c-303ad3bb6de3
+running
+Id=phosh.service
+ActiveState=active
+NRestarts=0
+
+Id=hexagonrpcd.service
+ActiveState=active
+NRestarts=0
+
+Id=iio-sensor-proxy.service
+ActiveState=active
+NRestarts=0

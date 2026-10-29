@@ -322,6 +322,9 @@ static int ftm5_suspend(struct device *dev)
 
 	disable_irq(ts->spi->irq);
 	ftm5_sense_off(ts);
+	/* Do not leave contacts pressed while the controller is asleep. */
+	input_mt_sync_frame(ts->input);
+	input_sync(ts->input);
 	return 0;
 }
 

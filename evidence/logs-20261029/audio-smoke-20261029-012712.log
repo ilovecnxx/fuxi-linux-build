@@ -1,0 +1,2 @@
+Oct 28 17:27:15 localhost.localdomain kernel: qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+PASS PCM stream completed; physical sound and speaker protection remain separate checks

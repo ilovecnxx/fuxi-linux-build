@@ -1,3 +1,38 @@
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index 121ca557c..ae96dd89d 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -1173,6 +1173,7 @@ properties:
+               - qcom,sm8550-hdk
+               - qcom,sm8550-mtp
+               - qcom,sm8550-qrd
++              - xiaomi,fuxi
+               - samsung,q5q
+               - sony,pdx234
+           - const: qcom,sm8550
+@@ -1415,6 +1416,7 @@ allOf:
+               - qcom,sm7225
+               - qcom,sm8150
+               - qcom,sm8250
++              - xiaomi,fuxi
+     then:
+       properties:
+         qcom,board-id: true
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8550-gcc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8550-gcc.yaml
+index c4e9b9bb6..7a3ffb498 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8550-gcc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8550-gcc.yaml
+@@ -31,6 +31,10 @@ properties:
+       - description: UFS Phy Tx symbol 0 clock source
+       - description: USB3 Phy wrapper pipe clock source
+ 
++  power-domains:
++    maxItems: 1
++    description: CX power domain
++
+ required:
+   - compatible
+   - clocks
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
 index 292392ded..0f5cacb89 100644
 --- a/arch/arm64/Kconfig
@@ -18,10 +53,10 @@ index 292392ded..0f5cacb89 100644
  	bool "Cortex-A53: 826319: System might deadlock if a write cannot complete until read data is accepted"
  	default y
 diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 88230c4e0..a549d8882 100644
+index 88230c4e0..67e03cebc 100644
 --- a/arch/arm64/boot/dts/qcom/Makefile
 +++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -437,6 +437,16 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-display-card.dtb
+@@ -437,6 +437,18 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-display-card.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk-rear-camera-card.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-mtp.dtb
@@ -29,6 +64,8 @@ index 88230c4e0..a549d8882 100644
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-disp.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-modem.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio-disp.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-r120-audio-disp.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-audio2.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-usbc.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-xiaomi-fuxi-desk.dtb
@@ -38,6 +75,21 @@ index 88230c4e0..a549d8882 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-qrd.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-samsung-q5q.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-sony-xperia-yodo-pdx234.dtb
+diff --git a/arch/arm64/include/asm/setup.h b/arch/arm64/include/asm/setup.h
+index 3d96dde4d..6e6a5730a 100644
+--- a/arch/arm64/include/asm/setup.h
++++ b/arch/arm64/include/asm/setup.h
+@@ -13,6 +13,10 @@
+ extern phys_addr_t __fdt_pointer __initdata;
+ extern u64 __cacheline_aligned boot_args[4];
+ 
++#ifdef CONFIG_FUXI_FORCE_BUILTIN_DTB
++extern const unsigned char fuxi_dtb[];
++#endif
++
+ static inline bool arch_parse_debug_rodata(char *arg)
+ {
+ 	extern bool rodata_enabled;
 diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
 index fc5d1a0c3..c96c25738 100644
 --- a/arch/arm64/kernel/Makefile
@@ -54,26 +106,82 @@ index fc5d1a0c3..c96c25738 100644
 +AFLAGS_fuxi_dtb.o += -DFUXI_DTB_FILE='"arch/arm64/boot/dts/qcom/$(FUXI_DTB).dtb"'
 +$(obj)/fuxi_dtb.o: arch/arm64/boot/dts/qcom/$(FUXI_DTB).dtb
 diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index a707deba6..2cd71fe09 100644
+index a707deba6..afc38db7e 100644
 --- a/arch/arm64/kernel/setup.c
 +++ b/arch/arm64/kernel/setup.c
-@@ -289,6 +289,16 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
+@@ -289,6 +289,13 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
  	early_fixmap_init();
  	early_ioremap_init();
  
 +	/*
-+	 * fuxi: ABL 会把 dtbo 分区的厂商 overlay 叠到 boot 镜像附带的 DTB 上，叠到主线
-+	 * DTB 会卡死，所以 boot 镜像附带厂商 DTB，内核在这里改用编进来的主线 DTB。
++	 * fuxi: ABL 会把厂商 dtbo overlay 叠到 boot DTB；主线 DTB 会卡住，
++	 * 所以镜像附厂商 DTB，内核改用内建主线 DTB。
 +	 */
 +#if IS_ENABLED(CONFIG_FUXI_FORCE_BUILTIN_DTB)
-+	{
-+		extern const unsigned char fuxi_dtb[];
-+		__fdt_pointer = __pa_symbol((unsigned long)fuxi_dtb);
-+	}
++	__fdt_pointer = __pa_symbol((unsigned long)fuxi_dtb);
 +#endif
  	setup_machine_fdt(__fdt_pointer);
  
  	/*
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index d92659d80..61c35eb3f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -129,6 +129,7 @@ struct msm_dsi_host {
+ 	struct clk *dsi_pll_pixel_clk;
+ 
+ 	unsigned long byte_clk_rate;
++	unsigned long hs_rate;
+ 	bool byte_intf_clk_div_2;
+ 	unsigned long pixel_clk_rate;
+ 	unsigned long esc_clk_rate;
+@@ -678,6 +679,17 @@ static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, msm_host->dsc, is_bonded_dsi);
+ 	msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, is_bonded_dsi,
+ 							msm_host->mode);
++	if (msm_host->hs_rate && msm_host->byte_clk_rate &&
++	    !msm_host->cphy_mode) {
++		unsigned long old_byte_clk_rate = msm_host->byte_clk_rate;
++
++		msm_host->byte_clk_rate = DIV_ROUND_CLOSEST(msm_host->hs_rate, 8);
++		msm_host->pixel_clk_rate = mult_frac(msm_host->pixel_clk_rate,
++						     msm_host->byte_clk_rate,
++						     old_byte_clk_rate);
++		pr_info("msm-dsi: lane rate %lu Hz, byte clock %lu Hz\n",
++			msm_host->hs_rate, msm_host->byte_clk_rate);
++	}
+ 
+ 	DBG("pclk=%lu, bclk=%lu", msm_host->pixel_clk_rate,
+ 				msm_host->byte_clk_rate);
+@@ -1724,6 +1736,7 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+ 	msm_host->lanes = dsi->lanes;
+ 	msm_host->format = dsi->format;
+ 	msm_host->mode_flags = dsi->mode_flags;
++	msm_host->hs_rate = dsi->hs_rate;
+ 	if (dsi->dsc) {
+ 		msm_host->dsc = dsi->dsc;
+ 		if (dsi->mode_flags & MIPI_DSI_MODE_DSC_ALL_SLICES_IN_PKT)
+@@ -2493,6 +2506,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
++	u32 test_pattern;
+ 	int ret = 0;
+ 
+ 	mutex_lock(&msm_host->dev_mutex);
+@@ -2532,6 +2546,12 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 
+ 	dsi_timing_setup(msm_host, is_bonded_dsi);
+ 	dsi_sw_reset(msm_host);
++	test_pattern = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
++	if (test_pattern) {
++		pr_info("msm-dsi: clear stale test pattern 0x%x\n",
++			test_pattern);
++		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, 0);
++	}
+ 	dsi_ctrl_enable(msm_host, phy_shared_timings, phy);
+ 
+ 	msm_host->power_on = true;
 diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
 index 7a520b4d6..f37de4c03 100644
 --- a/drivers/gpu/drm/panel/Kconfig
@@ -282,19 +390,28 @@ index 954be9343..ee0eadd5b 100644
  		.name	= "ufshcd-qcom",
  		.pm	= &ufs_qcom_pm_ops,
 diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 4d48e1012..3a9081272 100644
+index 4d48e1012..af8a5f31c 100644
 --- a/sound/soc/qcom/sc8280xp.c
 +++ b/sound/soc/qcom/sc8280xp.c
-@@ -68,6 +68,8 @@ struct qcom_snd_soc_common {
+@@ -68,6 +68,9 @@ struct qcom_snd_soc_common {
  	int num_controls;
  	unsigned int codec_dai_fmt;
  	bool codec_sysclk_set;
 +	/* Clock the codecs' PLL from BCLK (e.g. Cirrus CS35L41 on MI2S) */
 +	bool codec_sysclk_bclk;
++	bool mi2s_codec_channel_map;
  	bool mi2s_mclk_enable;
  	bool mi2s_bclk_enable;
  	bool wcd_jack;
-@@ -193,6 +195,16 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+@@ -179,6 +182,7 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct snd_soc_jack *dp_jack  = NULL;
+ 	int dp_pcm_id = 0;
++	int ret;
+ 
+ 	switch (cpu_dai->id) {
+ 	case WSA_CODEC_DMA_RX_0:
+@@ -193,6 +197,20 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
  		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 17);
  		snd_soc_limit_volume(card, "SpkrRight PA Volume", 17);
  		break;
@@ -304,14 +421,18 @@ index 4d48e1012..3a9081272 100644
 +		 * protection firmware, cap Digital Volume at 0 dB.
 +		 */
 +		if (data->priv->codec_sysclk_bclk) {
-+			snd_soc_limit_volume(card, "B Digital PCM Volume", 816);
-+			snd_soc_limit_volume(card, "T Digital PCM Volume", 816);
++			ret = snd_soc_limit_volume(card, "B Digital PCM Volume", 816);
++			if (ret < 0)
++				return ret;
++			ret = snd_soc_limit_volume(card, "T Digital PCM Volume", 816);
++			if (ret < 0)
++				return ret;
 +		}
 +		break;
  	case DISPLAY_PORT_RX_0:
  		/* DISPLAY_PORT dai ids are not contiguous */
  		dp_pcm_id = 0;
-@@ -253,7 +265,7 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+@@ -253,7 +271,7 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
  	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
  	int mclk_freq = sc8280xp_get_mclk_freq(params);
  	int bclk_freq = sc8280xp_get_bclk_freq(params);
@@ -320,7 +441,7 @@ index 4d48e1012..3a9081272 100644
  
  	switch (cpu_dai->id) {
  	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-@@ -265,10 +277,13 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+@@ -265,10 +283,26 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
  			return ret;
  
  		if (data->priv->codec_dai_fmt) {
@@ -331,14 +452,27 @@ index 4d48e1012..3a9081272 100644
 +			for_each_rtd_codec_dais(rtd, i, codec_dai) {
 +				ret = snd_soc_dai_set_fmt(codec_dai,
 +							  data->priv->codec_dai_fmt);
-+				if (ret && ret != -ENOTSUPP)
++				if (ret && ret != -EOPNOTSUPP)
++					return ret;
++			}
++			codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++		}
++
++		if (data->priv->mi2s_codec_channel_map) {
++			/* Mono codecs in DT order: first left, second right. */
++			for_each_rtd_codec_dais(rtd, i, codec_dai) {
++				unsigned int slot = i;
++
++				ret = snd_soc_dai_set_channel_map(codec_dai, 0, NULL,
++								  1, &slot);
++				if (ret)
 +					return ret;
 +			}
 +			codec_dai = snd_soc_rtd_to_codec(rtd, 0);
  		}
  
  		if (data->priv->mi2s_mclk_enable) {
-@@ -294,6 +309,21 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+@@ -294,6 +328,21 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
  			if (ret && ret != -ENOTSUPP)
  				return ret;
  		}
@@ -347,20 +481,20 @@ index 4d48e1012..3a9081272 100644
 +			for_each_rtd_codec_dais(rtd, i, codec_dai) {
 +				ret = snd_soc_dai_set_sysclk(codec_dai, 0, bclk_freq,
 +							     SND_SOC_CLOCK_IN);
-+				if (ret && ret != -ENOTSUPP)
++				if (ret && ret != -EOPNOTSUPP)
 +					return ret;
 +
 +				ret = snd_soc_component_set_sysclk(codec_dai->component,
 +								   0, 0, bclk_freq,
 +								   SND_SOC_CLOCK_IN);
-+				if (ret && ret != -ENOTSUPP)
++				if (ret && ret != -EOPNOTSUPP)
 +					return ret;
 +			}
 +		}
  		break;
  	case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
  		return sc8280xp_tdm_hw_params(substream, params);
-@@ -538,6 +568,18 @@ static const struct qcom_snd_soc_common sm8550_priv_data = {
+@@ -538,6 +587,19 @@ static const struct qcom_snd_soc_common sm8550_priv_data = {
  			 SND_SOC_DAIFMT_I2S,
  };
  
@@ -370,6 +504,7 @@ index 4d48e1012..3a9081272 100644
 +	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
 +	.wcd_jack = true,
 +	.codec_sysclk_bclk = true,
++	.mi2s_codec_channel_map = true,
 +	.mi2s_bclk_enable = true,
 +	.codec_dai_fmt = SND_SOC_DAIFMT_BC_FC |
 +			 SND_SOC_DAIFMT_NB_NF |
@@ -379,7 +514,7 @@ index 4d48e1012..3a9081272 100644
  static const struct qcom_snd_soc_common sm8650_priv_data = {
  	.driver_name = "sm8650",
  	.dapm_widgets = sc8280xp_dapm_widgets,
-@@ -576,6 +618,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
+@@ -576,6 +638,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
  	{ .compatible = "qcom,sm8550-sndcard", .data = &sm8550_priv_data },
  	{ .compatible = "qcom,sm8650-sndcard", .data = &sm8650_priv_data },
  	{ .compatible = "qcom,sm8750-sndcard", .data = &sm8750_priv_data },
@@ -387,3 +522,18 @@ index 4d48e1012..3a9081272 100644
  	{}
  };
  
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index c935571d4..756d7a052 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -457,7 +457,9 @@ int snd_soc_limit_volume(struct snd_soc_card *card, const char *name, int max)
+ 		struct soc_mixer_control *mc =
+ 			(struct soc_mixer_control *)kctl->private_value;
+ 
+-		if (max <= mc->max - mc->min) {
++		/* SX controls store the step count in max, not a register limit. */
++		if (max <= (kctl->info == snd_soc_info_volsw_sx ?
++			    mc->max : mc->max - mc->min)) {
+ 			mc->platform_max = max;
+ 			ret = snd_soc_clip_to_platform_max(kctl);
+ 		}

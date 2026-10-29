@@ -1,0 +1,33 @@
+WARNING: line length of 111 exceeds 100 columns
+#17: FILE: arch/arm64/kernel/setup.c:294:
++	 * 主线 DTB 会因此卡死，所以镜像带厂商 DTB，内核在这里切换到内建主线 DTB。
+
+WARNING: Missing a blank line after declarations
+#29: FILE: drivers/gpu/drm/msm/dsi/dsi_host.c:682:
++	unsigned long hs_rate;
++	if (msm_host->hs_rate && msm_host->byte_clk_rate &&
+
+CHECK: Alignment should match open parenthesis
+#35: FILE: drivers/gpu/drm/msm/dsi/dsi_host.c:688:
++		msm_host->pixel_clk_rate = mult_frac(msm_host->pixel_clk_rate,
++						    msm_host->byte_clk_rate,
+
+WARNING: Missing a blank line after declarations
+#45: FILE: drivers/gpu/drm/msm/dsi/dsi_host.c:2549:
++	u32 test_pattern;
++	test_pattern = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
+
+WARNING: Missing a blank line after declarations
+#62: FILE: sound/soc/qcom/sc8280xp.c:200:
++	int ret;
++	case SECONDARY_MI2S_RX:
+
+total: 0 errors, 4 warnings, 1 checks, 104 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+Your patch has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.

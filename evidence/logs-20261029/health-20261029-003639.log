@@ -1,0 +1,19 @@
+kernel: Linux 7.3.0+ #155 SMP PREEMPT Wed Oct 28 14:28:01 CST 2026
+uptime: up 6 hours, 2 minutes
+PASS systemd running
+PASS phosh active
+PASS fuxi-firmware-devices active
+PASS bluetooth active
+PASS phoc 进程存在
+PASS phosh 进程存在
+PASS 屏幕键盘服务已运行（Stevia 或 Squeekboard）
+FAIL CPU 调频策略数量=0，预期 3
+FAIL 有效热区仅 0
+FAIL CPU cooling 设备数量=0
+PASS FTM5 触摸设备已注册
+PASS DRM 已连接输出=1
+PASS 电量=100% 状态=Charging（仅验证读数）
+PASS WiFi 接口可用（尚未联网验收）
+PASS 蓝牙已上电
+PASS rmtfs 无失败状态
+验收结束：失败项=3；触摸交互、实际充电、无线 SSH 仍需各自验证。

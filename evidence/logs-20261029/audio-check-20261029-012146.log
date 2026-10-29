@@ -1,0 +1,36 @@
+7.3.0+ #171 SMP PREEMPT Thu Oct 29 01:20:05 CST 2026
+ 0 [Xiaomi13       ]: sm8550 - Xiaomi-13
+                      Xiaomi-13
+PASS Xiaomi 声卡 card0 已注册
+**** List of PLAYBACK Hardware Devices ****
+card 0: Xiaomi13 [Xiaomi-13], device 0: MultiMedia1 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: Xiaomi13 [Xiaomi-13], device 1: MultiMedia2 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: Xiaomi13 [Xiaomi-13], device 5: MultiMedia6 Playback (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+PASS PCM 播放设备 0 存在
+PASS B 功放音量控件存在
+FAIL T 功放控件缺失
+numid=54,iface=MIXER,name='B PCM Source'
+PASS CS35L41 0-0040 已绑定
+PASS CS35L41 0-0042 已绑定
+--- 音频内核日志
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0040: supply VA not found, using dummy regulator
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0040: supply VP not found, using dummy regulator
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0040: Subsystem ID: xiaomi-fuxi
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0040: Cirrus Logic CS35L41 (35a40), Revision: B2
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0042: supply VA not found, using dummy regulator
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0042: supply VP not found, using dummy regulator
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0042: Subsystem ID: xiaomi-fuxi
+Oct 28 17:20:33 localhost.localdomain kernel: cs35l41 0-0042: Cirrus Logic CS35L41 (35a40), Revision: B2
+Oct 28 17:20:34 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:1
+Oct 28 17:20:39 localhost.localdomain kernel: qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
+Oct 28 17:20:39 localhost.localdomain kernel: platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu group 14
+Oct 28 17:20:39 localhost.localdomain kernel: qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:2
+Oct 28 17:20:39 localhost.localdomain kernel: snd-sc8280xp sound: ASoC: Parent card not yet available, widget card binding deferred
+Oct 28 17:20:39 localhost.localdomain kernel:  MultiMedia2 Playback: ASoC: no backend DAIs enabled for MultiMedia2 Playback, possibly missing ALSA mixer-based routing or UCM profile
+音频检查失败项=1（不代表实际出声或录音验收）

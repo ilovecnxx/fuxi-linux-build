@@ -13,27 +13,58 @@ import sys
 
 
 def parse(blk, prop):
-    m = re.search(re.escape(prop) + r" = \[([0-9a-f ]+)\]", blk)
+    m = re.search(re.escape(prop) + r" = \[([0-9a-fA-F ]+)\]", blk)
     if not m:
         sys.exit(f"{prop} not found")
     b = [int(x, 16) for x in m.group(1).split()]
     cmds, k = [], 0
     while k < len(b):
+        if len(b) - k < 7:
+            sys.exit("truncated command header")
         dtype, wait, dlen = b[k], b[k + 4], (b[k + 5] << 8) | b[k + 6]
-        cmds.append((dtype, wait, b[k + 7:k + 7 + dlen]))
+        start, end = k + 7, k + 7 + dlen
+        if end > len(b):
+            sys.exit("truncated command payload")
+        cmds.append((dtype, wait, b[start:end]))
         k += 7 + dlen
-    if k != len(b):
-        sys.exit("trailing bytes")
     return cmds
 
 
 def emit(dtype, payload):
     if dtype == 0x05:
+        if not payload:
+            sys.exit("DCS short write without parameters is missing its command")
         payload = payload[:1]
-    if dtype in (0x05, 0x15, 0x39):
+    if dtype in (0x05, 0x15):
+        if dtype == 0x15 and len(payload) != 2:
+            sys.exit("DCS short write with one parameter needs two payload bytes")
         fn = "mipi_dsi_dcs_write_seq_multi"
-    elif dtype in (0x03, 0x13, 0x23, 0x29):
+    elif dtype == 0x39:
+        if not payload:
+            sys.exit("DCS long write is missing its command")
+        fn = (
+            "xiaomi_fuxi_dcs_long_write_seq_multi"
+            if len(payload) <= 2 else "mipi_dsi_dcs_write_seq_multi"
+        )
+    elif dtype == 0x03:
+        if payload:
+            sys.exit("generic short write without parameters has payload")
+        return "\tmipi_dsi_generic_write_multi(&dsi_ctx, NULL, 0);"
+    elif dtype == 0x13:
+        if len(payload) != 1:
+            sys.exit("generic short write with one parameter needs one payload byte")
         fn = "mipi_dsi_generic_write_seq_multi"
+    elif dtype == 0x23:
+        if len(payload) != 2:
+            sys.exit("generic short write with two parameters needs two payload bytes")
+        fn = "mipi_dsi_generic_write_seq_multi"
+    elif dtype == 0x29:
+        if not payload:
+            sys.exit("generic long write is missing its payload")
+        fn = (
+            "xiaomi_fuxi_generic_long_write_seq_multi"
+            if len(payload) <= 2 else "mipi_dsi_generic_write_seq_multi"
+        )
     else:
         sys.exit(f"unsupported dsi type {dtype:#x}")
     args = [f"0x{x:02x}" for x in payload]

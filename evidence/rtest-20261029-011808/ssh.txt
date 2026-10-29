@@ -1,0 +1,3 @@
+$ uname -rv; cat /proc/asound/cards; dmesg | grep -iE "cs35l41|sc8280xp|asoc|q6apm|audioreach" | tail -n 40
+7.3.0+ #170 SMP PREEMPT Thu Oct 29 01:17:36 CST 2026
+--- no soundcards ---

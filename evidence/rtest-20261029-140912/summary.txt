@@ -1,0 +1,6 @@
+14:09:12 +0s image abl-fuxi-screen-audio8.img sha256=0e00d418ef9e66a9
+14:09:12 +0s 手机在 Ubuntu，先重启回 Android
+14:09:53 +41s recovery_b 已写入并校验
+14:09:57 +45s adb reboot recovery
+14:10:14 +62s Ubuntu ssh 可用
+14:10:16 +64s FUXI_KEEP=1：留在 Ubuntu

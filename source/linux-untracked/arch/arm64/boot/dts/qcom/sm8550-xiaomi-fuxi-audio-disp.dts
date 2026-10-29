@@ -1,0 +1,5 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/* Xiaomi 13: native display with the existing speaker audio configuration. */
+
+#include "sm8550-xiaomi-fuxi-audio.dts"
+#include "sm8550-xiaomi-fuxi-disp.dtsi"

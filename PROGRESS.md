@@ -2,7 +2,7 @@
 
 本文件记录从设备摸底到「Android + 主线 Linux 双系统 + M5/M6」的时间线，以及可复核的实机验证证据。上手操作请看 [README.md](README.md)，权威操作步骤见 [docs/双系统启动说明.md](docs/双系统启动说明.md)，M5/M6 详细进展见 [docs/目标-M5.md](docs/目标-M5.md)。
 
-**当前版本 `v0.2.0-dualboot-20261027`。** 本版必须区分两类状态：✅ 在真实设备上跑过并留下记录；🚧 只在电脑上构建成功、没有上机验收（设备 2026-10-27 13:16 后离线）。
+**当前版本 `v0.3.0-dualboot-20261029`。** v0.2.0 及更早的条目里，🚧 表示“只在电脑上构建成功、没有上机验收”（设备当时离线）；v0.3.0 的条目只有 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（仍未上机）三种，逐条以 `evidence/` 里的日志为准。
 
 ## 时间线
 
@@ -157,3 +157,46 @@ scripts/fuxi-run.sh <镜像路径> '<手机上要执行的命令>'
 ```
 
 产物与 `evidence/rtest-*/` 同结构；内核/镜像的构建方法见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md)。
+
+
+## 后续记录：screen-audio8 真机启动（2026-10-29）
+
+在本发布快照形成后，screen-audio8（`7.3.0+ #184`）已写入 `recovery_b` 并成功启动；镜像 SHA256 为 `0e00d418ef9e66a916502288ad8e03e32c2b64f8e17bf085975dc4bc86a53090`。USB SSH 可用，MSM DRM/DSI 报告 connected、1080×2400，初始桌面快照曾有活动 CRTC/plane 与 Phoc framebuffer；simpledrm 未注册。
+
+这只证明数字显示链路和一次 modeset，不能证明实物画质、亮度、刷新、触控或熄屏/唤醒通过。Adreno ZAP PAS 初始化 `-22` 并导致后续 GMU GPU_SET 超时，单独跟踪；桌面仍使用 Pixman 软件渲染。`audio-probe4`（SHA256 `d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16`）及完整 `recovery_b` 备份仍保留。现场验收安排在用户方便时一次完成；设备日志见项目工作区 `work/claude-logs/rtest-20261029-140912/`。
+
+
+## 文件选择器修复候选（2026-10-29）
+
+screen-audio8 的 portal 配置默认将 FileChooser 路由到 Phrosh；该会话没有安装 GTK portal。已在主工作区和发布工作副本中加入单接口 GTK 优先配置及最小部署脚本。APT 模拟只新增 `xdg-desktop-portal-gtk`，不移除或升级其他包。主机当时无法通过 USB SSH 连至手机，实际部署和屏幕交互验收均未完成；不记录为修复通过。
+
+## v0.3.0 发布记录（2026-10-29 全天）
+
+当日工作从「日常镜像的调频/温控与可重复验收」开始，随后完成原生显示、GPU、120 Hz、音频、WiFi/蓝牙与基本功能修复，`recovery_b` 最后停在 `screen120-regcn`（`7.3.0+ #190`，镜像 10,379,264 B，SHA256 `a6c36fe33291882daca1fd1cf21ff5b3b093292ceb902a348935cf4ba623d14f`）。
+
+### 用户现场确认的能力
+
+| 项 | 结果 | 依据 |
+|---|---|---|
+| 原生 MSM DSI 显示 | 画面正常、触控位置准确 | [docs/显示驱动故障定位-20261029.md](docs/显示驱动故障定位-20261029.md)、[docs/显示驱动安装-20261029.md](docs/显示驱动安装-20261029.md) |
+| Adreno 740 GPU | 改用 `/odm/firmware` 里小米签名 ZAP 后 PAS 初始化成功（`/vendor/firmware` 的高通测试签名返回 `-22`），Phosh 切到 FD740 渲染，明显更流畅 | [docs/GPU初始化故障定位-20261029.md](docs/GPU初始化故障定位-20261029.md) |
+| 120 Hz + GPU 温控 | 120 Hz 运行更顺滑、画面正常 | 同上 |
+| WiFi | 整机重启后自动连网，外网/HTTPS 走 WiFi、WiFi SSH 可用、管制域 CN | `evidence/logs-20261029/m52-wifi-after-reboot-20261029.log` |
+| 蓝牙 | 出厂地址与对端 L2CAP 链路，8 包 0% 丢包 | `evidence/logs-20261029/bt-l2ping-20261029.log` |
+| 音频 | 两颗 CS35L41 独立可听、桌面左右短音（四声都听见） | [docs/音频出声修复-20261029.md](docs/音频出声修复-20261029.md) |
+| 基本功能 | HTTPS 根证书、浏览器启动/退出、竖屏键盘、中文输入与文本保存 | [docs/基本功能修复-20261029.md](docs/基本功能修复-20261029.md) |
+| 电量 / 充电 | 插充电器 `status=Charging`，容量 99%，电流随负载 0.1–0.7 A 变化 | `evidence/logs-20261029/m51-charging-20261029.log` |
+| 调频 / 温控 | 3 个 schedutil 策略、43 个热区、3 个 CPU cooling 设备；120 Hz 镜像已接入 GPU 温控 | [docs/进展-20261029.md](docs/进展-20261029.md) |
+
+### 仍未验收（不记为通过）
+
+亮度范围、长时间熄屏/唤醒、物理旋转与桌面联动、文件选择器（GTK portal 未部署验收）、蓝牙耳机 / A2DP、音频保护标定与完整声道定位/麦克风、充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）、相机、蜂窝、UFS 关机路径的多轮回归。
+
+### 本版镜像与源码
+
+- `images/recovery-linux.img` = `abl-fuxi-screen120-regcn`（`#190`，2026-10-29 20:12）；
+- `images/candidates/abl-fuxi-daily-pm1.img`（`#168`，日常基线：CPU 调频/温控，无原生显示/GPU）、`images/candidates/abl-fuxi-audio-probe4.img`（`#172`，音频回退）；
+- `source/` 已更新为当前树：`kernel.diff` 18 个文件 +217/−8、`linux-untracked/` 27 个文件、`kernel.config` 即 `#190` 实际配置，另有 `build-records/` 与 `dtb/`；
+- v0.2.0 发布过的候选镜像（`full3`/`wifi7`/`sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取。
+
+逐轮细节见 `evidence/rtest-20261029-*`、`evidence/logs-20261029/` 与 docs/ 下 2026-10-29 的各篇记录。

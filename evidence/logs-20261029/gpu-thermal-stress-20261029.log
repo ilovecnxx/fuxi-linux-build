@@ -1,0 +1,50 @@
+start max=37000 gpu=33100 cool=0
++5s max=50900 gpu=50900 gpufreq=680000000 cool=0
++10s max=52800 gpu=52800 gpufreq=680000000 cool=0
++15s max=55600 gpu=55600 gpufreq=680000000 cool=0
++20s max=56400 gpu=56800 gpufreq=680000000 cool=0
++25s max=57600 gpu=58000 gpufreq=680000000 cool=0
++30s max=58000 gpu=57600 gpufreq=680000000 cool=0
++35s max=59200 gpu=59200 gpufreq=680000000 cool=0
++40s max=59200 gpu=59200 gpufreq=680000000 cool=0
++45s max=59600 gpu=59200 gpufreq=680000000 cool=0
++50s max=59900 gpu=59900 gpufreq=680000000 cool=0
++55s max=60300 gpu=59900 gpufreq=680000000 cool=0
++60s max=60700 gpu=60300 gpufreq=680000000 cool=0
++65s max=60700 gpu=60700 gpufreq=680000000 cool=0
++70s max=61100 gpu=59200 gpufreq=680000000 cool=0
++75s max=61500 gpu=61500 gpufreq=680000000 cool=0
++80s max=63000 gpu=61500 gpufreq=680000000 cool=0
++85s max=62300 gpu=62300 gpufreq=680000000 cool=0
++90s max=62300 gpu=61900 gpufreq=680000000 cool=0
++95s max=62300 gpu=62700 gpufreq=680000000 cool=0
++100s max=63100 gpu=62700 gpufreq=680000000 cool=0
++105s max=61400 gpu=61900 gpufreq=680000000 cool=0
++110s max=62300 gpu=62700 gpufreq=680000000 cool=0
++115s max=62700 gpu=63100 gpufreq=680000000 cool=0
++120s max=63900 gpu=63900 gpufreq=680000000 cool=0
++125s max=63900 gpu=63900 gpufreq=680000000 cool=0
++130s max=64300 gpu=64300 gpufreq=680000000 cool=0
++135s max=64700 gpu=64300 gpufreq=680000000 cool=0
++140s max=62300 gpu=63500 gpufreq=680000000 cool=0
++145s max=64700 gpu=64700 gpufreq=680000000 cool=0
++150s max=64700 gpu=64700 gpufreq=680000000 cool=0
++155s max=65100 gpu=64700 gpufreq=680000000 cool=0
++160s max=65100 gpu=65100 gpufreq=680000000 cool=0
++165s max=65500 gpu=65100 gpufreq=680000000 cool=0
++170s max=65100 gpu=65500 gpufreq=680000000 cool=0
++175s max=64700 gpu=64700 gpufreq=680000000 cool=0
++180s max=65900 gpu=65900 gpufreq=680000000 cool=0
+pkill: 模式要搜索的进程名的长度超过 15 个字符，将导致找不到匹配
+尝试使用 "pkill -f" 选项来匹配完整的命令行。
+[terrain] <default>: FPS: 254 FrameTime: 3.939 ms
+[terrain] <default>: FPS: 254 FrameTime: 3.940 ms
+[terrain] <default>: FPS: 255 FrameTime: 3.935 ms
+会话已终止，正在杀死 shell... FPS: 254 FrameTime: 3.949 ms
+after10s max=45900 gpu=44200 cool=0
+[    0.116576] iommu: Default domain type: Translated
+[    0.126881] PCI: CLS 0 bytes, default 64
+[    0.659577] pci 0000:01:00.0: ASPM: default states L0s L1
+[    9.944849] systemd[1]: Queued start job for default target graphical.target.
+[   16.368142] rx_macro 6ac0000.codec: Driver needs fixing: Unsorted reg_defaults, sorting the copy
+active

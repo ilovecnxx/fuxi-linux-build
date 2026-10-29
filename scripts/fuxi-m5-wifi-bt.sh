@@ -6,12 +6,12 @@
 #   4. 部署固件、work/rootfs-overlay（fuxi-firmware-devices.service 取代 fuxi-remoteproc.service），
 #      NetworkManager 不接管 usb0，apt 装 iw/wireless-regdb/bluez/wpasupplicant/network-manager
 #   5. 启动服务，检查 ADSP、wlan0（扫描）、hci0
-# 用法: scripts/fuxi-m5-wifi-bt.sh [镜像，默认 work/kbuild/abl-fuxi-wifi6.img]
+# 用法: scripts/fuxi-m5-wifi-bt.sh [镜像，默认 work/kbuild/abl-fuxi-daily-pm1.img]
 # 日志: work/claude-logs/m5-wifi-bt-<时间>.log
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
 ADB="$B/tools/platform-tools/adb"
-IMG="${1:-$B/work/kbuild/abl-fuxi-wifi6.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-daily-pm1.img}"
 LOG="$B/work/claude-logs/m5-wifi-bt-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }
@@ -40,7 +40,8 @@ mkdir -p /etc/NetworkManager/conf.d
 printf "%s\n" "# fuxi：usb0 由 fuxi-usbnet.service 配静态 10.42.0.2（主机共享连接），NetworkManager 别接管" "[keyfile]" "unmanaged-devices=interface-name:usb0" > /etc/NetworkManager/conf.d/10-fuxi-usb0.conf
 systemctl disable fuxi-remoteproc.service 2>/dev/null || true
 systemctl daemon-reload
-systemctl enable fuxi-firmware-devices.service
+systemctl enable fuxi-firmware-devices.service fuxi-wifi-regdom.service
+[ -s /etc/fuxi/bt-address ] && systemctl enable fuxi-bt-address.service
 grep -q fuxi-firmware-devices /root/fuxi-mainline-backup/CHANGES.txt || echo "fuxi-mainline 第十一次（M5.2）: /lib/firmware/{ath12k,qca}；fuxi-firmware-devices.service 取代 fuxi-remoteproc.service；NetworkManager conf.d/10-fuxi-usb0.conf；apt: iw wireless-regdb bluez rfkill wpasupplicant network-manager" >> /root/fuxi-mainline-backup/CHANGES.txt
 echo deploy-ok'
 T=900 ssh_ 'DEBIAN_FRONTEND=noninteractive apt-get install -y iw wireless-regdb bluez rfkill wpasupplicant network-manager 2>&1 | tail -n 3'

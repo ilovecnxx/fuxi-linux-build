@@ -1,13 +1,13 @@
 #!/bin/bash
 # USB-C（OTG/USB3/FSA4480）上机验证。手机须先在 Android。
-#   1. 写 recovery_b（USB-C 变体，默认 abl-fuxi-usbc1；桌面变体 abl-fuxi-desk1 还带原生显示 + DP）并进 Ubuntu
+#   1. 写 recovery_b（USB-C 变体，默认 abl-fuxi-usbc1；桌面变体 abl-fuxi-desk3 还带原生显示 + DP）并进 Ubuntu
 #   2. 接电脑时：检查 typec 端口、角色（应为 device）、USB 速度（USB3 线 + USB3 口应为 super-speed）
 #   3. 手机上后台记录 3 分钟的角色/lsusb/DP 状态；请用户拔掉电脑线、用 OTG 转接头接 U 盘/键盘/扩展坞，
 #      30 秒后再插回电脑；脚本等 ssh 恢复后取回记录
 # 用法: scripts/fuxi-m6-usbc.sh [镜像]
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
-IMG="${1:-$B/work/kbuild/abl-fuxi-usbc1.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-usbc2.img}"
 LOG="$B/work/claude-logs/m6-usbc-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }

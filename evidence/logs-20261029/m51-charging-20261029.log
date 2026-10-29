@@ -1,0 +1,17 @@
+qcom-battmgr-bat
+qcom-battmgr-usb
+qcom-battmgr-wls
+== qcom-battmgr-bat
+type=Battery status=Charging capacity=99 current_now=216000 voltage_now=4241000 charge_counter=3247 charge_full= power_now=10000000 health=Good charge_type=Fast temp=302 
+== qcom-battmgr-usb
+type=USB online=1 current_now=353000 voltage_now=5069000 usb_type=Unknown [SDP] DCP CDP ACA C PD PD_DRP PD_PPS BrickID 
+== qcom-battmgr-wls
+type=Wireless online=0 current_now=353000 voltage_now=-11000 
+== 60s trend
+20:17:47 cap=99 cur=216000 v=4241000 cn= st=Charging
+20:18:11 cap=99 cur=113000 v=4240000 cn= st=Charging
+20:18:21 cap=99 cur=108000 v=4241000 cn= st=Charging
+20:18:31 cap=99 cur=103000 v=4241000 cn= st=Charging
+20:18:41 cap=99 cur=206000 v=4237000 cn= st=Charging
+20:18:51 cap=98 cur=368000 v=4213000 cn= st=Charging
+20:19:01 cap=98 cur=706000 v=4168000 cn= st=Charging

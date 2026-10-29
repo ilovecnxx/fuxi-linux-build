@@ -1,0 +1,39 @@
+#187 SMP PREEMPT Thu Oct 29 17:49:32 CST 2026
+c2cfcb97-0eed-4f60-b2c3-181ff7ec40cc
+ 20:00:13 up 3 min,  3 users,  load average: 0.73, 0.36, 0.14
+running
+NRestarts=0
+--- gpu
+43050a01 Status:
+gpu-initialized: 1
+revision: 0 (43050a01)
+220000000
+680000000
+--- egl
+OpenGL core profile renderer: FD740
+OpenGL core profile version: 4.6 (Core Profile) Mesa 26.2.4-1ubuntu1
+--- dmesg gpu
+[    0.000852] pid_max: default: 32768 minimum: 301
+[    0.121240] iommu: Default domain type: Translated
+[    0.131475] PCI: CLS 0 bytes, default 64
+[    0.649289] adreno 3d00000.gpu: supply vdd not found, using dummy regulator
+[    0.649684] adreno 3d00000.gpu: supply vddcx not found, using dummy regulator
+[    0.650086] adreno 3d00000.gpu: [drm:msm_devfreq_init] *ERROR* Couldn't register GPU cooling device
+[    0.661876] msm_dpu ae01000.display-controller: Direct firmware load for qcom/a740_sqe.fw failed with error -2
+[    0.661980] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] *ERROR* failed to load a740_sqe.fw
+[    0.684228] pci 0000:01:00.0: ASPM: default states L0s L1
+[    1.089387] gcc-sm8550 100000.clock-controller: sync_state() pending due to 3d6a000.gmu
+[    1.089388] gpu_cc-sm8550 3d90000.clock-controller: sync_state() pending due to 3d6a000.gmu
+[    9.983951] systemd[1]: Queued start job for default target graphical.target.
+[   13.478736] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] loaded qcom/a740_sqe.fw from new location
+[   13.479081] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] loaded qcom/gmu_gen70200.bin from new location
+[   13.481863] [drm] Loaded GMU firmware v4.1.9
+[   16.377514] rx_macro 6ac0000.codec: Driver needs fixing: Unsorted reg_defaults, sorting the copy
+--- temp
+37000 pm8550b-thermal
+37000 pm8550ve-thermal
+37000 pmr735d-k-thermal
+38800 cpu3-bottom-thermal
+--- crtc
+vblank fps:11 count:2659 total:235221ms total_framecount:2125
+intf:1  wb:-1  vsync:    2660     underrun:       0    frame_done_cnt:0mode: INTF_MODE_CMD

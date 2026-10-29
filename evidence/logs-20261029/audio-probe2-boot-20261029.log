@@ -1,0 +1,10 @@
+01:18:08 +0s image abl-fuxi-audio-probe2.img sha256=ad4a799f24f74239
+01:18:08 +0s 手机在 Ubuntu，先重启回 Android
+work/kbuild/abl-fuxi-audio-probe2.img: 1 file pushed, 0 skipped. 58.5 MB/s (10043392 bytes in 0.164s)
+01:18:51 +43s recovery_b 已写入并校验
+01:18:56 +48s adb reboot recovery
+01:19:13 +65s Ubuntu ssh 可用
+$ uname -rv; cat /proc/asound/cards; dmesg | grep -iE "cs35l41|sc8280xp|asoc|q6apm|audioreach" | tail -n 40
+7.3.0+ #170 SMP PREEMPT Thu Oct 29 01:17:36 CST 2026
+--- no soundcards ---
+01:19:15 +67s FUXI_KEEP=1：留在 Ubuntu

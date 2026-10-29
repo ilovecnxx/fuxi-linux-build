@@ -1,0 +1,71 @@
+browser exit=132
+Oct 29 02:14:11 localhost.localdomain systemd[532]: Started fuxi-basic-browser.service - [systemd-run] /usr/bin/epiphany --new-window https://example.com.
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Activating via systemd: service name='org.freedesktop.portal.Desktop' unit='xdg-desktop-portal.service' requested by ':1.65' (uid=1000 pid=6383 comm="/usr/bin/epiphany --new-window https://example.com")
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Starting xdg-desktop-portal.service - Portal service...
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Activating via systemd: service name='org.freedesktop.impl.portal.PermissionStore' unit='xdg-permission-store.service' requested by ':1.66' (uid=1000 pid=6391 comm="/usr/libexec/xdg-desktop-portal")
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Starting xdg-permission-store.service - sandboxed app permission store...
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Started xdg-permission-store.service - sandboxed app permission store.
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Activating via systemd: service name='org.freedesktop.portal.Documents' unit='xdg-document-portal.service' requested by ':1.66' (uid=1000 pid=6391 comm="/usr/libexec/xdg-desktop-portal")
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Starting xdg-document-portal.service - flatpak document portal service...
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Started xdg-document-portal.service - flatpak document portal service.
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Activating via systemd: service name='org.freedesktop.impl.portal.desktop.phosh' unit='xdg-desktop-portal-phosh.service' requested by ':1.66' (uid=1000 pid=6391 comm="/usr/libexec/xdg-desktop-portal")
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Starting xdg-desktop-portal-phosh.service - Portal service (Phosh implementation)...
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.phosh'
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Started xdg-desktop-portal-phosh.service - Portal service (Phosh implementation).
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Activating via systemd: service name='org.freedesktop.impl.portal.desktop.phrosh' unit='xdg-desktop-portal-phrosh.service' requested by ':1.66' (uid=1000 pid=6391 comm="/usr/libexec/xdg-desktop-portal")
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Starting xdg-desktop-portal-phrosh.service - Phosh portal service in Rust....
+Oct 29 02:14:12 localhost.localdomain xdg-desktop-portal-phrosh[6419]: Running main loop
+Oct 29 02:14:12 localhost.localdomain xdg-desktop-portal-phrosh[6419]: Running ashpd loop under org.freedesktop.impl.portal.desktop.phrosh
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.phrosh'
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Started xdg-desktop-portal-phrosh.service - Phosh portal service in Rust..
+Oct 29 02:14:12 localhost.localdomain dbus-daemon[585]: [session uid=1000 pid=585 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+Oct 29 02:14:12 localhost.localdomain systemd[532]: Started xdg-desktop-portal.service - Portal service.
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: MESA-EGL: warning: failed to get driver name for fd -1
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: MESA-EGL: warning: MESA-LOADER: failed to retrieve device information
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: MESA-EGL: warning: failed to get driver name for fd -1
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: MESA: error: ZINK: vkCreateInstance failed (VK_ERROR_INCOMPATIBLE_DRIVER)
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: MESA-EGL: warning: egl: failed to create dri2 screen
+Oct 29 02:14:12 localhost.localdomain epiphany[6383]: Cannot get portal org.freedesktop.portal.Inhibit version: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface “org.freedesktop.portal.Inhibit”
+Oct 29 02:14:13 localhost.localdomain epiphany[6383]: Unable to acquire the address of the accessibility bus: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files. If you are attempting to run GTK without a11y support, GTK_A11Y should be set to 'none'.
+Oct 29 02:14:13 localhost.localdomain epiphany[6383]: Failed to search secret storage (is the secret service or secrets portal broken?): The name org.freedesktop.secrets was not provided by any .service files
+Oct 29 02:14:13 localhost.localdomain systemd[532]: fuxi-basic-browser.service: Main process exited, code=killed, status=4/ILL
+Oct 29 02:14:13 localhost.localdomain systemd[532]: fuxi-basic-browser.service: Failed with result 'signal'.
+Oct 29 02:14:13 localhost.localdomain systemd[532]: fuxi-basic-browser.service: Consumed 1.608s CPU time over 1.707s wall clock time, 388.4M memory peak.
+Oct 29 02:14:19 localhost.localdomain systemd[532]: Started app-gnome-org.gnome.Epiphany-6532.scope - Application launched by phosh.
+Oct 29 02:14:19 localhost.localdomain org.gnome.Epiphany.desktop[6532]: MESA-EGL: warning: failed to get driver name for fd -1
+Oct 29 02:14:19 localhost.localdomain org.gnome.Epiphany.desktop[6532]: MESA-EGL: warning: MESA-LOADER: failed to retrieve device information
+Oct 29 02:14:19 localhost.localdomain org.gnome.Epiphany.desktop[6532]: MESA-EGL: warning: failed to get driver name for fd -1
+Oct 29 02:14:19 localhost.localdomain org.gnome.Epiphany.desktop[6532]: MESA: error: ZINK: vkCreateInstance failed (VK_ERROR_INCOMPATIBLE_DRIVER)
+Oct 29 02:14:19 localhost.localdomain org.gnome.Epiphany.desktop[6532]: MESA-EGL: warning: egl: failed to create dri2 screen
+Oct 29 02:14:19 localhost.localdomain epiphany[6532]: Cannot get portal org.freedesktop.portal.Inhibit version: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface “org.freedesktop.portal.Inhibit”
+Oct 29 02:14:19 localhost.localdomain epiphany[6532]: Unable to acquire the address of the accessibility bus: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files. If you are attempting to run GTK without a11y support, GTK_A11Y should be set to 'none'.
+Oct 29 02:14:19 localhost.localdomain epiphany[6532]: Failed to search secret storage (is the secret service or secrets portal broken?): The name org.freedesktop.secrets was not provided by any .service files
+Oct 29 02:14:20 localhost.localdomain systemd[532]: app-gnome-org.gnome.Epiphany-6532.scope: Consumed 1.017s CPU time over 672ms wall clock time, 190.9M memory peak.
+Oct 29 02:14:29 localhost.localdomain phosh[718]: Startup of app '浏览器' with startup id: '15763b8911bff52ac35a61fe52fbe123' timed out
+[  184.748977] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  187.228127] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  187.293874] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  187.337396] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  188.487957] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  188.634501] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  190.938842] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  191.726023] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  191.899350] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  191.928061] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  192.012655] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  192.041878] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  194.148362] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  194.776168] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  195.156359] st-ftm5 spi0.0: error event f3 f2 ff 00 00 00 00 00
+[  195.850071] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  198.369589] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  198.510773] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  199.085845] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  204.803296] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  214.830165] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  224.857022] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  234.883755] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  244.910619] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50
+[  254.937473] qcom_battmgr.pmic_glink_power_supply pmic_glink.power-supply.0: unknown message 0x50

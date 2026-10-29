@@ -1,0 +1,41 @@
+01:06:24 == 1. 检查桌面代理的 SSC 支持
+01:06:24 已安装的 iio-sensor-proxy 支持 SSC，复用该包
+01:06:24 == 2. 部署桌面规则与服务就绪检测
+active
+01:06:26 == 3. 验证桌面探测结果（异步探测最多等待 15 秒）
+HasAccelerometer: b true
+HasAmbientLight: b true
+HasProximity: b true
+    Waiting for iio-sensor-proxy to appear
++++ iio-sensor-proxy appeared
+=== Has accelerometer (orientation: undefined, tilt: undefined)
+=== Has ambient light sensor (value: 0.000000, unit: lux)
+=== Has proximity sensor (near: 0)
+=== Has compass (heading: unset)
+    Tilt changed: face-up
+    Light changed: 1.527429 (lux)
+    Compass heading changed: 157.640320
+    Compass heading changed: 157.585236
+    Compass heading changed: 157.572845
+    Compass heading changed: 157.595978
+    Compass heading changed: 157.585373
+    Compass heading changed: 157.586090
+    Compass heading changed: 157.595444
+    Compass heading changed: 157.580612
+    Compass heading changed: 157.579590
+    Compass heading changed: 157.567566
+    Compass heading changed: 157.576080
+    Compass heading changed: 157.574051
+    Compass heading changed: 157.585770
+    Compass heading changed: 157.579086
+    Compass heading changed: 157.585953
+    Compass heading changed: 157.580505
+    Compass heading changed: 157.596680
+    Compass heading changed: 157.611954
+    Compass heading changed: 157.603806
+    Compass heading changed: 157.613678
+    Compass heading changed: 157.623108
+    Compass heading changed: 157.597198
+    Compass heading changed: 157.587875
+    Compass heading changed: 157.601456
+01:06:32 完成，日志 /home/user/文档/deepseek-harness/default-workspace/linux-android/work/claude-logs/sensors-proxy-20261029-010624.log

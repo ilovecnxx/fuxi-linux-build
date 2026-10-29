@@ -46,6 +46,14 @@
 	status = "okay";
 };
 
+/*
+ * 原生显示变体只让 MSM DPU/DSI 作为 DRM 输出。保留启动 framebuffer 的保留内存与
+ * fuxi 早期 console，但不注册第二张 simpledrm 卡，避免桌面选中旧 bootloader 输出。
+ */
+&framebuffer0 {
+	status = "disabled";
+};
+
 /* -min 里为了当 sync_state 占位删掉了 iommus；真驱动要用 SMMU */
 &mdss {
 	iommus = <&apps_smmu 0x1c00 0x2>;

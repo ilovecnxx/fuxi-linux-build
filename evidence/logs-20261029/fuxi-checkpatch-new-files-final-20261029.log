@@ -1,0 +1,30 @@
+------------------------------------------
+build/linux/arch/arm64/kernel/fuxi_early.c
+------------------------------------------
+total: 0 errors, 0 warnings, 0 checks, 161 lines checked
+
+build/linux/arch/arm64/kernel/fuxi_early.c has no obvious style problems and is ready for submission.
+-----------------------------------------
+build/linux/arch/arm64/kernel/fuxi_font.h
+-----------------------------------------
+total: 0 errors, 0 warnings, 0 checks, 384 lines checked
+
+build/linux/arch/arm64/kernel/fuxi_font.h has no obvious style problems and is ready for submission.
+-----------------------------------------------------
+build/linux/drivers/gpu/drm/panel/panel-xiaomi-fuxi.c
+-----------------------------------------------------
+total: 0 errors, 0 warnings, 0 checks, 458 lines checked
+
+build/linux/drivers/gpu/drm/panel/panel-xiaomi-fuxi.c has no obvious style problems and is ready for submission.
+-----------------------------------------------
+build/linux/drivers/input/touchscreen/st-ftm5.c
+-----------------------------------------------
+total: 0 errors, 0 warnings, 0 checks, 364 lines checked
+
+build/linux/drivers/input/touchscreen/st-ftm5.c has no obvious style problems and is ready for submission.
+--------------------------------------------
+build/linux/drivers/misc/fuxi-camera-power.c
+--------------------------------------------
+total: 0 errors, 0 warnings, 0 checks, 199 lines checked
+
+build/linux/drivers/misc/fuxi-camera-power.c has no obvious style problems and is ready for submission.

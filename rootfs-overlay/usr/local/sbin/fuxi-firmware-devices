@@ -24,6 +24,14 @@ if [ -e "$ipa" ] && [ ! -e "$ipa/driver" ] && ls /lib/firmware/qcom/sm8550/xiaom
 	echo 3f40000.ipa > /sys/bus/platform/drivers/ipa/bind || log "bind 3f40000.ipa failed"
 fi
 
+# 调试：/etc/fuxi/ath12k-debug_mask 存在时，bind 前设 ath12k 的 debug_mask（需要 CONFIG_ATH12K_DEBUG），
+# 例如 0x60 = BOOT|QMI，看固件握手停在哪一步
+if [ -r /etc/fuxi/ath12k-debug_mask ] && [ -w /sys/module/ath12k/parameters/debug_mask ]; then
+	m=$(cat /etc/fuxi/ath12k-debug_mask)
+	log "ath12k debug_mask=$m"
+	echo "$m" > /sys/module/ath12k/parameters/debug_mask || log "set debug_mask failed"
+fi
+
 for d in /sys/bus/pci/devices/*; do
 	[ "$(cat "$d/vendor" 2>/dev/null):$(cat "$d/device" 2>/dev/null)" = "0x17cb:0x1107" ] || continue
 	[ -e "$d/driver" ] && continue

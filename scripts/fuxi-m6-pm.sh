@@ -5,7 +5,7 @@
 # 用法: scripts/fuxi-m6-pm.sh [镜像]
 set -u
 B="$(cd "$(dirname "$0")/.." && pwd)"
-IMG="${1:-$B/work/kbuild/abl-fuxi-pm1.img}"
+IMG="${1:-$B/work/kbuild/abl-fuxi-pm2.img}"
 LOG="$B/work/claude-logs/m6-pm-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG") 2>&1
 say() { echo "$(date +%T) $*"; }

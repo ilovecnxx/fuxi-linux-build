@@ -1,0 +1,729 @@
+
+--- identity ---
+kernel: Linux 7.3.0+ #187 SMP PREEMPT Thu Oct 29 17:49:32 CST 2026
+boot_id: 1d8914c2-b1f4-48cd-a536-ee9b11aef556
+uptime: up 0 minute
+cmdline: loglevel=7 log_buf_len=2M panic=0 clk_ignore_unused pd_ignore_unused regulator_ignore_unused arm-smmu.disable_bypass=0 cpuidle.off=1 fbcon=font:TER16x32 console=tty0 fuxi.fb=0xB8000000,1080,2400,1080,32 rdinit=/init g_cdc.idVendor=0x0525 g_cdc.idProduct=0xa4a7 g_cdc.dev_addr=02:f0:c5:13:00:02 g_cdc.host_addr=02:f0:c5:13:00:01                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+rootfs: /dev/sda33 ext4 rw,noatime
+
+--- drm-cards-and-connectors ---
+card0 driver=msm_dpu device=/sys/devices/platform/soc@0/ae00000.display-subsystem/ae01000.display-controller
+
+card0-DSI-1 status=connected
+enabled: enabled 
+dpms: On 
+modes: 1080x2400 
+
+card0-Writeback-1 status=unknown
+enabled: disabled 
+dpms: On 
+modes: 
+
+--- backlight ---
+ae94000.dsi.0
+  brightness=64
+  actual_brightness=64
+  max_brightness=4095
+  bl_power=0
+  type=raw
+
+--- input-devices ---
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="pmic_pwrkey"
+P: Phys=pmic_pwrkey/input0
+S: Sysfs=/devices/platform/soc@0/c400000.spmi/spmi-0/0-00/c400000.spmi:pmic@0:pon@1300/c400000.spmi:pmic@0:pon@1300:pwrkey/input/input0
+U: Uniq=
+H: Handlers=kbd event0 
+B: PROP=0
+B: EV=3
+B: KEY=10000000000000 0
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="pmic_resin"
+P: Phys=pmic_resin/input0
+S: Sysfs=/devices/platform/soc@0/c400000.spmi/spmi-0/0-00/c400000.spmi:pmic@0:pon@1300/c400000.spmi:pmic@0:pon@1300:resin/input/input1
+U: Uniq=
+H: Handlers=kbd event1 
+B: PROP=0
+B: EV=3
+B: KEY=4000000000000 0
+
+I: Bus=001c Vendor=0000 Product=0000 Version=0000
+N: Name="ST FTM5 Touchscreen"
+P: Phys=
+S: Sysfs=/devices/platform/soc@0/ac0000.geniqup/a90000.spi/spi_master/spi0/spi0.0/input/input2
+U: Uniq=
+H: Handlers=event2 
+B: PROP=2
+B: EV=b
+B: KEY=400 0 0 0 0 0
+B: ABS=263800000000003
+
+I: Bus=0019 Vendor=0001 Product=0001 Version=0100
+N: Name="gpio-keys"
+P: Phys=gpio-keys/input0
+S: Sysfs=/devices/platform/gpio-keys/input/input3
+U: Uniq=
+H: Handlers=kbd event3 
+B: PROP=0
+B: EV=3
+B: KEY=8000000000000 0
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="Xiaomi-13 Headset Jack"
+P: Phys=ALSA
+S: Sysfs=/devices/platform/sound/sound/card0/input4
+U: Uniq=
+H: Handlers=kbd event4 
+B: PROP=0
+B: EV=23
+B: KEY=40 0 0 0 0 30 400000000 0 c000000000000 0
+B: SW=d4
+
+event nodes: /dev/input/event0 /dev/input/event1 /dev/input/event2 /dev/input/event3 /dev/input/event4 
+
+--- desktop-state ---
+active
+inactive
+ActiveEnterTimestamp=Thu 2026-10-29 15:14:09 CST
+NRestarts=0
+757 /usr/libexec/phosh
+680 /usr/bin/phoc -v -S -C /etc/phosh/phoc.ini -E gnome-session --session=phosh
+
+--- drm-debugfs-state-if-already-mounted ---
+
+/sys/kernel/debug/dri/0/state
+plane[43]: plane-0
+	crtc=crtc-0
+	fb=106
+		allocated by = phoc
+		refcount=2
+		format=XR24 little-endian (0x34325258)
+		modifier=0x0
+		size=1080x2400
+		layers:
+			size[0]=1080x2400
+			pitch[0]=4352
+			offset[0]=0
+			obj[0]:
+				name=0
+				refcount=5
+				start=0010349c
+				size=10444800
+				imported=no
+	crtc-pos=1080x2400+0+0
+	src-pos=1080.000000x2400.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=1
+	sspp[0]=sspp_8
+	multirect_mode[0]=none
+	multirect_index[0]=solo
+	src[0]=1080x2400+0+0
+	dst[0]=1080x2400+0+0
+plane[49]: plane-1
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[55]: plane-2
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[61]: plane-3
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[67]: plane-4
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[73]: plane-5
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[79]: plane-6
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[85]: plane-7
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[91]: plane-8
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[97]: plane-9
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+crtc[103]: crtc-0
+	enable=1
+	active=1
+	self_refresh_active=0
+	planes_changed=1
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=1
+	connector_mask=1
+	encoder_mask=1
+	mode: "1080x2400": 60 219014 1080 1204 1236 1360 2400 2528 2552 2684 0x48 0x0
+	background_color=ffff000000000000
+	lm[0]=0
+	ctl[0]=0
+	dspp[0]=0
+	lm[1]=1
+	ctl[1]=0
+	dspp[1]=1
+crtc[104]: crtc-1
+	enable=0
+	active=0
+	self_refresh_active=0
+	planes_changed=0
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=0
+	connector_mask=0
+	encoder_mask=0
+	mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
+	background_color=ffff000000000000
+connector[36]: DSI-1
+	crtc=crtc-0
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+connector[38]: Writeback-1
+	crtc=(null)
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+resource mapping:
+	pingpong=103 103 # # # # - - # # - - - 
+	mixer=103 103 # # # # - - 
+	ctl=103 # # # # # - - 
+	dspp=103 103 # # - - - - 
+	dsc=103 103 # # - - - - 
+	cdm=# 
+	sspp=# # # # - - - - 103 # # # # # - - 
+	cwb=- - - - 
+bridge: 0xffff800080e66ff8 (/soc@0/display-subsystem@ae00000/dsi@ae94000/panel@0:xiaomi,fuxi-m3-38-0c-0a)
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000bridge: 0xffff800080ea9760
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000
+/sys/kernel/debug/dri/128/state
+plane[43]: plane-0
+	crtc=crtc-0
+	fb=106
+		allocated by = phoc
+		refcount=2
+		format=XR24 little-endian (0x34325258)
+		modifier=0x0
+		size=1080x2400
+		layers:
+			size[0]=1080x2400
+			pitch[0]=4352
+			offset[0]=0
+			obj[0]:
+				name=0
+				refcount=5
+				start=0010349c
+				size=10444800
+				imported=no
+	crtc-pos=1080x2400+0+0
+	src-pos=1080.000000x2400.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=1
+	sspp[0]=sspp_8
+	multirect_mode[0]=none
+	multirect_index[0]=solo
+	src[0]=1080x2400+0+0
+	dst[0]=1080x2400+0+0
+plane[49]: plane-1
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[55]: plane-2
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[61]: plane-3
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[67]: plane-4
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[73]: plane-5
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[79]: plane-6
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[85]: plane-7
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[91]: plane-8
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[97]: plane-9
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+crtc[103]: crtc-0
+	enable=1
+	active=1
+	self_refresh_active=0
+	planes_changed=1
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=1
+	connector_mask=1
+	encoder_mask=1
+	mode: "1080x2400": 60 219014 1080 1204 1236 1360 2400 2528 2552 2684 0x48 0x0
+	background_color=ffff000000000000
+	lm[0]=0
+	ctl[0]=0
+	dspp[0]=0
+	lm[1]=1
+	ctl[1]=0
+	dspp[1]=1
+crtc[104]: crtc-1
+	enable=0
+	active=0
+	self_refresh_active=0
+	planes_changed=0
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=0
+	connector_mask=0
+	encoder_mask=0
+	mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
+	background_color=ffff000000000000
+connector[36]: DSI-1
+	crtc=crtc-0
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+connector[38]: Writeback-1
+	crtc=(null)
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+resource mapping:
+	pingpong=103 103 # # # # - - # # - - - 
+	mixer=103 103 # # # # - - 
+	ctl=103 # # # # # - - 
+	dspp=103 103 # # - - - - 
+	dsc=103 103 # # - - - - 
+	cdm=# 
+	sspp=# # # # - - - - 103 # # # # # - - 
+	cwb=- - - - 
+bridge: 0xffff800080e66ff8 (/soc@0/display-subsystem@ae00000/dsi@ae94000/panel@0:xiaomi,fuxi-m3-38-0c-0a)
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000bridge: 0xffff800080ea9760
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000
+/sys/kernel/debug/dri/ae01000.display-controller/state
+plane[43]: plane-0
+	crtc=crtc-0
+	fb=106
+		allocated by = phoc
+		refcount=2
+		format=XR24 little-endian (0x34325258)
+		modifier=0x0
+		size=1080x2400
+		layers:
+			size[0]=1080x2400
+			pitch[0]=4352
+			offset[0]=0
+			obj[0]:
+				name=0
+				refcount=5
+				start=0010349c
+				size=10444800
+				imported=no
+	crtc-pos=1080x2400+0+0
+	src-pos=1080.000000x2400.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=1
+	sspp[0]=sspp_8
+	multirect_mode[0]=none
+	multirect_index[0]=solo
+	src[0]=1080x2400+0+0
+	dst[0]=1080x2400+0+0
+plane[49]: plane-1
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[55]: plane-2
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[61]: plane-3
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[67]: plane-4
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[73]: plane-5
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[79]: plane-6
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[85]: plane-7
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[91]: plane-8
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+plane[97]: plane-9
+	crtc=(null)
+	fb=0
+	crtc-pos=0x0+0+0
+	src-pos=0.000000x0.000000+0.000000+0.000000
+	rotation=1
+	normalized-zpos=0
+	color-encoding=ITU-R BT.601 YCbCr
+	color-range=YCbCr limited range
+	color_mgmt_changed=0
+	color-pipeline=0
+	stage=0
+crtc[103]: crtc-0
+	enable=1
+	active=1
+	self_refresh_active=0
+	planes_changed=1
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=1
+	connector_mask=1
+	encoder_mask=1
+	mode: "1080x2400": 60 219014 1080 1204 1236 1360 2400 2528 2552 2684 0x48 0x0
+	background_color=ffff000000000000
+	lm[0]=0
+	ctl[0]=0
+	dspp[0]=0
+	lm[1]=1
+	ctl[1]=0
+	dspp[1]=1
+crtc[104]: crtc-1
+	enable=0
+	active=0
+	self_refresh_active=0
+	planes_changed=0
+	mode_changed=0
+	active_changed=0
+	connectors_changed=0
+	color_mgmt_changed=0
+	plane_mask=0
+	connector_mask=0
+	encoder_mask=0
+	mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
+	background_color=ffff000000000000
+connector[36]: DSI-1
+	crtc=crtc-0
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+connector[38]: Writeback-1
+	crtc=(null)
+	self_refresh_aware=0
+	interlace_allowed=0
+	ycbcr_420_allowed=0
+	max_requested_bpc=0
+	colorspace=Default
+resource mapping:
+	pingpong=103 103 # # # # - - # # - - - 
+	mixer=103 103 # # # # - - 
+	ctl=103 # # # # # - - 
+	dspp=103 103 # # - - - - 
+	dsc=103 103 # # - - - - 
+	cdm=# 
+	sspp=# # # # - - - - 103 # # # # # - - 
+	cwb=- - - - 
+bridge: 0xffff800080e66ff8 (/soc@0/display-subsystem@ae00000/dsi@ae94000/panel@0:xiaomi,fuxi-m3-38-0c-0a)
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000bridge: 0xffff800080ea9760
+	input bus configuration:		code: 0001		flags: 00000000	output bus configuration:		code: 0001		flags: 00000000
+--- relevant-kernel-log ---
+[    0.113755] /soc@0/display-subsystem@ae00000/dsi@ae94000: Fixed dependency cycle(s) with /soc@0/display-subsystem@ae00000/display-controller@ae01000
+[    0.114027] /soc@0/display-subsystem@ae00000/display-controller@ae01000: Fixed dependency cycle(s) with /soc@0/display-subsystem@ae00000/dsi@ae94000
+[    0.114294] /soc@0/display-subsystem@ae00000/dsi@ae94000/panel@0: Fixed dependency cycle(s) with /soc@0/display-subsystem@ae00000/dsi@ae94000
+[    0.114490] /soc@0/display-subsystem@ae00000/dsi@ae94000: Fixed dependency cycle(s) with /soc@0/display-subsystem@ae00000/dsi@ae94000/panel@0
+[    0.525364] st-ftm5 spi0.0: chip 3640 fw 0053 cfg 0042 panel 2399x1079
+[    0.526781] input: ST FTM5 Touchscreen as /devices/platform/soc@0/ac0000.geniqup/a90000.spi/spi_master/spi0/spi0.0/input/input2
+[    0.712343] msm_dpu ae01000.display-controller: bound ae94000.dsi (ops 0xffff800080ea86e8)
+[    0.714013] adreno 3d00000.gpu: [drm:msm_devfreq_init] *ERROR* Couldn't register GPU cooling device
+[    0.736922] msm_dpu ae01000.display-controller: bound 3d00000.gpu (ops 0xffff800080e6fd30)
+[    0.737956] [drm:dpu_kms_hw_init:1168] dpu hardware revision:0x90000000
+[    0.739468] [drm] Initialized msm 1.13.0 for ae01000.display-controller on minor 0
+[    0.739749] msm_dpu ae01000.display-controller: Direct firmware load for qcom/a740_sqe.fw failed with error -2
+[    0.740042] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] *ERROR* failed to load a740_sqe.fw
+[    0.746919] msm-dsi: lane rate 1100000000 Hz, byte clock 137500000 Hz
+[    0.772808] msm-dsi: clear stale test pattern 0x4
+[    1.173258] msm_dpu ae01000.display-controller: [drm] fb0: msmdrmfb frame buffer device
+[   10.389102] systemd[1]: modprobe@drm.service - Load Kernel Module drm skipped, unmet condition check ConditionKernelModuleLoaded=!drm
+[   13.741593] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] loaded qcom/a740_sqe.fw from new location
+[   13.742672] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] loaded qcom/gmu_gen70200.bin from new location
+[   13.744584] [drm] Loaded GMU firmware v4.1.9
+[   13.799279] msm_dpu ae01000.display-controller: [drm:adreno_load_gpu] *ERROR* gpu hw init failed: -22
+[   13.812811] platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+[   13.875575] msm_dpu ae01000.display-controller: [drm:adreno_load_gpu] *ERROR* gpu hw init failed: -22
+[   13.888808] platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+
+--- relevant-desktop-log ---
+10月 29 15:14:09 localhost.localdomain systemd[1]: Starting phosh.service - Phosh, a shell for mobile phones (Development service)...
+10月 29 15:14:09 localhost.localdomain systemd[1]: Started phosh.service - Phosh, a shell for mobile phones (Development service).
+10月 29 15:14:09 localhost.localdomain (capsh)[680]: pam_unix(login:session): session opened for user fuxi(uid=1000) by (uid=0)
+
+Snapshot is read-only; screen quality, brightness changes, touch accuracy, refresh stability and blank/wake still require one physical acceptance.

@@ -1,0 +1,38 @@
+== active crtc
+plane[43]: plane-0
+	fb=0
+	crtc-pos=1080x2400+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+	fb=0
+	crtc-pos=0x0+0+0
+crtc[103]: crtc-0
+crtc[104]: crtc-1
+connector[36]: DSI-1
+connector[38]: Writeback-1
+== phosh
+active
+NRestarts=0
+== fb
+crw-rw---- 1 root video 29, 0 Oct 29 14:09 /dev/fb0
+
+/dev/dri:
+total 0
+drwxr-xr-x  2 root root         80 Oct 29 14:09 by-path
+crw-rw----+ 1 root video  226,   0 Oct 29 14:09 card0
+crw-rw----+ 1 root render 226, 128 Oct 29 14:09 renderD128
+== simpledrm
