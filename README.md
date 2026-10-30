@@ -9,13 +9,23 @@ QQ群交流：132413667
 - Linux：Linux 7.3.0（基线 commit `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`，自编译）+ Ubuntu 26.10，根文件系统在 `linux` 分区 `/dev/sda33`（ext4，100 GB）
 - 分区：A/B 动态分区，4K 页；bootloader 已解锁
 - 引导：XBL → 高通 UEFI → ABL（槽位 b）；正常开机进 Android，recovery 启动进 `recovery_b` 里的 Linux 镜像
-- 仓库：<https://github.com/ilovecnxx/fuxi-linux-build>；当前版本 **`v0.3.0-dualboot-20261029`**（M6 真机可用：原生显示 / GPU / 120 Hz / 音频 / WiFi 连网）；旧版 `v0.2.0-dualboot-20261027`、`v0.1.0-dualboot-20261027` 的 tag 与 Release 保留
+- 仓库：<https://github.com/ilovecnxx/xiaomi13-fuxi-linux-ubuntu26.10-kernel7.3>；当前版本 **`v0.4.0-dualboot-20261030`**（#207 日常镜像 + 本机硬件配置归档）；旧版 `v0.3.0-dualboot-20261029`、`v0.2.0-dualboot-20261027`、`v0.1.0-dualboot-20261027` 的 tag 与 Release 保留
+- 硬件：本机逐项配置（含供应商差异）见 **[hardware/](hardware/README.md)**
 
 > 本仓库是一份**实验记录 + 可复现的构建/验证材料**，不是一键刷机包。仓库**不包含**根文件系统镜像、厂商固件与私钥；发布镜像里内嵌了 801,847 B 的厂商 `fuxi.dtb`，它**只作为 ABL 的引导诱饵，不含可执行代码**（完全自建请从自有设备原厂 ROM 提取）。交付物哈希见根目录 [`SHA256SUMS`](SHA256SUMS)，实机验证记录见 [PROGRESS.md](PROGRESS.md)。首次操作前请先读 [docs/双系统启动说明.md](docs/双系统启动说明.md)。
 
-## 当前状态（v0.3.0，2026-10-29）
+## 当前状态（v0.4.0，2026-10-30）
 
-`recovery_b` 里现在是 `screen120-blfix`（`7.3.0+ #191`）。用户在真机上现场确认：
+`recovery_b` 里现在是 `s2idle2`（`7.3.0+ #207`，SHA256 `186e102f…a4cd69`），在 v0.3.0 的显示/GPU/音频/WiFi 基础上又完成：
+
+- **省电**：CPU 深度空闲 + `NO_HZ_IDLE`；去掉全部 `*_ignore_unused` 并修复卡住的 `sync_state`，熄屏电池电流 **117 → 28.5 mA**；
+- **s2idle 挂起**：SoC 首次进入深度睡眠（`s2idle1` #206），`s2idle2` #207 修复恢复后 WiFi 管制域回退；空闲自动挂起暂用 gschema override 关闭（WiFi 目前不能唤醒）；
+- **WiFi 5 GHz**：`wifi5g` #200 修复 CN 管制域下 5 GHz 不可见；重启自动连 5180 MHz、CN、HTTPS 与 SSH 走 WiFi，五个 WiFi/蓝牙固件与主机生成件逐字节一致（M5.2 复验）；
+- **电池电流符号**：`battsign5` #205 修正为 ABI 约定（放电为负）并静默固件 0x50 消息；
+- **硬件配置归档**：本机逐项配置与供应商差异整理进 [hardware/](hardware/README.md)；
+- **蜂窝诊断**：`modem9` #215、`modem10-dma32` #216、`modem11-nosmem` 已构建核验，ZONE_DMA32 修复了 PAS `-12`，仍卡在 IPA SMEM 断言，**不可通话**。
+
+v0.3.0 已由用户在真机上现场确认的内容（继续有效）：
 
 - **原生显示**：MSM DSI + `panel-xiaomi-fuxi` 出画面，触控位置准确（此前只有 `simpledrm` 文本控制台）；
 - **GPU**：Adreno 740 改用 `/odm/firmware` 里小米签名的 ZAP 后初始化成功，Phosh 已切到 GPU（FD740）渲染，明显更流畅；
@@ -26,7 +36,7 @@ QQ群交流：132413667
 - **音频**：两颗 CS35L41 独立测试可听，桌面左右短音用户确认（四声都听见）；
 - **基本功能**：HTTPS 根证书、浏览器启动退出、竖屏键盘按键、中文输入与文本保存均已修复并确认。
 
-**仍待验收**（不要当成已通过）：物理亮度观感、物理旋转与桌面联动、90 Hz/动态刷新率；文件选择器（portal）；蓝牙耳机 / A2DP；音频保护标定、完整声道定位与音质、麦克风；实际充电曲线与续航（日常内核仍不启用深度空闲与系统挂起）；相机、蜂窝。
+**仍待验收**（不要当成已通过）：物理亮度观感、物理旋转与桌面联动、90 Hz/动态刷新率；文件选择器（portal）；蓝牙耳机 / A2DP；音频保护标定、完整声道定位与音质、麦克风录音；实际充电曲线与续航；相机、蜂窝通话。
 
 逐项细节见 [docs/目标-M5.md](docs/目标-M5.md) 与下面这批 10-29 记录：
 
@@ -39,13 +49,14 @@ QQ群交流：132413667
 | [docs/显示驱动安装-20261029.md](docs/显示驱动安装-20261029.md)、[docs/音频出声修复-20261029.md](docs/音频出声修复-20261029.md) | 显示驱动安装、音频出声修复 |
 | [docs/手机日用目标-路线图-20261029.md](docs/手机日用目标-路线图-20261029.md) | 「手机日用」后续路线图 |
 
-## 版本说明：v0.1.0 → v0.3.0
+## 版本说明：v0.1.0 → v0.3.0 → v0.4.0
 
 | 版本 | 内容 |
 |---|---|
 | `v0.1.0`（2026-10-27 凌晨） | 双系统成立：ABL 直接引导 `recovery_b`、主线内核进用户空间、文本控制台、USB 串口与 SSH |
 | `v0.2.0`（2026-10-27 白天） | M5/M6：**真机验证**了触摸、按键、电量/充电状态、WiFi/蓝牙硬件；在电脑上**构建**了原生显示/GPU、USB-C/DP、音频、基带、相机、传感器、省电、调频温控、全功能镜像（当版尚未上机） |
-| `v0.3.0`（2026-10-29，本版） | 上机落地：原生显示（60/90/120 Hz）、GPU（FD740）渲染、双功放音频、WiFi 连网 + 管制域、蓝牙 L2CAP、CPU 调频/温控进入日常镜像，以及 HTTPS/浏览器/竖屏键盘/中文输入等基本功能修复 |
+| `v0.3.0`（2026-10-29） | 上机落地：原生显示（60/90/120 Hz）、GPU（FD740）渲染、双功放音频、WiFi 连网 + 管制域、蓝牙 L2CAP、CPU 调频/温控进入日常镜像，以及 HTTPS/浏览器/竖屏键盘/中文输入等基本功能修复 |
+| `v0.4.0`（2026-10-30，本版） | 日常镜像 #207：深度空闲 + NO_HZ（熄屏 117→28.5 mA）、s2idle 挂起、WiFi 5 GHz/CN 复验、电池电流符号修正；**归档本机完整硬件配置与配件供应商差异**（`hardware/`）；蜂窝诊断推进（PAS `-12` 已修复，仍不可通话） |
 
 状态表沿用 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（只构建未上机）/ ⏳（未开始）四种标记；本版的实测记录在 `evidence/rtest-20261029-*` 与 `evidence/logs-20261029/`。
 
@@ -65,10 +76,10 @@ QQ群交流：132413667
 | 蓝牙 | ✅ | HCI UART/QCA 注册；出厂地址与对端 L2CAP 链路通过（`evidence/logs-20261029/bt-l2ping-20261029.log`）；耳机 / A2DP 未测 |
 | 显示（原生面板 + GPU） | ✅ | MSM DSI 原生驱动 + `panel-xiaomi-fuxi`（DSC，60/90/120 Hz），画面与触控经用户现场确认；Adreno 740（FD740）GPU 渲染已切换并明显更流畅；熄屏/唤醒 3 轮与自动亮度已通过，物理亮度观感、90 Hz/动态刷新率待验收 |
 | 音频（CS35L41 + WCD938x） | ✅ | 两颗 CS35L41 独立测试可听、桌面左右短音用户确认；保护标定、完整声道定位/音质、麦克风待验收 |
-| 基带 / 蜂窝（IPA + MPSS） | 🚧 | v0.2.0 构建（`-modem`），仍未上机，不能视为可用手机功能 |
-| 相机（CAMSS） | 🚧 | v0.2.0 构建（`-camera`）+ 调研材料，仍未上机 |
+| 基带 / 蜂窝（IPA + MPSS） | ⚠️ | 诊断中（#215/#216）：PAS `-12` 已由 ZONE_DMA32 修复，仍卡在 IPA SMEM 断言；**不可通话** |
+| 相机（CAMSS） | 🚧 | 传感器型号已确认（IMX800 / S5K3K1 / OV13B10 / OV32C），上电探针可用，未出图 |
 | 传感器（FastRPC / hexagonrpcd） | ⚠️ | 加速度、光线、距离、磁场、指南针已有实测数据，SensorProxy 已接入；物理旋转与桌面联动待验收 |
-| 省电 / 挂起（SUSPEND + cpuidle） | 🚧 | 日常镜像仍不启用深度空闲与系统挂起，续航未达目标；`-sleep` 变体待上机 |
+| 省电 / 挂起（SUSPEND + cpuidle） | ⚠️ | #207 已启用深度空闲 + NO_HZ（熄屏 117→28.5 mA）；s2idle 可挂起，空闲自动挂起关闭、WiFi 唤醒未做 |
 | 调频 / 温控 | ✅ | 日常镜像默认带 CPU 调频/温控；daily-pm1 实机运行：3 个 schedutil 策略、43 个热区、3 个 CPU cooling 设备；120 Hz 镜像已接入 GPU 温控 |
 | USB-C / DP 桌面 | 🚧 | 已构建（`-disp` / `-desk`），待插显示器/OTG |
 | 图形界面（Phosh） | ✅ | Phosh 桌面可用：GPU 渲染、竖屏屏幕键盘（Stevia）、中文输入与文本保存经用户确认；文件选择器待验收 |
@@ -83,21 +94,42 @@ QQ群交流：132413667
 | 内存 | ✅ | 11.1 GB 可用；9 GB tmpfs 写入 + 两次 md5 一致，dmesg 无 Oops/SError（`rtest-20261027-070521`） |
 | UFS 存储 | ⚠️ | G4 下稳定（根文件系统在 `sda33`）；关机复位线修复自 `wifi3` 起编入（本轮镜像同一源码树，也含该修复），但多轮关机/重启回归仍未有系统记录；HS-G5 暂缓 |
 | 显示 | ✅ | 原生 MSM DSI + `panel-xiaomi-fuxi`：1080×2400、DSC、60/90/120 Hz，画面与触控经用户确认；`simpledrm` + `fbcon` 文本控制台仍可用作兜底 |
-| 触摸（ST FTM5） | ✅ | `st-ftm5` probe：chip 3640 / fw 0053 / cfg 0042，panel 2399×1079，坐标 0..10799 × 0..23999，多点 |
+| 触摸（ST FTM5） | ✅ | 本机 `st-ftm5` probe：chip 3640 / fw 0053 / cfg 0042，panel 2399×1079，坐标 0..10799 × 0..23999，多点；**另一批次为 Goodix GT9916**，见 [hardware/配件供应商差异](hardware/配件供应商差异.md) |
 | 按键 | ✅ | 电源（`pmic_pwrkey`）、音量下（`pmic_resin`）、音量上（`gpio-keys`）；`/etc/systemd/logind.conf.d/10-fuxi-powerkey.conf` 把电源键设为 ignore |
 | 电量 / 充电 | ✅ | `qcom-battmgr-bat`：`STATUS=Charging`、`CAPACITY`、`VOLTAGE_NOW`、`CURRENT_NOW`、`TEMP`、`STATE_OF_HEALTH`、`MODEL_NAME` 可读；10-29 实测插充电器时 99% → 电流随负载 0.1–0.7 A 变化，USB 侧 `online=1`、`DCP` 充电器识别；完整充电曲线与续航未单独验证 |
 | WiFi | ✅ | PCIe0 链路 `0000:01:00.0`（17cb:1107）、WCN7850 固件 + `ath12k`；10-29 验收：自动连网、外网/HTTPS 走 WiFi、WiFi SSH、管制域 CN |
 | 蓝牙 | ✅ | HCI UART 驱动 + QCA 协议注册；出厂地址与对端 L2CAP 链路 8 包 0% 丢包；耳机 / A2DP 未测 |
 | GPU（Adreno 740） | ✅ | `/odm/firmware` 里小米签名的 ZAP 让 PAS 初始化成功（`/vendor/firmware` 的高通测试签名返回 `-22`），GMU 正常，Phosh 用 FD740 渲染 |
 | 音频 | ✅ | CS35L41 双功放 + WCD938x（`-audio`/`-audio2` 路径已并入当前变体）；两颗功放独立可听、桌面左右短音确认；麦克风与保护标定待验 |
-| 相机 | 🚧 | CAMSS + `fuxi-camera-power`（`-camera`），待读传感器 ID |
-| 蜂窝 / 通话 | 🚧 | IPA + MPSS + `tqftpserv`/`rmtfs`（`-modem`），待插 SIM |
+| 相机 | 🚧 | CAMSS + `fuxi-camera-power`（`-camera`）；型号已确认：IMX800 / S5K3K1 / OV13B10 / OV32C（模组厂有 SEMCO/Sunny/O-Film 差异），未出图 |
+| 蜂窝 / 通话 | ⚠️ | IPA + MPSS + `tqftpserv`/`rmtfs`（`-modem`）；PAS `-12` 已修复，仍卡 IPA SMEM 断言，不可通话 |
 | 传感器 | ⚠️ | `CONFIG_QCOM_FASTRPC` + `hexagonrpcd` 已接入，加速度/光线/距离/磁场/指南针有实测数据；旋转联动待验 |
-| 省电 / 挂起 | 🚧 | `-sleep`：打开 `SUSPEND`、去掉 `cpuidle.off=1`，待上机；日常镜像仍不进深度空闲 |
+| 省电 / 挂起 | ⚠️ | #207 已进深度空闲并可用 s2idle（rtcwake/电源键唤醒）；空闲自动挂起与 WiFi 唤醒未做 |
 | 调频 / 温控 | ✅ | 日常镜像默认 `FUXI_PM=1`：EPSS + schedutil、TSENS、PMIC 过温、LMh、CPU cooling、L3 互连，均已实机运行；GPU 温控已接入 120 Hz 镜像 |
 | USB-C / DP | 🚧 | FSA4480 + ucsi/altmode-glink，DP alt mode；`-usbc`/`-desk` 待验 |
 | 屏下指纹 | ❌ | TrustZone 内部实现，见 [docs/指纹调研.md](docs/指纹调研.md) |
 | 振动马达 | ⏳ | 缺寄存器资料，暂未动 |
+
+## 本机硬件配置（v0.4.0 新增）
+
+本机（型号 `2211133C`）的完整硬件清单、总线地址与实测证据已归档到 **[hardware/](hardware/README.md)**：
+
+| 部件 | 本机配置 |
+|---|---|
+| SoC | Qualcomm SM8550-AB（骁龙 8 Gen 2），1×X3 2.9568 GHz + 3×A7xx 2.8032 GHz + 4×A510 2.016 GHz |
+| GPU | Adreno 740（FD740），Mesa freedreno GL 4.6 |
+| 内存 / 存储 | LPDDR5X 12 GB / Samsung KLUFG8RHHD-B0G1 512 GB UFS 4.0 |
+| 显示 | 6.36″ Samsung AMOLED 1080×2400 @120 Hz，DSC v1.1，面板 ID `M3 38 0c 0a` |
+| 触摸 | ST FTM5（SPI）；另一批次 Goodix GT9916（I2C 0x5d） |
+| 相机 | 主摄 IMX800 50MP（SEMCO/Sunny）· 长焦 S5K3K1 10MP（SEMCO）· 超广 OV13B10 12MP（O-Film）· 前摄 OV32C 32MP（Sunny） |
+| 音频 | WCD9385 + 2× CS35L41（I2C8 @0x40/@0x42），swr-haptics 振动 |
+| 无线 | WCN7850（Wi-Fi 7 + BT 5.3，固件 HAMILTON 2.0.1）· 集成 X70 5G 基带 |
+| 电池 / 充电 | `M3_4500mah_67w` 4500 mAh · 67 W 有线 |
+| PMIC | PM8550 / PM8550B / PM8550VE / PM8550VS / PM8010 / PMK8350 |
+| 指纹 | Goodix 屏下光学（TrustZone，主线不可行） |
+
+> ⚠️ 小米 13 不同批次会混用触摸 IC、相机模组厂、存储容量与电池型号。
+> 刷机前请对照 [配件供应商差异](hardware/配件供应商差异.md) 的「刷机前自检流程」确认自己的硬件版本。
 
 ## M5 验收标准对照（目标：脱离电脑独立可用）
 
@@ -307,7 +339,7 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 
 - 解锁 bootloader 会清空数据、可能失去保修并触发安全机制；刷机、`dd` 写分区等操作**风险自负**，作者不对变砖、数据丢失或设备损坏负责。
 - 本仓库不涉及任何破解、绕过安全启动或分发厂商固件/密钥；请使用**你自己拥有的设备与自己的原厂备份**。
-- 项目处于实验阶段：v0.3.0 起显示、GPU、触摸、WiFi 连网、蓝牙链路、音频、输入法已上机可用，但**相机、蜂窝、指纹、省电/续航、A2DP 与部分细节仍未验证或明确不可用**，请勿把它当成可以完全替代 Android 的日常手机。
+- 项目处于实验阶段：v0.4.0 起显示、GPU、触摸、WiFi 连网、蓝牙链路、音频、输入法、深度空闲/s2idle 已上机可用，但**相机、蜂窝通话、指纹、A2DP、续航与部分细节仍未验证或明确不可用**，请勿把它当成可以完全替代 Android 的日常手机。硬件配件的批次差异见 [hardware/配件供应商差异](hardware/配件供应商差异.md)。
 - Android 侧使用 LineageOS，请遵守其许可；内核代码遵循上游 GPL-2.0。
 
 ## 仓库结构
@@ -319,7 +351,8 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 | `scripts/` | 构建、变体打包、刷写/启动测试、串口/SSH、WiFi/蓝牙/显示/音频/基带/相机/传感器/省电的上机脚本、槽位表解析、udev 规则 |
 | `source/` | `kernel.config`、`kernel.diff`、`linux-untracked/`、`initramfs/`、`patches/`、`variants/`、`build-records/`、`dtb/`；构建信息见 `source/BUILD-INFO.md` |
 | `rootfs-overlay/` | Ubuntu 根文件系统覆盖层（固件服务、rmtfs drop-in、ALSA UCM2） |
-| `device-info/` | 面板参数、cmd-db 导出等设备常量 |
+| `hardware/` | **本机硬件配置**（[逐项清单](hardware/本机硬件配置.md)）、[配件供应商差异](hardware/配件供应商差异.md)（触摸/相机模组/面板/电池批次差异与自检流程） |
+| `device-info/` | 面板参数、cmd-db 导出等原始设备常量（说明见 [device-info/README.md](device-info/README.md)） |
 | `images/` | `recovery-linux.img`（当前 `recovery_b` 上的已验证镜像）、`candidates/`（日常基线与音频回退镜像）、GPT 槽位表备份 |
 | `evidence/` | 实机验证记录（`rtest-*/summary.txt`、`ssh.txt`）、`rtest-20261029-*`、`logs-20261029/`（健康检查、GPU、显示/120 Hz、充电、蓝牙、温控压测）、构建日志 |
 | `SHA256SUMS` | 镜像、源码、覆盖层与设备信息的全量 sha256 |
@@ -329,10 +362,10 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 
 ## 下一步
 
-1. **把 `screen120-blfix` 提升为日常基线**：补冷启动/长时间运行/多次关机的回归（含 UFS 关机路径），通过后替换 daily 镜像；
+1. **把 `s2idle2`（#207）提升为日常基线**：补冷启动/长时间运行/多次关机的回归（含 UFS 关机路径与 s2idle 反复唤醒），通过后替换 daily 镜像；
 2. **显示与音频收尾**：物理亮度观感、90 Hz/动态刷新率、物理旋转联动；音频保护标定、完整声道定位、麦克风录音；
 3. **基础桌面收尾**：文件选择器（portal）部署与验收，密码保存/辅助功能相关日志清理；
 4. **蓝牙耳机 / A2DP**，以及 WiFi 小米标定兼容性；
-5. **省电与续航**：`-sleep`（深度空闲 + 系统挂起）上机；当前在 `#192`（`idle1`）上做 `cpuidle.off=1` 的待机电流对照，结果出来再决定是否并入日常配置；
+5. **省电与续航**：深度空闲/NO_HZ 与 s2idle 已在 #207 生效（熄屏约 28.5 mA），下一步做拔线续航实测、WiFi 唤醒与空闲自动挂起；
 6. **相机 / 蜂窝**：从「已有实验实现」推进到可上机验证；
 7. **USB-C / DP 桌面**、屏下指纹（主线短期不可行，见调研）。

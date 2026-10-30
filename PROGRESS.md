@@ -2,7 +2,21 @@
 
 本文件记录从设备摸底到「Android + 主线 Linux 双系统 + M5/M6」的时间线，以及可复核的实机验证证据。上手操作请看 [README.md](README.md)，权威操作步骤见 [docs/双系统启动说明.md](docs/双系统启动说明.md)，M5/M6 详细进展见 [docs/目标-M5.md](docs/目标-M5.md)。
 
-**当前版本 `v0.3.0-dualboot-20261029`。** v0.2.0 及更早的条目里，🚧 表示“只在电脑上构建成功、没有上机验收”（设备当时离线）；v0.3.0 的条目只有 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（仍未上机）三种，逐条以 `evidence/` 里的日志为准。
+**当前版本 `v0.4.0-dualboot-20261030`。** v0.2.0 及更早的条目里，🚧 表示“只在电脑上构建成功、没有上机验收”（设备当时离线）；v0.3.0 起的条目只用 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（仍未上机）三种，逐条以 `evidence/` 里的日志为准。
+
+## v0.4.0 发布（2026-10-30）
+
+本版在 v0.3.0 的「能进桌面、能联网、能输入」基础上，把**省电**做进日常镜像，并把**本机硬件配置**完整归档：
+
+| 内容 | 位置 |
+|---|---|
+| 本机逐项硬件清单（SoC/GPU/内存/存储/面板/触摸/相机/音频/无线/电池/PMIC/传感器/指纹） | [hardware/本机硬件配置.md](hardware/本机硬件配置.md) |
+| 配件供应商差异（触摸 ST↔Goodix、相机模组 SEMCO/Sunny/O-Film、面板、电池、容量）与刷机前自检流程 | [hardware/配件供应商差异.md](hardware/配件供应商差异.md) |
+| 原始设备常量（面板参数、cmd-db） | [device-info/](device-info/README.md) |
+
+本版镜像/状态：`recovery_b` = `s2idle2`（`7.3.0+ #207`，SHA256 `186e102f905dd2bbb5c3636e7f393aedb77191bbcc6b04010344d56290a4cd69`）。
+要点：深度空闲 + NO_HZ（熄屏电流 117→28.5 mA）、s2idle 可挂起且恢复后管制域保持 CN、WiFi 5 GHz/CN 复验、电池电流符号修正；
+蜂窝仍为诊断状态（PAS `-12` 已修复，停在 IPA SMEM 断言），**不可通话**。完整清单见下方 10-30 时间线与 [README](README.md)。
 
 ## 时间线
 
@@ -11,6 +25,7 @@
 - ✅ **深度空闲与电源**：`idle2-nohz`（#193）开 CPU 深度空闲 + NO_HZ；`ru5sync`（#199）去掉全部 `*_ignore_unused` 并修复卡住的 `sync_state`，熄屏电池电流 **117 → 28.5 mA**；`battsign5`（#205）修正电池电流符号并静默固件 0x50；`s2idle1`（#206）首次让 SoC 进入 s2idle 深度睡眠，`s2idle2`（#207）修复挂起恢复后 WiFi 管制域回到 US。当前 `recovery_b` 即 `s2idle2`（`7.3.0+ #207`，SHA256 `186e102f…a4cd69`）。空闲自动挂起暂用 gschema override 关闭（s2idle 中 WiFi 尚不能唤醒）。
 - ✅ **WiFi 5 GHz / CN 管制域**：`wifi5g`（#200）修复 CN 管制域下 5 GHz 不可见；#207 重启自动连 `Redmi_9499_5G`（5180 MHz）、管制域 CN、HTTPS 与 WiFi SSH 实测通过；五个 WiFi/蓝牙固件在设备/主机/隔离重生成间逐字节一致（M5.2 复验）。
 - ⚠️ **蜂窝 / 基带诊断（进行中）**：ZONE_DMA/DMA32 修复了 `qcom_scm_pas_init_image` 的 `-12`（`modem10`，3 次 recovery 通过）；#207 仍触发 IPA SMEM 断言，内核与用户空间 PD mapper 均启用。诊断镜像 `modem9-pdrpasdiag`（#215）、`modem10-dma32`（#216）、`modem11-nosmem` 已构建核验，尚未上机取得完整 PDR domain-list。**基带仍不可通话。**
+- ✅ **硬件配置归档**：只读采集本机 SoC/面板/触摸/相机/音频/无线/电池/PMIC 等配置，连同供应商差异写入 `hardware/`，并整理 `device-info/` 说明。
 - 整机只读健康检查（`fuxi-health.sh --require-wifi --require-sensors`）失败 0，主机回归 57 项通过；快照只读，未重启或刷写。
 
 ### 2026-10-24 — 设备摸底与完整备份
