@@ -138,17 +138,19 @@ v0.4.0 / v0.3.0 已真机验证并继续有效的部分：原生显示（DSI + G
 
 ## 镜像（刷写前必读）
 
-| 镜像 | 大小 | 内核构建 | 状态 |
-|---|---|---|---|
-| `images/recovery-linux.img` | 10,379,264 B | `#191`，2026-10-29 20:29 | ✅ **当前手机 `recovery_b` 上的镜像**（`screen120-blfix`）：原生显示 + GPU + 120 Hz + WiFi 管制域 + 背光（熄屏写亮度）修复；画面、触控、流畅度、熄屏唤醒均经用户/自动测试确认 |
-| `images/candidates/abl-fuxi-daily-pm1.img` | 9,732,096 B | `#168`，2026-10-29 00:37 | ✅ 日常基线（CPU 调频/温控），10-29 多轮实机运行；不含原生显示/GPU |
-| `images/candidates/abl-fuxi-audio-probe4.img` | 10,047,488 B | `#172`，2026-10-29 01:23 | ⚠️ 音频诊断镜像（两颗功放独立出声已实测），保留作回退 |
-| `images/candidates/abl-fuxi-idle1.img` | 10,379,264 B | `#192`，2026-10-29 20:35 | 🚧 省电实验镜像（`-r120idle-audio-disp`，测试 CPU 深度空闲）：写入 `recovery_b` 后正在做 `cpuidle.off=1` 对照，结果未定 |
+**日用基线**：`s2idle2`（`7.3.0+ #207`，SHA256 `186e102f905dd2bbb5c3636e7f393aedb77191bbcc6b04010344d56290a4cd69`，10,436,608 B）
+= 原生 DSI 显示 + Adreno GPU（FD740）+ 120 Hz + WiFi 5G/CN + 双功放/麦克风 + 深度空闲 + s2idle。
 
-- `recovery-linux.img` = `abl-fuxi-screen120-blfix`，sha256 `8b59e3ed76c71719b320ae5739ed9cacbaea85d9d1cd535ea1b86a394ff63224`（完整清单见 [`SHA256SUMS`](SHA256SUMS)）；
-- 各镜像的大小、内核版本、变体、构建记录与验证状态见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md) 与 `source/build-records/*.build.json`；
-- v0.2.0 发布过的候选镜像（`full3` / `wifi7` / `sleep1`）已从当前树移除，需要时从 tag `v0.2.0-dualboot-20261027` 取；
-- 镜像起不来时**长按电源 20 秒即回 Android**（正常开机不碰 `recovery_b`，Android 不受影响）；刷写前先在电脑上留一份可用镜像的副本。
+| 镜像 | 说明 |
+|---|---|
+| `images/recovery-linux.img` | 当前发布的日常基线镜像（= `s2idle2` #207，sha256 见 `SHA256SUMS`） |
+| `images/candidates/abl-fuxi-audio-probe4.img` | 音频回退镜像（#172） |
+| `images/candidates/abl-fuxi-daily-pm1.img`、`abl-fuxi-idle1.img` | 历史候选（v0.3.0 时期），保留供追溯 |
+
+- **蜂窝实验镜像（modem13–16、keeper 相关）不在仓库发布**，仅本地 `work/kbuild/`；
+- 完整构建记录见 `source/BUILD-INFO.md` 与 `source/build-records/*.build.json`；
+- 镜像起不来时长按电源 20 秒回 Android（正常开机不碰 `recovery_b`，Android 不受影响）；刷写前先在电脑上留一份可用镜像副本；
+- **设备当前可能运行实验镜像**：先看 README 顶部版本说明与 `docs/目标-M5.md` 末节；实验结束必须刷回基线并跑健康检查。
 
 ## 快速开始（已验证路径）
 
