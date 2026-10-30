@@ -296,6 +296,7 @@ cd41e764593d450546b0068c7dab09b5d54c314e876ce1125d5cd6408092b1b4  ./rootfs-overl
 7c74d2c05de3d8446a4d5d3d112802911d33da8137f9aa4ae6ec8328c1747260  ./rootfs-overlay/usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13.conf
 601fbd7ebbc649d1d5aee984ae9e33daf500669db8634e3e0898a4aa0aca1102  ./rootfs-overlay/usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13-speaker.conf
 620a3cd10e9c3f67ac1a4d7b35f716ae4c9b69019319696e6be8776ea5da8a7d  ./rootfs-overlay/usr/share/alsa/ucm2/Qualcomm/sm8550/Xiaomi-13/Xiaomi-13-wcd.conf
+7b7a61d583370d1471ee88d2a7b8398d88199a368b935f22d75493e6ff138b37  ./rootfs-overlay/usr/share/glib-2.0/schemas/90-fuxi-power.gschema.override
 20ae4ce8e2376f0cdae7293562d5976d283fcafd7a99a047140685f5537eed2b  ./scripts/auto-back-to-android.sh
 43b7eb94389175cd73b826897e82717087136f472c9279eac0c4629ddff22706  ./scripts/auto-boot-loop.sh
 a399f32a6e10045a7b05b25ba2e9a0fee61d4eeb3bb6bb5c1b41079c07500b5d  ./scripts/auto-boot-on-detect.sh
@@ -359,7 +360,7 @@ fbedb522ebeb5464202d39f3e7894d330ef6586415597b28846c1bbaa8b7cbbb  ./scripts/fuxi
 389bc4855610873113e5fa97cbfaf07f5aa4a8625407732eabd170bf59de3744  ./scripts/native-kernel-build.sh
 568e3e6dc2f62e80035c171750642246bfe9c66ffa7a3167e27fa5e77b467126  ./scripts/probe-bisect.sh
 cbc3f42d06eb9af788090e87c010d16dc44054556f23688894775f4220d1000e  ./scripts/probe-device.sh
-c17d943881bcb99ad01cf9d18d7880b79ad7d11c9212ef841127c8fcfabb0257  ./scripts/publish-progress.sh
+441ccb98ffa14808f4d12531f655b4efb38c4882a74e547af951b6fb84098cae  ./scripts/publish-progress.sh
 1c9fb88f0b6410b93d46371f87765748245c7f5e50a524a6d03c97bc05d647e9  ./scripts/recover-fastboot.sh
 a2426e7df791ccc1fac15ab2f783b23c4c89886dd4fa8cb1b921db83daeae3e4  ./scripts/restore-stock.sh
 3f37f622c080132817ce04983d1ccb64f572455bf0d908ab0b48dba25985591c  ./scripts/run-and-collect.sh
