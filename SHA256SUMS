@@ -306,6 +306,8 @@ def34b7ffaf4f64a042edf0f703d5ea993dc08fc290c2146635a9e3bdb982b36  ./scripts/capt
 a807f1dabc9fd98b76a63cae945d858a801c755806e3cd9a0aff8b8efae1bc81  ./scripts/device-watch.sh
 f106bcd43c07645867d4738a1f489e70a7c53becc6db2a1a7d80dd995dd22839  ./scripts/flash-three.sh
 2f7163e4cf3bba1ff0e79a83b57bd546f8baf8e2cc1445787c8018c4c2ae472b  ./scripts/fuxi-after-reboot.sh
+ee0b3ec044d534c678953dff8f96f722dc7b48c1362aa6fb86543fc923060eee  ./scripts/fuxi-agent-lock.sh
+b197b5b709b45d7aac9e68f8799e3ece04e4f16858992a869cfe87682a8a8268  ./scripts/fuxi-agent-preflight.sh
 307279d32c62780f8d3ef4145a2f56493aa48d403242e201e91fb9fdc29013d4  ./scripts/fuxi-ath12k-board.py
 6a58cb816cf9a5be62f92f3b265b2fdc8a26eba2edaf3da2adbb77deb8e126ff  ./scripts/fuxi-audio-check.sh
 bd5e3435ce5e3d8d23533afaf6025e5797560b80be1c488d0f0d067d5df3f48f  ./scripts/fuxi-audio-diagnose.py
