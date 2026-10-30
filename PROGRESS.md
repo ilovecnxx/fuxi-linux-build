@@ -6,6 +6,13 @@
 
 ## 时间线
 
+### 2026-10-30 — 省电深化、WiFi 5 GHz、蜂窝诊断
+
+- ✅ **深度空闲与电源**：`idle2-nohz`（#193）开 CPU 深度空闲 + NO_HZ；`ru5sync`（#199）去掉全部 `*_ignore_unused` 并修复卡住的 `sync_state`，熄屏电池电流 **117 → 28.5 mA**；`battsign5`（#205）修正电池电流符号并静默固件 0x50；`s2idle1`（#206）首次让 SoC 进入 s2idle 深度睡眠，`s2idle2`（#207）修复挂起恢复后 WiFi 管制域回到 US。当前 `recovery_b` 即 `s2idle2`（`7.3.0+ #207`，SHA256 `186e102f…a4cd69`）。空闲自动挂起暂用 gschema override 关闭（s2idle 中 WiFi 尚不能唤醒）。
+- ✅ **WiFi 5 GHz / CN 管制域**：`wifi5g`（#200）修复 CN 管制域下 5 GHz 不可见；#207 重启自动连 `Redmi_9499_5G`（5180 MHz）、管制域 CN、HTTPS 与 WiFi SSH 实测通过；五个 WiFi/蓝牙固件在设备/主机/隔离重生成间逐字节一致（M5.2 复验）。
+- ⚠️ **蜂窝 / 基带诊断（进行中）**：ZONE_DMA/DMA32 修复了 `qcom_scm_pas_init_image` 的 `-12`（`modem10`，3 次 recovery 通过）；#207 仍触发 IPA SMEM 断言，内核与用户空间 PD mapper 均启用。诊断镜像 `modem9-pdrpasdiag`（#215）、`modem10-dma32`（#216）、`modem11-nosmem` 已构建核验，尚未上机取得完整 PDR domain-list。**基带仍不可通话。**
+- 整机只读健康检查（`fuxi-health.sh --require-wifi --require-sensors`）失败 0，主机回归 57 项通过；快照只读，未重启或刷写。
+
 ### 2026-10-24 — 设备摸底与完整备份
 
 - 确认设备状态：小米 13（fuxi / SM8550），bootloader 已解锁，A/B 动态分区，4K 页；LineageOS 24.0 位于槽位 `b`。

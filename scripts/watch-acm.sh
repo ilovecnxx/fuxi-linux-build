@@ -10,7 +10,7 @@ while :; do
     case " $seen " in *" $name "*) ;; *)
       seen="$seen $name"
       echo "$(date +%H:%M:%S) $dev 出现" >> "$OUT/index.log"
-      echo 1104991 | sudo -S chmod 666 "$dev" 2>/dev/null
+      sudo -n chmod 666 "$dev" 2>/dev/null || true
       ( timeout 300 cat "$dev" >> "$OUT/$name.log" 2>/dev/null ) &
     ;; esac
   done

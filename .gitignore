@@ -1,0 +1,42 @@
+# 宣传素材 / 视频一律禁止上传（B站等平台宣传用）
+/media/
+*宣传*
+*推广*
+*promo*
+*marketing*
+*广告*
+*B站*
+*bilibili*
+*封面*
+*.mp4
+*.mkv
+*.webm
+*.mov
+*.avi
+*.gif
+*.png
+*.jpg
+*.jpeg
+
+# 内部交接 / 派单 / 评审（不对外发布）
+/交接*
+/任务*
+*评审*
+*Clash*
+*DSH手机移植*
+
+# 密钥 / 凭据
+*.token
+*.key
+*secret*
+*password*
+
+# 自研软件不发布（Chromium 移动 UI / DSH 移植 / SuperTerm / 截图小软件）
+chromium*
+Chromium*
+dsh*
+DSH*
+fuxi-chromium*
+fuxi-dsh*
+fuxi-shot*
+superterm*

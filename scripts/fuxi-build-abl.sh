@@ -66,6 +66,16 @@ if [ "${2:-}" != "--no-kernel" ]; then
           -e CPU_FREQ_GOV_POWERSAVE -e ARM_QCOM_CPUFREQ_HW -e ENERGY_MODEL -e THERMAL -e THERMAL_OF -e THERMAL_GOV_STEP_WISE
           -e CPU_THERMAL -e DEVFREQ_THERMAL -e NVMEM_QCOM_QFPROM -e QCOM_TSENS -e IIO -e QCOM_SPMI_TEMP_ALARM -e QCOM_LMH -e INTERCONNECT_QCOM_OSM_L3)
   [ "${FUXI_PM:-0}" = 1 ] && VARIANT_CFG+=("${PM_CFG[@]}")
+  # FUXI_SUSPEND=1：在任意变体上叠加 s2idle 挂起（*-sleep 变体会顶掉 audio-disp 等配置，不能用来叠加）
+  [ "${FUXI_SUSPEND:-0}" = 1 ] && VARIANT_CFG+=(-e SUSPEND -e PM_SLEEP)
+  # FUXI_NET=1：叠加策略路由与 nftables 对象，供 Mihomo/Clash TUN 透明代理使用。
+  # 主配置缺 IP_ADVANCED_ROUTER/IP_MULTIPLE_TABLES（ip rule / fwmark 表）和部分 NFT 对象
+  # （NFT_REDIR、NF_TABLES_NETDEV、NFT_SOCKET、NFT_TPROXY），TUN auto-route 会报
+  # "operation not supported"（10-30 实测）。任意变体可叠加。
+  [ "${FUXI_NET:-0}" = 1 ] && VARIANT_CFG+=(-e IP_ADVANCED_ROUTER -e IP_MULTIPLE_TABLES -e IP_ROUTE_MULTIPATH
+            -e NF_TABLES -e NF_TABLES_INET -e NF_TABLES_NETDEV -e NFT_NAT -e NFT_MASQ -e NFT_REDIR
+            -e NFT_SOCKET -e NFT_TPROXY -e NETFILTER_XT_MARK -e NET_CLS_ACT -e NET_SCHED
+            -e NF_CONNTRACK -e NF_NAT)
   if [ "${#VARIANT_CFG[@]}" -gt 0 ]; then
     ./scripts/config "${VARIANT_CFG[@]}"
     "${MAKE[@]}" olddefconfig >/dev/null

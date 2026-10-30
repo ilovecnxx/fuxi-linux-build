@@ -8,7 +8,7 @@ rm -f "$LOG"; rm -rf /tmp/acm-capture; mkdir -p /tmp/acm-capture
 pgrep -f watch-acm.sh >/dev/null || nohup bash scripts/watch-acm.sh >/dev/null 2>&1 &
 "$FB" reboot
 for i in $(seq 1 60); do [ -e /dev/ttyACM0 ] && break; sleep 1; done
-sudo -n true 2>/dev/null || echo 1104991 | sudo -S chmod 666 /dev/ttyACM0 2>/dev/null
+sudo -n chmod 666 /dev/ttyACM0 2>/dev/null || true
 nohup bash -c 'cat /dev/ttyACM0' > "$LOG" 2>/dev/null &
 sleep 2
 # 等待 shell 提示符

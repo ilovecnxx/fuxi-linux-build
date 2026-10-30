@@ -34,6 +34,8 @@ FUXI_KEEP=1 "$B/scripts/fuxi-test-recovery.sh" "$IMG" 'uname -v' | grep -vE 'pus
 
 say "== 4. 部署"
 tar -C "$B/work/firmware" -cf - . | ssh_ 'tar -C /lib/firmware -xmf - && echo firmware-ok'
+# Android 的 regdb.bin 会让上游固件崩（见 fuxi-wcn7850-firmware.sh）；旧部署留下的改名备查，不删
+ssh_ 'd=/lib/firmware/ath12k/WCN7850/hw2.0; [ -e $d/regdb.bin ] && mv $d/regdb.bin $d/regdb.bin.android; true'
 tar -C "$B/work/rootfs-overlay" -cf - . | ssh_ 'tar --no-same-owner --no-overwrite-dir -C / -xmf - && chmod 755 /usr/local/sbin/fuxi-firmware-devices && echo overlay-ok'
 ssh_ 'set -e
 mkdir -p /etc/NetworkManager/conf.d
