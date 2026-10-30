@@ -2,7 +2,20 @@
 
 本文件记录从设备摸底到「Android + 主线 Linux 双系统 + M5/M6」的时间线，以及可复核的实机验证证据。上手操作请看 [README.md](README.md)，权威操作步骤见 [docs/双系统启动说明.md](docs/双系统启动说明.md)，M5/M6 详细进展见 [docs/目标-M5.md](docs/目标-M5.md)。
 
-**当前版本 `v0.4.0-dualboot-20261030`。** v0.2.0 及更早的条目里，🚧 表示“只在电脑上构建成功、没有上机验收”（设备当时离线）；v0.3.0 起的条目只用 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（仍未上机）三种，逐条以 `evidence/` 里的日志为准。
+**当前版本 `v0.5.0-dualboot-20261031`。** v0.2.0 及更早的条目里，🚧 表示“只在电脑上构建成功、没有上机验收”（设备当时离线）；v0.3.0 起的条目只用 ✅（真机验证并留下记录）/ ⚠️（部分验证）/ 🚧（仍未上机）三种，逐条以 `evidence/` 里的日志为准。
+
+## v0.5.0 发布（2026-10-31）
+
+本版把蜂窝推进到**数据通路可用**，并完成工程收尾：
+
+- **modem16-epmap #222**：`ipa_data-v5.5.c` 端点 `AP_MODEM_RX` 23→24、`MODEM_AP_RX` 21→22；rmnet 下行打通。
+  两轮实机（约 1263 / 1279 s）无 SMMU fault、FATAL IPA、基带崩溃；ping v4+v6、DNS/HTTPS、约 85 Mbit/s。
+- **modem15-haltorder #221**：halt 挪到 modem offline 事件后，SSR 手动 stop/start 两次均恢复成功。
+- **modem keeper**：`fuxi-modem-keeper.service` 开机设 data-centric，被拒/掉线后射频 low→on 循环；
+  首轮 25 min 注册全 home、零网络拒绝、零触发（证据 `work/claude-logs/modem16-keeper-run1-20261031/`，不入库）。
+- **仍未解决**：注册稳定性（EMM cause 7 / 无 IMS 语音）→ 需要 VoLTE/IMS；短信、通话、双卡未开始。
+- **工程**：内核改动提交到 `fuxi/20261031` + 全量补丁、`build.json` 增加 dirty-diff 指纹、文档归档去重、
+  备份 SHA256 补齐、镜像清单（`docs/kbuild-镜像清单-20261031.md`）与历史遗留记录（`docs/历史遗留与清理记录-20261031.md`）。
 
 ## v0.4.0 发布（2026-10-30）
 
