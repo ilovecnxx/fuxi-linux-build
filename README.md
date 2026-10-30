@@ -254,9 +254,9 @@ XBL → 高通 UEFI → ABL（槽位 b）
 
 完整构建信息（各镜像哈希与验证状态、内核配置、工具链、复现步骤）见 [`source/BUILD-INFO.md`](source/BUILD-INFO.md)。要点：
 
-- 内核版本串 `Linux 7.3.0+`，基线 commit `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`；发布镜像 `#191`（2026-10-29 20:29 构建并上机），候选镜像 `#168`（daily-pm1）、`#172`（audio-probe4）；
+- 内核版本串 `Linux 7.3.0+`，基线 commit `5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f`；**当前发布的日常镜像是 `s2idle2` #207**（2026-10-29 23:39 构建，sha256 `186e102f…cd69`）；`source/` 目录是 **v0.3.0 时期（#191）的快照**，最新源码以分支 `fuxi/20261031` + `work/patches/full-tree-20261031/` 为准（不随仓库发布）；
 - `source/kernel.diff`：**18 个文件，+217/−8**；`source/linux-untracked/`：**27 个新文件**（按上游相对路径存放）；
-- `source/kernel.config` 就是发布镜像 `#191` 实际使用的配置，逐镜像的构建记录在 `source/build-records/*.build.json`（含 boot_image / config / kernel / dtb 四组 sha256）；
+- `source/kernel.config` 是 v0.3.0 发布镜像 `#191` 的快照配置（当前基线 #207 的配置在本地 `work/kbuild/abl-fuxi-s2idle2.config`，不随仓库发布）；逐镜像构建记录在 `source/build-records/*.build.json`；
 - 变体构建由 `scripts/fuxi-build-abl.sh` 按 `FUXI_DTB=sm8550-xiaomi-fuxi-<变体>` / `FUXI_PM=1` 临时打开配置，构建完自动恢复主配置；
 - 交付物（`images/`、`source/`、`rootfs-overlay/`、`device-info/`）的 sha256 见根目录 [`SHA256SUMS`](SHA256SUMS)。
 
@@ -301,7 +301,7 @@ scripts/fuxi-after-reboot.sh --list    # 看待办；--from/--only 指定步骤
 | `source/linux-untracked/` | 27 个新增文件：主 DTS + 各变体 `.dts`/`.dtsi`（含 120 Hz 音频显示变体 `sm8550-xiaomi-fuxi-r120-audio-disp.dts`）、`fuxi_dtb.S`、`fuxi_early.c`、`fuxi_font.h`、`panel-xiaomi-fuxi.c`、`st-ftm5.c`、`fuxi-camera-power.c`、面板与触摸的 dt-bindings |
 | `source/initramfs/` | `init`（等待 USB 串口 8 秒 → `switch_root` 到 `sda33`，失败时屏幕报告 + 180 秒安全重启）与 `initramfs.list` |
 | `source/build-records/` | 逐镜像的 `*.build.json`：构建时间、变体 DTB、是否叠加调频温控，以及 boot_image / config / kernel / dtb 的 sha256 |
-| `source/dtb/` | 发布镜像实际内建的主线 DTB（`abl-fuxi-screen120-blfix.dtb`，编译产物存档） |
+| `source/dtb/` | v0.3.0 发布镜像内建的 DTB 快照（历史留档） |
 | `source/patches/` | `ufs-qcom-sm8550-g5.patch`（HS-G5，暂缓）与 `history/` 下 M5/M6 增量补丁（音频/相机/面板刷新率/DTS 拆分等） |
 | `source/variants/kernel-config-desktop` | 加入桌面内核选项后的完整配置（对照用） |
 | `rootfs-overlay/` | 根文件系统覆盖层：`fuxi-firmware-devices`（启动 ADSP、bind ath12k/蓝牙）、`rmtfs` drop-in、ALSA UCM2 |

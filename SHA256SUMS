@@ -272,7 +272,7 @@ d16eaab0ee4e5d4aaf0c06f65d000752e624cac2cee1def8103e525ae1efff16  ./images/candi
 25413da586a37f6e09c7f4776cf77c0834a0159dd14fc72636b93ededf61489e  ./images/sde-gpt-slot-a.bin
 956704da408251179cda86d8f123880f5d2e07c35dacf9c2a5e76b6a98b04cbb  ./images/sde-gpt-slot-b-android.bin
 a6031e088078624c0482533894d533959c36854990de0395dbe328e9998b8060  ./PROGRESS.md
-0b36e59a9d68e6373038518d4250ff34d571d6e3fa2ab1a4cfb22aef0b5c423a  ./README.md
+b090bb3d1c4c3782dec7ebca6f5dc7a82c051c180b9ff4084613991b18eb97ab  ./README.md
 aed77e17a0f54d8d732229669aa77ab4a54deefbff3bef05d21a64b11d03809e  ./research/01b-mainline-drivers-codex.md
 dc36991703ceb96ad03b4241f55216278bdaf5de2775261e3a4195f3c5b7be73  ./research/01-mainline-drivers.md
 9fdb47ffd0c85453a5f9cd972c075ece4295947fa3eb1035f5004d7b1b97be53  ./research/02b-boot-hybris-codex.md
@@ -444,4 +444,5 @@ ae906ec21ec8e65f0b38a2b7745bbe457f23411ab5e9ff00dcc93afce78e01f4  ./source/patch
 acf6e897f8601fb25a0d754b6a7ea2d08f92362a7ca04b9d12fed020e1a65355  ./source/patches/history/split-20261027-0857.diff
 f7549ac33d76decf34d449023633a46ea89988cc1a24a182527d37d871ae71fa  ./source/patches/history/variants-20261027-0847.diff
 a409fbb053f02ed39a74485e84e6e817d3bc346d8c0fad0437692bc00d2cc256  ./source/patches/ufs-qcom-sm8550-g5.patch
+7d63fa378ec1e839ecfe7eefead5f51ece0106c067e52644187bbaab68f36b72  ./source/README.md
 732a0fccf66f5a3e9914124daf6bdb7b3ef6d735d87af01e942cf4cdb1043751  ./source/variants/kernel-config-desktop
