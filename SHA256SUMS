@@ -13,6 +13,7 @@ be74fd5b96ff9c1f152d647d5bd12505a50f1f303cc3260d344a2581e29e5df6  ./docs/历史�
 4c03d9f0ed065fd239ce291db8d54f8049cea6f53f34de490f1bd0b7c1480d63  ./docs/设备详情快照-20261030.md
 1802085cd1acb318b60282b7b70435a8b53d73615e1700935e551246777f9214  ./docs/手机日用目标-路线图-20261029.md
 cb645fd4a760ab9b9eaf96223ce764ee62236917526abf9cb05770be0c1dd133  ./docs/双系统启动说明.md
+1e9e7bb51caca49578d8d294a328b4d7845928bcf6f9fc5cd25c38e9fcc41fd9  ./docs/无线ADB方案-20261031.md
 c420b090212320db7d87c7ffc8e80599dc150b6637d08d43470598b6379917e3  ./docs/显示驱动安装-20261029.md
 21ec047fbbbd4ac521e8271b82eb7a7b49f2c6456d3a0ccee77df5a8d2cb44c7  ./docs/显示驱动故障定位-20261029.md
 b2a8b0b832fcff3781cd64b97f0def87ee20c4115c12d86bf4d7f6f30f16bdbe  ./docs/相机调研.md
@@ -307,6 +308,7 @@ a399f32a6e10045a7b05b25ba2e9a0fee61d4eeb3bb6bb5c1b41079c07500b5d  ./scripts/auto
 def34b7ffaf4f64a042edf0f703d5ea993dc08fc290c2146635a9e3bdb982b36  ./scripts/capture-acm.sh
 a807f1dabc9fd98b76a63cae945d858a801c755806e3cd9a0aff8b8efae1bc81  ./scripts/device-watch.sh
 f106bcd43c07645867d4738a1f489e70a7c53becc6db2a1a7d80dd995dd22839  ./scripts/flash-three.sh
+493c09c9b9d53356ee3f9f3be96171f847eb9b07e9e12bb668a64ee3640bba8d  ./scripts/fuxi-adb-connect.sh
 2f7163e4cf3bba1ff0e79a83b57bd546f8baf8e2cc1445787c8018c4c2ae472b  ./scripts/fuxi-after-reboot.sh
 ee0b3ec044d534c678953dff8f96f722dc7b48c1362aa6fb86543fc923060eee  ./scripts/fuxi-agent-lock.sh
 5cd9eb2256195ee8d54e419325526bfe706875f3a82f5cccf947c62d684c7340  ./scripts/fuxi-agent-preflight.sh
